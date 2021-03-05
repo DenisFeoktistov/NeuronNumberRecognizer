@@ -1,5 +1,5 @@
 from PyQt5.QtWidgets import QApplication
-from InterfaceClasses.MainWindow import MainWindow
+from InterfaceClasses.MainWindow.MainWindow import MainWindow
 import sys
 
 
@@ -8,6 +8,7 @@ class App(QApplication):
         super().__init__(args)
 
         self.user_screen_geometry = self.desktop().screenGeometry()
+
         self.main_window = MainWindow(self)
 
     def show(self):

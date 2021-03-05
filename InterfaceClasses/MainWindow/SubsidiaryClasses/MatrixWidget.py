@@ -5,8 +5,8 @@ import numpy as np
 class MatrixWidget:
     MIN_BRIGHTNESS = 40
 
-    def __init__(self, window: QMainWindow, x=0, y=0, width=300, height=300, cols=28, rows=28):
-        self.window = window
+    def __init__(self, parent: QMainWindow, x=0, y=0, width=300, height=300, cols=28, rows=28):
+        self.parent = parent
         self.x = x
         self.y = y
         self.width = width
@@ -15,12 +15,12 @@ class MatrixWidget:
         self.rows = rows
 
         self.gaps_between_line = 0
-        self.button_width = (self.width - self.gaps_between_line * (cols - 1)) / self.cols
-        self.button_height = (self.height - self.gaps_between_line * (cols - 1)) / self.rows
+        self.button_width = (self.width - self.gaps_between_line * (cols - 1)) // self.cols
+        self.button_height = (self.height - self.gaps_between_line * (cols - 1)) // self.rows
 
         self.matrix = np.array([[0] * self.rows for _ in range(self.cols)], dtype=np.uint8)
         self.buttons = np.array(
-            [[QPushButton(parent=self.window) for __ in range(self.rows)] for _ in range(self.cols)],
+            [[QPushButton(parent=self.parent) for __ in range(self.rows)] for _ in range(self.cols)],
             dtype=QPushButton)
 
         for row in self.buttons:
@@ -33,8 +33,7 @@ class MatrixWidget:
     def move(self, x, y):
         for i in range(self.cols):
             for j in range(self.rows):
-                self.buttons[i][j].move(x + i * self.width / self.cols, y + j * self.height / self.rows)
-            print()
+                self.buttons[i][j].move(x + i * self.width // self.cols, y + j * self.height // self.rows)
 
     def update(self):
         for i in range(self.cols):
