@@ -5,7 +5,7 @@ MAX_INFO_NUMBER = {"training": int(6e4),
 
 
 class MnistDigitInfo:
-    def __init__(self, value=0, matrix=np.array([[0] * 28 for _ in range(28)])):
+    def __init__(self, value=0, matrix=np.array([[0] * 28 for _ in range(28)], dtype=np.uint8)):
         self.value = value
         self.matrix = matrix
 
@@ -48,7 +48,7 @@ def get_nth_info(n: int, mode: str) -> MAX_INFO_NUMBER:
     digit_info.value = ord(labels_file.read(1))
     for i in range(28):
         for j in range(28):
-            digit_info.matrix[i][j] = ord(images_file.read(1))
+            digit_info.matrix[j][i] = ord(images_file.read(1))
 
     labels_file.close()
     images_file.close()
