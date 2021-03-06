@@ -5,7 +5,7 @@ from AppLogicClasses.SubsidiaryFiles.MNISTDataReader import MnistDigitInfo
 class TrainingModeWindowResponder:
     MIN_VALUE = 0
     MAX_VALUE = 100
-    INIT_VALUE = 66
+    INIT_VALUE = 50
 
     def __init__(self, window: TrainingModeWindow):
         self.window = window
