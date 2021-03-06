@@ -16,7 +16,8 @@ class TrainingModeWindowResponder:
         self.window.slider.setValue(TrainingModeWindowResponder.INIT_VALUE)
 
     def get_switch_speed_coefficient(self):
-        return (self.window.slider.value() / TrainingModeWindowResponder.MAX_VALUE) ** 0.5
+        return (self.window.slider.value() / (
+                    TrainingModeWindowResponder.MAX_VALUE - TrainingModeWindowResponder.MIN_VALUE)) ** 0.5
 
     def set_up_new_info(self, info: MnistDigitInfo):
         self.window.matrix_widget.set_matrix(info.matrix)
