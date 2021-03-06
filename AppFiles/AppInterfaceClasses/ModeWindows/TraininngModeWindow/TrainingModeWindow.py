@@ -1,12 +1,15 @@
 from PyQt5.QtWidgets import QMainWindow, QSlider, QLabel, QPushButton
 from PyQt5.QtCore import Qt
+from random import random
 
 from AppFiles.AppInterfaceClasses.SubsidiaryClasses.MatrixWidget import MatrixWidget
 from AppFiles.AppInterfaceClasses.ModeWindows.TraininngModeWindow.TrainingModeWindowResponder import \
     TrainingModeWindowResponder
+from AppFiles.AppInterfaceClasses.SubsidiaryClasses.NeuronWidget import NeuronWidget
 
 
 class TrainingModeWindow(QMainWindow):
+    OUTPUTS = 10
     REL_WIDTH, REL_HEIGHT = 0.9, 0.8
 
     def __init__(self, main_app_interface):
@@ -30,6 +33,8 @@ class TrainingModeWindow(QMainWindow):
 
         self.neural_network_answer_label = QLabel(parent=self, text="Neural network answer")
 
+        self.neuron_widgets = [NeuronWidget(parent=self) for _ in range(TrainingModeWindow.OUTPUTS)]
+
         self.initUI()
 
         self.responder.end_set_up()
@@ -44,7 +49,22 @@ class TrainingModeWindow(QMainWindow):
         self.set_up_digit_label()
         self.set_up_next_button()
         self.set_up_neural_network_answer_label()
+        self.set_up_neuron_widgets()
         # self.set_up_digit_text_label()
+
+    def set_up_neuron_widgets(self):
+        top_y = self.height // 2 - self.matrix_widget.height // 2
+        step = (self.height - top_y) / TrainingModeWindow.OUTPUTS
+        radius = step * 0.9 // 2
+
+        for i in range(10):
+            # test ---------------------------------
+            value = i / 10
+            # test ---------------------------------
+            self.neuron_widgets[i].move(self.width // 2 + self.matrix_widget.width // 2 + self.width // 20,
+                                        top_y + step * i)
+            self.neuron_widgets[i].resize(radius)
+            self.neuron_widgets[i].set_value(value)
 
     def set_up_neural_network_answer_label(self):
         matrix_height = self.matrix_widget.height
