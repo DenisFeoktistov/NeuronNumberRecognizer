@@ -35,6 +35,11 @@ class MatrixWidget:
             for j in range(self.rows):
                 self.buttons[i][j].move(x + i * self.width // self.cols, y + j * self.height // self.rows)
 
+    def resize(self, width, height):
+        self.width = width
+        self.height = height
+        self.move(self.x, self.y)  # yes, move also work as resizer
+
     def update(self):
         for i in range(self.cols):
             for j in range(self.rows):
