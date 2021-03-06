@@ -50,22 +50,25 @@ class NeuronWidget:
             f"border-radius: {self.radius}px; border: 3px solid black; background: rgb{self.color}")
 
     def get_gradient(self):
-        if self.value < 0.5:
-            r = 0
-        elif 0.5 < self.value < 0.59:
-            r = 255 * (0.59 - self.value) / (0.59 - 0.5)
-        else:
-            r = 255
-
-        if self.value < 0.5:
-            g = self.value / 0.5 * 255
-        else:
-            g = (1 - self.value) / 0.5 * 255
-
-        if self.value > 0.5:
-            b = 0
-        else:
-            b = (0.5 - self.value) / 0.5 * 255
+        # if self.value < 0.5:
+        #     r = 0
+        # elif 0.5 < self.value < 0.59:
+        #     r = 255 * (0.59 - self.value) / (0.59 - 0.5)
+        # else:
+        #     r = 255
+        #
+        # if self.value < 0.5:
+        #     g = self.value / 0.5 * 255
+        # else:
+        #     g = (1 - self.value) / 0.5 * 255
+        #
+        # if self.value > 0.5:
+        #     b = 0
+        # else:
+        #     b = (0.5 - self.value) / 0.5 * 255
+        r = 255
+        g = (1 - self.value) * 255
+        b = 0
 
         r, g, b = max(0, r), max(0, g), max(0, b)
         print("Value: ", self.value)

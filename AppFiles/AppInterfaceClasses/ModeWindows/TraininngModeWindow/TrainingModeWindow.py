@@ -1,6 +1,6 @@
 from PyQt5.QtWidgets import QMainWindow, QSlider, QLabel, QPushButton
 from PyQt5.QtCore import Qt
-from random import random
+from random import random, choice
 
 from AppFiles.AppInterfaceClasses.SubsidiaryClasses.MatrixWidget import MatrixWidget
 from AppFiles.AppInterfaceClasses.ModeWindows.TraininngModeWindow.TrainingModeWindowResponder import \
@@ -59,6 +59,7 @@ class TrainingModeWindow(QMainWindow):
 
         for i in range(10):
             # test ---------------------------------
+            value = choice([0 if i < 9 else 1 for i in range(10)])
             value = i / 10
             # test ---------------------------------
             self.neuron_widgets[i].move(self.width // 2 + self.matrix_widget.width // 2 + self.width // 20,
