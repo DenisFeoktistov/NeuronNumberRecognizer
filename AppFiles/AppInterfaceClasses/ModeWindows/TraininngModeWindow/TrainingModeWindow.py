@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QMainWindow, QSlider, QLabel
+from PyQt5.QtWidgets import QMainWindow, QSlider, QLabel, QPushButton
 from PyQt5.QtCore import Qt
 
 from AppFiles.AppInterfaceClasses.SubsidiaryClasses.MatrixWidget import MatrixWidget
@@ -20,13 +20,13 @@ class TrainingModeWindow(QMainWindow):
         self.matrix_widget = MatrixWidget(parent=self, **self.get_matrix_widget_params())
 
         self.slider = QSlider(orientation=Qt.Vertical, parent=self)
-        self.set_up_slider()
 
         self.slider_label = QLabel(text="Switch speed", parent=self)
-        self.set_up_slider_label()
 
         # self.digit_text_label = QLabel(parent=self, text="Digit:")
         self.digit_label = QLabel(parent=self)
+
+        self.next_button = QPushButton(parent=self, text="Next")
 
         self.initUI()
 
@@ -34,11 +34,20 @@ class TrainingModeWindow(QMainWindow):
 
     def initUI(self) -> None:
         self.set_up_window()
+        self.set_up_slider()
+        self.set_up_slider_label()
         self.set_up_digit_label()
+        self.set_up_next_button()
         # self.set_up_digit_text_label()
 
+    def set_up_next_button(self):
+        self.next_button.move(self.slider.geometry().x() - self.height // 40, self.height // 2 + self.slider.geometry().y() // 2)
+        self.next_button.resize(self.slider.geometry().width() + self.height // 20, self.height // 20)
+        self.next_button.setStyleSheet("font-size: 25px; background: rgb(235, 195, 80); border-radius: 5px")
+
     def set_up_digit_text_label(self):
-        matrix_height = matrix_width = self.height * 0.5
+        matrix_height = self.matrix_widget.height
+        matrix_width = self.matrix_widget.width
 
         self.digit_text_label.setAlignment(Qt.AlignCenter)
         self.digit_text_label.setStyleSheet("font-size: 25px")

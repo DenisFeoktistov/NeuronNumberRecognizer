@@ -16,6 +16,7 @@ class TrainModeResponder:
 
     def start(self):
         self.main_app_responder.app.main_app_interface.training_mode_window.show()
+        self.main_app_responder.app.main_app_interface.training_mode_window.next_button.clicked.connect(self.switch)
         self.switch()
 
         self.update_timer()
