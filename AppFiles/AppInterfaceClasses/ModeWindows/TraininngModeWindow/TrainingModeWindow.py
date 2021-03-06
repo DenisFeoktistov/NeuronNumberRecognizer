@@ -1,7 +1,9 @@
 from PyQt5.QtWidgets import QMainWindow, QSlider, QLabel
 from PyQt5.QtCore import Qt
-from AppInterfaceClasses.SubsidiaryClasses.MatrixWidget import MatrixWidget
-from AppInterfaceClasses.ModeWindows.TraininngModeWindow.TrainingModeWindowResponder import TrainingModeWindowResponder
+
+
+from AppFiles.AppInterfaceClasses.SubsidiaryClasses.MatrixWidget import MatrixWidget
+from AppFiles.AppInterfaceClasses.ModeWindows.TraininngModeWindow.TrainingModeWindowResponder import TrainingModeWindowResponder
 
 
 class TrainingModeWindow(QMainWindow):

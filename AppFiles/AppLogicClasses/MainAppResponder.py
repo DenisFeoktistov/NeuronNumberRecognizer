@@ -1,4 +1,4 @@
-from AppLogicClasses.ModeResponders.TrainingModeResponder import TrainModeResponder
+from AppFiles.AppLogicClasses.ModeResponders.TrainingModeResponder import TrainModeResponder
 
 
 class MainAppResponder:

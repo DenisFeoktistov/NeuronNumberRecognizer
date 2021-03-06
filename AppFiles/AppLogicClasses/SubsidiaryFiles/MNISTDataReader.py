@@ -1,5 +1,6 @@
-import numpy as np
 from random import randint
+import numpy as np
+
 
 MAX_INFO_NUMBER = {"training": int(6e4),
                    "testing": int(1e4)}

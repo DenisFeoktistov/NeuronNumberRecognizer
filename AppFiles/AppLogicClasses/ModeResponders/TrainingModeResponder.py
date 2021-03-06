@@ -1,5 +1,7 @@
 from PyQt5.QtCore import QTimer
-from AppLogicClasses.SubsidiaryFiles.MNISTDataReader import get_random_info
+
+
+from AppFiles.AppLogicClasses.SubsidiaryFiles.MNISTDataReader import get_random_info
 
 
 class TrainModeResponder:

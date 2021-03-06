@@ -1,4 +1,4 @@
-from AppInterfaceClasses.ModeWindows.TraininngModeWindow.TrainingModeWindow import TrainingModeWindow
+from AppFiles.AppInterfaceClasses.ModeWindows.TraininngModeWindow.TrainingModeWindow import TrainingModeWindow
 
 
 class MainAppInterface:

@@ -1,5 +1,5 @@
-from AppInterfaceClasses.ModeWindows.TraininngModeWindow import TrainingModeWindow
-from AppLogicClasses.SubsidiaryFiles.MNISTDataReader import MnistDigitInfo
+from AppFiles.AppInterfaceClasses.ModeWindows.TraininngModeWindow import TrainingModeWindow
+from AppFiles.AppLogicClasses.SubsidiaryFiles.MNISTDataReader import MnistDigitInfo
 
 
 class TrainingModeWindowResponder:
