@@ -28,20 +28,37 @@ class TrainingModeWindow(QMainWindow):
 
         self.next_button = QPushButton(parent=self, text="Next")
 
+        self.neural_network_answer_label = QLabel(parent=self, text="Neural network answer")
+
         self.initUI()
 
         self.responder.end_set_up()
 
     def initUI(self) -> None:
+        # Order of calls is important, because some of methods dependent on other. It is bad, I think, but I don't
+        # think that it is fatal error.
         self.set_up_window()
         self.set_up_slider()
         self.set_up_slider_label()
+
         self.set_up_digit_label()
         self.set_up_next_button()
+        self.set_up_neural_network_answer_label()
         # self.set_up_digit_text_label()
 
+    def set_up_neural_network_answer_label(self):
+        matrix_height = self.matrix_widget.height
+        matrix_width = self.matrix_widget.width
+
+        self.neural_network_answer_label.move(self.width // 2 + matrix_width // 2,
+                                              self.height // 2 - matrix_height // 2 - self.height // 10)
+        self.neural_network_answer_label.resize(self.width // 2 - matrix_width // 2, self.height // 10)
+        self.neural_network_answer_label.setAlignment(Qt.AlignCenter)
+        self.neural_network_answer_label.setStyleSheet("font-size: 40px")
+
     def set_up_next_button(self):
-        self.next_button.move(self.slider.geometry().x() - self.height // 40, self.height // 2 + self.slider.geometry().y() // 2)
+        self.next_button.move(self.slider.geometry().x() - self.height // 40,
+                              self.height // 2 + self.slider.geometry().y() // 2)
         self.next_button.resize(self.slider.geometry().width() + self.height // 20, self.height // 20)
         self.next_button.setStyleSheet("font-size: 25px; background: rgb(235, 195, 80); border-radius: 5px")
 
