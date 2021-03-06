@@ -21,3 +21,4 @@ class TrainingModeWindowResponder:
 
     def set_up_new_info(self, info: MnistDigitInfo):
         self.window.matrix_widget.set_matrix(info.matrix)
+        self.window.digit_label.setText(str(info.value))
