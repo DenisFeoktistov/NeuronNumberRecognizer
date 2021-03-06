@@ -19,12 +19,12 @@ class MnistDigitInfo:
         return f"Value: {self.value}\n" + f"Matrix:\n{matrix_str}"
 
 
-def read_info(n: int, mode: str):
+def read_info(n: int, mode: str) -> MnistDigitInfo:
     check_input_correctness(n, mode)
     return get_nth_info(n, mode)
 
 
-def check_input_correctness(n: int, mode: str):
+def check_input_correctness(n: int, mode: str) -> None:
     if mode not in MAX_INFO_NUMBER.keys():
         raise Exception(f"Incorrect mode! Possible modes: {', '.join(MAX_INFO_NUMBER.keys())}. Input: {mode}.")
     if n < 0 or n >= MAX_INFO_NUMBER[mode]:
@@ -57,6 +57,6 @@ def get_nth_info(n: int, mode: str) -> MAX_INFO_NUMBER:
     return digit_info
 
 
-def get_random_info(mode: str):
+def get_random_info(mode: str) -> MnistDigitInfo:
     n = randint(0, MAX_INFO_NUMBER[mode])
     return get_nth_info(n, mode)

@@ -1,6 +1,8 @@
 from PyQt5.QtWidgets import QApplication
-from InterfaceClasses.MainWindow.MainWindow import MainWindow
-from MainAppResponder import MainAppResponder
+
+
+from AppInterfaceClasses.MainAppInterface import MainAppInterface
+from AppLogicClasses.MainAppResponder import MainAppResponder
 import sys
 
 
@@ -10,8 +12,7 @@ class App(QApplication):
 
         self.user_screen_geometry = self.desktop().screenGeometry()
 
-        self.main_window = MainWindow(self)
-
+        self.main_app_interface = MainAppInterface(self)
         self.main_app_responder = MainAppResponder(self)
 
     def start(self):

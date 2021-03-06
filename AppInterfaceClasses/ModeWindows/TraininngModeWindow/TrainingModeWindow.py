@@ -1,21 +1,19 @@
 from PyQt5.QtWidgets import QMainWindow, QSlider, QLabel
 from PyQt5.QtCore import Qt
-from InterfaceClasses.MainWindow.SubsidiaryClasses.MatrixWidget import MatrixWidget
-from InterfaceClasses.MainWindow.MainWindowResponder import MainWindowResponder
-from LogicClasses.MNISTDataReader import read_info
-from random import randint
+from AppInterfaceClasses.SubsidiaryClasses.MatrixWidget import MatrixWidget
+from AppInterfaceClasses.ModeWindows.TraininngModeWindow.TrainingModeWindowResponder import TrainingModeWindowResponder
 
 
-class MainWindow(QMainWindow):
+class TrainingModeWindow(QMainWindow):
     REL_WIDTH, REL_HEIGHT = 0.9, 0.8
 
-    def __init__(self, app):
+    def __init__(self, main_app_interface):
         super().__init__()
-        self.app = app
-        self.main_window_responder = MainWindowResponder(self)
+        self.main_app_interface = main_app_interface
+        self.responder = TrainingModeWindowResponder(self)
 
-        self.width = self.app.user_screen_geometry.width() * MainWindow.REL_WIDTH
-        self.height = self.app.user_screen_geometry.height() * MainWindow.REL_HEIGHT
+        self.width = self.main_app_interface.app.user_screen_geometry.width() * TrainingModeWindow.REL_WIDTH
+        self.height = self.main_app_interface.app.user_screen_geometry.height() * TrainingModeWindow.REL_HEIGHT
 
         self.matrix_widget = MatrixWidget(parent=self, **self.get_matrix_widget_params())
 
@@ -27,12 +25,12 @@ class MainWindow(QMainWindow):
 
         self.initUI()
 
-        self.main_window_responder.end_set_up()
+        self.responder.end_set_up()
 
     def initUI(self) -> None:
         self.setFixedSize(self.width, self.height)
-        self.move(self.app.user_screen_geometry.width() * (1 - MainWindow.REL_WIDTH) / 2,
-                  self.app.user_screen_geometry.height() * (1 - MainWindow.REL_HEIGHT) / 2)
+        self.move(self.main_app_interface.app.user_screen_geometry.width() * (1 - TrainingModeWindow.REL_WIDTH) / 2,
+                  self.main_app_interface.app.user_screen_geometry.height() * (1 - TrainingModeWindow.REL_HEIGHT) / 2)
         self.setWindowTitle('Perceptron')
         self.setStyleSheet('background : rgb(170, 170, 170)')
 

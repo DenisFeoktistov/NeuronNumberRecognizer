@@ -1,7 +1,4 @@
-from PyQt5.QtCore import QTimer
-
-
-from TrainModeResponder import TrainModeResponder
+from AppLogicClasses.ModeResponders.TrainModeResponder import TrainModeResponder
 
 
 class MainAppResponder:
