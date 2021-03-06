@@ -1,4 +1,5 @@
 import numpy as np
+from random import randint
 
 MAX_INFO_NUMBER = {"training": int(6e4),
                    "testing": int(1e4)}
@@ -54,3 +55,8 @@ def get_nth_info(n: int, mode: str) -> MAX_INFO_NUMBER:
     images_file.close()
     
     return digit_info
+
+
+def get_random_info(mode: str):
+    n = randint(0, MAX_INFO_NUMBER[mode])
+    return get_nth_info(n, mode)

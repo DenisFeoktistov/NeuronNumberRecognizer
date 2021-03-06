@@ -1,5 +1,6 @@
 from PyQt5.QtWidgets import QApplication
 from InterfaceClasses.MainWindow.MainWindow import MainWindow
+from MainAppResponder import MainAppResponder
 import sys
 
 
@@ -11,11 +12,13 @@ class App(QApplication):
 
         self.main_window = MainWindow(self)
 
-    def show(self):
-        self.main_window.show()
+        self.main_app_responder = MainAppResponder(self)
+
+    def start(self):
+        self.main_app_responder.start()
 
 
 if __name__ == "__main__":
     app = App(sys.argv)
-    app.show()
+    app.start()
     sys.exit(app.exec())

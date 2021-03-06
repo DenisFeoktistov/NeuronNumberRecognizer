@@ -12,7 +12,7 @@ class MainWindow(QMainWindow):
     def __init__(self, app):
         super().__init__()
         self.app = app
-        self.responder = MainWindowResponder(self)
+        self.main_window_responder = MainWindowResponder(self)
 
         self.width = self.app.user_screen_geometry.width() * MainWindow.REL_WIDTH
         self.height = self.app.user_screen_geometry.height() * MainWindow.REL_HEIGHT
@@ -20,7 +20,6 @@ class MainWindow(QMainWindow):
         self.matrix_widget = MatrixWidget(parent=self, **self.get_matrix_widget_params())
 
         self.slider = QSlider(orientation=Qt.Vertical, parent=self)
-        self.slider.valueChanged.connect(self.responder.update_interval)
         self.set_up_slider()
 
         self.slider_label = QLabel(text="Switch speed", parent=self)
@@ -28,7 +27,7 @@ class MainWindow(QMainWindow):
 
         self.initUI()
 
-        self.responder.end_set_up()
+        self.main_window_responder.end_set_up()
 
     def initUI(self) -> None:
         self.setFixedSize(self.width, self.height)
