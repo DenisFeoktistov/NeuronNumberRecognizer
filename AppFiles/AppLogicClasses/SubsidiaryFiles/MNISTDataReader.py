@@ -1,17 +1,18 @@
 from random import randint
 import numpy as np
-
+from typing import Union
 
 MAX_INFO_NUMBER = {"training": int(6e4),
                    "testing": int(1e4)}
 
 
 class MnistDigitInfo:
-    def __init__(self, value=0, matrix=np.array([[0] * 28 for _ in range(28)], dtype=np.uint8)):
+    def __init__(self, value: Union[int, float] = 0,
+                 matrix: np.array = np.array([[0] * 28 for _ in range(28)], dtype=np.uint8)) -> None:
         self.value = value
         self.matrix = matrix
 
-    def __str__(self):
+    def __str__(self) -> str:
         # I think, that this is the best way to show MnistDigitInfo, because it is demonstrative.
         matrix_str = str()
         for row in list(map(lambda row: list(row), self.matrix)):
@@ -54,7 +55,7 @@ def get_nth_info(n: int, mode: str) -> MAX_INFO_NUMBER:
 
     labels_file.close()
     images_file.close()
-    
+
     return digit_info
 
 

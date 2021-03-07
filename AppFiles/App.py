@@ -1,4 +1,5 @@
 from PyQt5.QtWidgets import QApplication
+from typing import Any
 
 
 from AppFiles.AppInterfaceClasses.MainAppInterface import MainAppInterface
@@ -6,7 +7,7 @@ from AppFiles.AppLogicClasses.MainAppResponder import MainAppResponder
 
 
 class App(QApplication):
-    def __init__(self, args):
+    def __init__(self, args: Any) -> None:
         super(App, self).__init__(args)
 
         self.user_screen_geometry = self.desktop().screenGeometry()
@@ -14,5 +15,5 @@ class App(QApplication):
         self.main_app_interface = MainAppInterface(self)
         self.main_app_responder = MainAppResponder(self)
 
-    def start(self):
+    def start(self) -> None:
         self.main_app_responder.start()

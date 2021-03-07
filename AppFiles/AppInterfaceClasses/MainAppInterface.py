@@ -4,6 +4,6 @@ import AppFiles.App as App
 
 
 class MainAppInterface:
-    def __init__(self, app: App.App):
+    def __init__(self, app: App.App) -> None:
         self.app = app
         self.training_mode_window = TrainingModeWindow(self)

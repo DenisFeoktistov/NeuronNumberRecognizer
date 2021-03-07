@@ -14,7 +14,7 @@ class TrainingModeWindow(QMainWindow):
     OUTPUTS = 10
     REL_WIDTH, REL_HEIGHT = 0.9, 0.8
 
-    def __init__(self, main_app_interface: MainAppInterface.MainAppInterface):
+    def __init__(self, main_app_interface: MainAppInterface.MainAppInterface) -> None:
         super(TrainingModeWindow, self).__init__()
         self.main_app_interface = main_app_interface
         self.responder = TrainingModeWindowResponder(self)
@@ -58,7 +58,7 @@ class TrainingModeWindow(QMainWindow):
         self.set_up_neuron_widgets_arrows_and_digit_labels()
         self.set_up_neuron_network_answer_label()
 
-    def set_up_neuron_network_answer_label(self):
+    def set_up_neuron_network_answer_label(self) -> None:
         bottom = self.digit_labels[0].geometry().y()
         top = self.digit_labels[TrainingModeWindow.OUTPUTS - 1].geometry().y() + self.digit_labels[
             TrainingModeWindow.OUTPUTS - 1].geometry().height()
@@ -73,7 +73,7 @@ class TrainingModeWindow(QMainWindow):
         self.neuron_network_answer_label.setStyleSheet(f"font-size: {font_size}px;")
         self.neuron_network_answer_label.setText("9")
 
-    def set_up_neuron_widgets_arrows_and_digit_labels(self):
+    def set_up_neuron_widgets_arrows_and_digit_labels(self) -> None:
         top_y = self.height // 2 - self.matrix_widget.height // 2
         step = (self.height - top_y) / TrainingModeWindow.OUTPUTS
         radius = step * 0.9 // 2
@@ -102,7 +102,7 @@ class TrainingModeWindow(QMainWindow):
             self.digit_labels[i].resize(radius, 2 * radius)
             self.digit_labels[i].setAlignment(Qt.AlignCenter)
 
-    def set_up_neural_network_answer_label(self):
+    def set_up_neural_network_answer_label(self) -> None:
         matrix_height = self.matrix_widget.height
         matrix_width = self.matrix_widget.width
 
@@ -113,14 +113,14 @@ class TrainingModeWindow(QMainWindow):
         font_size = int(self.height // 20 * TrainingModeWindow.REL_HEIGHT)
         self.neural_network_answer_label.setStyleSheet(f"font-size: {font_size}px")
 
-    def set_up_next_button(self):
+    def set_up_next_button(self) -> None:
         self.next_button.move(self.slider.geometry().x() - self.width // 80,
                               self.height // 2 + self.slider.geometry().y() // 2)
         self.next_button.resize(self.slider.geometry().width() + self.width // 40, self.height // 20)
         font_size = int(self.height // 27 * TrainingModeWindow.REL_HEIGHT)
         self.next_button.setStyleSheet(f"font-size: {font_size}px; background: rgb(235, 195, 80); border-radius: 5px")
 
-    def set_up_digit_text_label(self):
+    def set_up_digit_text_label(self) -> None:
         matrix_height = self.matrix_widget.height
         matrix_width = self.matrix_widget.width
 
@@ -131,7 +131,7 @@ class TrainingModeWindow(QMainWindow):
                                    self.height // 2 + matrix_height // 2)
         self.digit_text_label.resize(matrix_width, self.height // 15)
 
-    def set_up_digit_label(self):
+    def set_up_digit_label(self) -> None:
         matrix_height = matrix_width = self.height * 0.5
 
         self.digit_label.setAlignment(Qt.AlignCenter)
@@ -141,7 +141,7 @@ class TrainingModeWindow(QMainWindow):
                               self.height // 2 + matrix_height // 2 + self.height // 15)
         self.digit_label.resize(matrix_width, self.height // 10)
 
-    def set_up_window(self):
+    def set_up_window(self) -> None:
         self.setFixedSize(self.width, self.height)
         self.move(self.main_app_interface.app.user_screen_geometry.width() * (1 - TrainingModeWindow.REL_WIDTH) / 2,
                   self.main_app_interface.app.user_screen_geometry.height() * (1 - TrainingModeWindow.REL_HEIGHT) / 2)
@@ -199,7 +199,7 @@ class TrainingModeWindow(QMainWindow):
                     }
                 """)
 
-    def set_up_slider_label(self):
+    def set_up_slider_label(self) -> None:
         matrix_height = self.matrix_widget.height
         matrix_width = self.matrix_widget.width
 
