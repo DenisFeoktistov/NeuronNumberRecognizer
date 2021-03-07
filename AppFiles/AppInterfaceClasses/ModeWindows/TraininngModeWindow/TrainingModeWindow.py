@@ -186,7 +186,8 @@ class TrainingModeWindow(QMainWindow):
 
         slider_height = self.slider.height()
         self.slider_label.setAlignment(Qt.AlignLeft | Qt.AlignCenter)
-        self.slider_label.move(self.slider.geometry().x() - self.width // 80, self.slider.geometry().y() - self.height // 20)
+        self.slider_label.move(self.slider.geometry().x() - self.width // 80,
+                               self.slider.geometry().y() - self.height // 20)
         self.slider_label.resize(self.slider.width() + self.width // 40, self.height // 20)
         font_size = int(self.height // 50 * TrainingModeWindow.REL_HEIGHT)
         self.slider_label.setAlignment(Qt.AlignCenter)
