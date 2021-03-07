@@ -23,7 +23,7 @@ class NeuronWidget:
         self.label.setAlignment(Qt.AlignCenter)
         self.label.move(self.x + self.radius // 2, self.y + self.radius // 2)
         self.label.resize(self.radius, self.radius)
-        self.label.setStyleSheet("font-size: 15px; background: transparent")
+        self.label.setStyleSheet(f"background: transparent")
 
         self.update()
 
@@ -38,6 +38,8 @@ class NeuronWidget:
         self.circle.resize(self.radius * 2, self.radius * 2)
         self.label.resize(self.radius, self.radius)
         self.move(self.x, self.y)
+        font_size = int(self.radius / 2)
+        self.label.setStyleSheet(f"font-size: {font_size}px; background: transparent")
 
     def set_value(self, value):
         self.value = min(1, max(0, value))
@@ -46,8 +48,9 @@ class NeuronWidget:
     def update(self):
         self.label.setText(str(round(self.value, ndigits=2)))
         self.color = self.get_gradient()
+        border_size = int(self.radius / 8)
         self.circle.setStyleSheet(
-            f"border-radius: {self.radius}px; border: 3px solid black; background: rgb{self.color}")
+            f"border-radius: {self.radius}px; border: {border_size}px solid black; background: rgb{self.color}")
 
     def get_gradient(self):
         r = 235

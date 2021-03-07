@@ -19,6 +19,7 @@ class TrainingModeWindow(QMainWindow):
 
         self.width = self.main_app_interface.app.user_screen_geometry.width() * TrainingModeWindow.REL_WIDTH
         self.height = self.main_app_interface.app.user_screen_geometry.height() * TrainingModeWindow.REL_HEIGHT
+        self.height = min(self.height, self.width * 2 // 3)
 
         self.matrix_widget = MatrixWidget(parent=self, **self.get_matrix_widget_params())
 
@@ -34,8 +35,8 @@ class TrainingModeWindow(QMainWindow):
         self.neural_network_answer_label = QLabel(parent=self, text="Neural network answer")
 
         self.neuron_widgets = [NeuronWidget(parent=self) for _ in range(TrainingModeWindow.OUTPUTS)]
-        self.arrows_labels = [QLabel(parent=self) for _ in range(TrainingModeWindow.OUTPUTS)]
-        self.digit_labels = [QLabel(parent=self) for _ in range(TrainingModeWindow.OUTPUTS)]
+        self.arrows_labels = [QLabel(parent=self, text="➔") for _ in range(TrainingModeWindow.OUTPUTS)]
+        self.digit_labels = [QLabel(parent=self, text=str(i)) for i in range(TrainingModeWindow.OUTPUTS)]
         self.initUI()
 
         self.responder.end_set_up()
@@ -72,14 +73,15 @@ class TrainingModeWindow(QMainWindow):
             self.arrows_labels[i].move(self.width // 2 + self.matrix_widget.width // 2 + 2 * self.width // 20,
                                        top_y + step * i)
 
-            self.arrows_labels[i].setText("➔")
-            self.arrows_labels[i].setStyleSheet("font-size: 40px")
+            font_size1 = int(self.height // 20 * TrainingModeWindow.REL_HEIGHT)
+            self.arrows_labels[i].setStyleSheet(f"font-size: {font_size1}px")
             self.arrows_labels[i].resize(2 * radius, 2 * radius)
             self.arrows_labels[i].setAlignment(Qt.AlignCenter)
 
-            self.digit_labels[i].setText(str(i))
-            self.digit_labels[i].setStyleSheet("font-size: 50px")
-            self.digit_labels[i].resize(2 * radius, 2 * radius)
+            font_size2 = int(self.height // 15 * TrainingModeWindow.REL_HEIGHT)
+            self.digit_labels[i].setStyleSheet(f"font-size: {font_size2}px")
+            self.digit_labels[i].resize(radius, 2 * radius)
+            self.digit_labels[i].setAlignment(Qt.AlignCenter)
 
     def set_up_neural_network_answer_label(self):
         matrix_height = self.matrix_widget.height
@@ -89,20 +91,23 @@ class TrainingModeWindow(QMainWindow):
                                               self.height // 2 - matrix_height // 2 - self.height // 10)
         self.neural_network_answer_label.resize(self.width // 2 - matrix_width // 2, self.height // 10)
         self.neural_network_answer_label.setAlignment(Qt.AlignCenter)
-        self.neural_network_answer_label.setStyleSheet("font-size: 40px")
+        font_size = int(self.height // 20 * TrainingModeWindow.REL_HEIGHT)
+        self.neural_network_answer_label.setStyleSheet(f"font-size: {font_size}px")
 
     def set_up_next_button(self):
-        self.next_button.move(self.slider.geometry().x() - self.height // 40,
+        self.next_button.move(self.slider.geometry().x() - self.width // 80,
                               self.height // 2 + self.slider.geometry().y() // 2)
-        self.next_button.resize(self.slider.geometry().width() + self.height // 20, self.height // 20)
-        self.next_button.setStyleSheet("font-size: 25px; background: rgb(235, 195, 80); border-radius: 5px")
+        self.next_button.resize(self.slider.geometry().width() + self.width // 40, self.height // 20)
+        font_size = int(self.height // 27 * TrainingModeWindow.REL_HEIGHT)
+        self.next_button.setStyleSheet(f"font-size: {font_size}px; background: rgb(235, 195, 80); border-radius: 5px")
 
     def set_up_digit_text_label(self):
         matrix_height = self.matrix_widget.height
         matrix_width = self.matrix_widget.width
 
         self.digit_text_label.setAlignment(Qt.AlignCenter)
-        self.digit_text_label.setStyleSheet("font-size: 25px")
+        font_size = int(self.height // 27 * TrainingModeWindow.REL_HEIGHT)
+        self.digit_text_label.setStyleSheet(f"font-size: {font_size}px")
         self.digit_text_label.move(self.width // 2 - matrix_width // 2,
                                    self.height // 2 + matrix_height // 2)
         self.digit_text_label.resize(matrix_width, self.height // 15)
@@ -111,7 +116,8 @@ class TrainingModeWindow(QMainWindow):
         matrix_height = matrix_width = self.height * 0.5
 
         self.digit_label.setAlignment(Qt.AlignCenter)
-        self.digit_label.setStyleSheet("font-size: 80px; border: 1px solid black")
+        font_size = int(self.height // 10 * TrainingModeWindow.REL_HEIGHT)
+        self.digit_label.setStyleSheet(f"font-size: {font_size}px; border: 1px solid black")
         self.digit_label.move(self.width // 2 - matrix_width // 2,
                               self.height // 2 + matrix_height // 2 + self.height // 15)
         self.digit_label.resize(matrix_width, self.height // 10)
@@ -137,32 +143,40 @@ class TrainingModeWindow(QMainWindow):
         matrix_height = self.matrix_widget.height
         matrix_width = self.matrix_widget.width
 
-        width = 50
+        width = self.width // 30 * TrainingModeWindow.REL_WIDTH
         height = matrix_height * 4 // 7
+
+        width1 = height1 = int(self.height // 30 * TrainingModeWindow.REL_WIDTH)
+        border_radius1 = width1 // 2
+        margin1 = -border_radius1 // 2
+
+        width2 = int(self.height // 50 * TrainingModeWindow.REL_WIDTH)
+        border_radius2 = margin2 = width2 // 2
+
         self.slider.move(self.width // 2 - matrix_width // 2 - self.width // 15, self.height // 2 - height // 2)
         self.slider.resize(width, height)
         self.slider.setStyleSheet("""
                     QSlider::handle {
                         background: rgb(235, 195, 80);
                         border: 1px solid rgb(70, 70, 70);
-                        width: 20px;
-                        height: 24px;
-                        margin: -6px; 
-                        border-radius: 12px;
+                        width: """ + str(width1) + """px;
+                        height: """ + str(height1) + """px;
+                        margin: """ + str(margin1) + """px; 
+                        border-radius: """ + str(border_radius1) + """px;
                     }
                     QSlider::groove {
-                        width: 12px;
-                        margin: 5px 0;
+                        width: """ + str(width2) + """px;
+                        margin: """ + str(margin2) + """px 0;
                         background: rgb(200, 200, 200);
                         border: 1px solid black;
-                        border-radius: 5px;
+                        border-radius:""" + str(border_radius2) + """px;
                     }
                     QSlider::sub-page {
-                        width: 12px;
-                        margin: 5px 0;
+                        width: """ + str(width2) + """px;
+                        margin: """ + str(margin2) + """px 0;
                         background: rgb(130, 130, 130);
                         border: 1px solid black;
-                        border-radius: 5px;
+                        border-radius: """ + str(border_radius2) + """px;
                     }
                 """)
 
@@ -172,7 +186,8 @@ class TrainingModeWindow(QMainWindow):
 
         slider_height = self.slider.height()
         self.slider_label.setAlignment(Qt.AlignLeft | Qt.AlignCenter)
-        self.slider_label.move(self.width // 2 - matrix_width // 2 - self.width // 13,
-                               self.height // 2 - slider_height // 2 - self.height // 25)
-        self.slider_label.adjustSize()
-        self.slider_label.setStyleSheet("background-color: transparent")
+        self.slider_label.move(self.slider.geometry().x() - self.width // 80, self.slider.geometry().y() - self.height // 20)
+        self.slider_label.resize(self.slider.width() + self.width // 40, self.height // 20)
+        font_size = int(self.height // 50 * TrainingModeWindow.REL_HEIGHT)
+        self.slider_label.setAlignment(Qt.AlignCenter)
+        self.slider_label.setStyleSheet(f"font-size: {font_size}px; background-color: transparent")
