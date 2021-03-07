@@ -61,6 +61,7 @@ class TrainingModeWindow(QMainWindow):
             # test ---------------------------------
             value = choice([0 if i < 9 else 1 for i in range(10)])
             value = i / 10
+            value = random()
             # test ---------------------------------
             self.neuron_widgets[i].move(self.width // 2 + self.matrix_widget.width // 2 + self.width // 20,
                                         top_y + step * i)
