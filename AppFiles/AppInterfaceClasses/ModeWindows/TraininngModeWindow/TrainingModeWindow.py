@@ -1,3 +1,4 @@
+from __future__ import annotations
 from PyQt5.QtWidgets import QMainWindow, QSlider, QLabel, QPushButton
 from PyQt5.QtCore import Qt
 from random import random, choice
@@ -6,14 +7,15 @@ from AppFiles.AppInterfaceClasses.SubsidiaryClasses.MatrixWidget import MatrixWi
 from AppFiles.AppInterfaceClasses.ModeWindows.TraininngModeWindow.TrainingModeWindowResponder import \
     TrainingModeWindowResponder
 from AppFiles.AppInterfaceClasses.SubsidiaryClasses.NeuronWidget import NeuronWidget
+import AppFiles.AppInterfaceClasses.MainAppInterface as MainAppInterface
 
 
 class TrainingModeWindow(QMainWindow):
     OUTPUTS = 10
     REL_WIDTH, REL_HEIGHT = 0.9, 0.8
 
-    def __init__(self, main_app_interface):
-        super().__init__()
+    def __init__(self, main_app_interface: MainAppInterface.MainAppInterface):
+        super(TrainingModeWindow, self).__init__()
         self.main_app_interface = main_app_interface
         self.responder = TrainingModeWindowResponder(self)
 

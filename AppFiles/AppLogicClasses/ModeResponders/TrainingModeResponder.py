@@ -1,14 +1,16 @@
+from __future__ import annotations
 from PyQt5.QtCore import QTimer
 
 
 from AppFiles.AppLogicClasses.SubsidiaryFiles.MNISTDataReader import get_random_info
+import AppFiles.AppLogicClasses.MainAppResponder as MainAppResponder
 
 
 class TrainModeResponder:
     MIN_INTERVAL = 10
     MAX_INTERVAL = 1000
 
-    def __init__(self, main_app_responder):
+    def __init__(self, main_app_responder: MainAppResponder.MainAppResponder):
         self.main_app_responder = main_app_responder
 
         self.timer = QTimer()

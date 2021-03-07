@@ -1,4 +1,5 @@
-from AppFiles.AppInterfaceClasses.ModeWindows.TraininngModeWindow import TrainingModeWindow
+from __future__ import annotations
+import AppFiles.AppInterfaceClasses.ModeWindows.TraininngModeWindow as TrainingModeWindow
 from AppFiles.AppLogicClasses.SubsidiaryFiles.MNISTDataReader import MnistDigitInfo
 
 
@@ -7,7 +8,7 @@ class TrainingModeWindowResponder:
     MAX_VALUE = 100
     INIT_VALUE = 50
 
-    def __init__(self, window: TrainingModeWindow):
+    def __init__(self, window: TrainingModeWindow.TrainingModeWindow):
         self.window = window
 
     def end_set_up(self):

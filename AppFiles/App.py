@@ -7,7 +7,7 @@ from AppFiles.AppLogicClasses.MainAppResponder import MainAppResponder
 
 class App(QApplication):
     def __init__(self, args):
-        super().__init__(args)
+        super(App, self).__init__(args)
 
         self.user_screen_geometry = self.desktop().screenGeometry()
 
