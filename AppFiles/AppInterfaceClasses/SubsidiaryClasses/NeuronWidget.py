@@ -54,7 +54,7 @@ class NeuronWidget:
 
     def get_gradient(self):
         r = 235
-        g = (195 - 120) * (1 - self.value) + 150  # Yes, some of values in this formula aren't described,
+        g = (195 - 120) * (1 - self.value) + 160  # Yes, some of values in this formula aren't described,
         # but it is really hard to do this. All I wanna say is that it is special formula to get orange gradient.
         b = 80
 
