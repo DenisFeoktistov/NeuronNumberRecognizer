@@ -66,9 +66,12 @@ class NeuronWidget:
         #     b = 0
         # else:
         #     b = (0.5 - self.value) / 0.5 * 255
-        r = 255
-        g = (1 - self.value) * 255
-        b = 0
+        # r = 255
+        # g = (1 - self.value) * 255
+        # b = 0
+        r = 235
+        g = (195 - 120) * (1 - self.value) + 120
+        b = 80
 
         r, g, b = max(0, r), max(0, g), max(0, b)
         print("Value: ", self.value)
