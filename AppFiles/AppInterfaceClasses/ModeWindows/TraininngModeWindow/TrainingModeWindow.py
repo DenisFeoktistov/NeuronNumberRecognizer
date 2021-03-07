@@ -34,7 +34,8 @@ class TrainingModeWindow(QMainWindow):
         self.neural_network_answer_label = QLabel(parent=self, text="Neural network answer")
 
         self.neuron_widgets = [NeuronWidget(parent=self) for _ in range(TrainingModeWindow.OUTPUTS)]
-
+        self.arrows_labels = [QLabel(parent=self) for _ in range(TrainingModeWindow.OUTPUTS)]
+        self.digit_labels = [QLabel(parent=self) for _ in range(TrainingModeWindow.OUTPUTS)]
         self.initUI()
 
         self.responder.end_set_up()
@@ -49,24 +50,36 @@ class TrainingModeWindow(QMainWindow):
         self.set_up_digit_label()
         self.set_up_next_button()
         self.set_up_neural_network_answer_label()
-        self.set_up_neuron_widgets()
+        self.set_up_neuron_widgets_arrows_and_digit_labels()
         # self.set_up_digit_text_label()
 
-    def set_up_neuron_widgets(self):
+    def set_up_neuron_widgets_arrows_and_digit_labels(self):
         top_y = self.height // 2 - self.matrix_widget.height // 2
         step = (self.height - top_y) / TrainingModeWindow.OUTPUTS
         radius = step * 0.9 // 2
 
-        for i in range(10):
+        for i in range(TrainingModeWindow.OUTPUTS):
             # test ---------------------------------
-            value = choice([0 if i < 9 else 1 for i in range(10)])
-            value = i / 10
             value = random()
             # test ---------------------------------
             self.neuron_widgets[i].move(self.width // 2 + self.matrix_widget.width // 2 + self.width // 20,
                                         top_y + step * i)
             self.neuron_widgets[i].resize(radius)
             self.neuron_widgets[i].set_value(value)
+
+            self.digit_labels[i].move(self.width // 2 + self.matrix_widget.width // 2 + 3 * self.width // 20,
+                                      top_y + step * i)
+            self.arrows_labels[i].move(self.width // 2 + self.matrix_widget.width // 2 + 2 * self.width // 20,
+                                       top_y + step * i)
+
+            self.arrows_labels[i].setText("➔")
+            self.arrows_labels[i].setStyleSheet("font-size: 40px")
+            self.arrows_labels[i].resize(2 * radius, 2 * radius)
+            self.arrows_labels[i].setAlignment(Qt.AlignCenter)
+
+            self.digit_labels[i].setText(str(i))
+            self.digit_labels[i].setStyleSheet("font-size: 50px")
+            self.digit_labels[i].resize(2 * radius, 2 * radius)
 
     def set_up_neural_network_answer_label(self):
         matrix_height = self.matrix_widget.height
