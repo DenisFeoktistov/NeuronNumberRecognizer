@@ -60,3 +60,6 @@ class NeuronWidget:
 
         r, g, b = min(255, max(0, r)), min(255, max(0, g)), min(255, max(0, b))  # these min and max just for be sure
         return r, g, b
+
+    def geometry(self):
+        return self.circle.geometry()

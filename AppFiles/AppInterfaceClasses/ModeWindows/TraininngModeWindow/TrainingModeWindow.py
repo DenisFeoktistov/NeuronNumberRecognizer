@@ -37,6 +37,8 @@ class TrainingModeWindow(QMainWindow):
         self.neuron_widgets = [NeuronWidget(parent=self) for _ in range(TrainingModeWindow.OUTPUTS)]
         self.arrows_labels = [QLabel(parent=self, text="➔") for _ in range(TrainingModeWindow.OUTPUTS)]
         self.digit_labels = [QLabel(parent=self, text=str(i)) for i in range(TrainingModeWindow.OUTPUTS)]
+
+        self.neuron_network_answer_label = QLabel(parent=self)
         self.initUI()
 
         self.responder.end_set_up()
@@ -52,7 +54,22 @@ class TrainingModeWindow(QMainWindow):
         self.set_up_next_button()
         self.set_up_neural_network_answer_label()
         self.set_up_neuron_widgets_arrows_and_digit_labels()
-        # self.set_up_digit_text_label()
+        self.set_up_neuron_network_answer_label()
+
+    def set_up_neuron_network_answer_label(self):
+        bottom = self.digit_labels[0].geometry().y()
+        top = self.digit_labels[TrainingModeWindow.OUTPUTS - 1].geometry().y() + self.digit_labels[
+            TrainingModeWindow.OUTPUTS - 1].geometry().height()
+
+        left = self.digit_labels[0].geometry().x() + self.digit_labels[0].geometry().width() + self.width // 40
+        right = self.width - self.width // 40
+        self.neuron_network_answer_label.move(left, bottom)
+        self.neuron_network_answer_label.resize(right - left, top - bottom)
+        self.neuron_network_answer_label.setAlignment(Qt.AlignCenter)
+
+        font_size = int(200 * TrainingModeWindow.REL_HEIGHT)
+        self.neuron_network_answer_label.setStyleSheet(f"font-size: {font_size}px;")
+        self.neuron_network_answer_label.setText("9")
 
     def set_up_neuron_widgets_arrows_and_digit_labels(self):
         top_y = self.height // 2 - self.matrix_widget.height // 2
