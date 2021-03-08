@@ -177,7 +177,7 @@ class TrainingModeWindow(QMainWindow):
         self.slider.setStyleSheet("""
                     QSlider::handle {
                         background: rgb(235, 195, 80);
-                        border: 1px solid rgb(70, 70, 70);
+                        border: 2px solid rgb(70, 70, 70);
                         width: """ + str(width1) + """px;
                         height: """ + str(height1) + """px;
                         margin: """ + str(margin1) + """px; 
@@ -185,14 +185,15 @@ class TrainingModeWindow(QMainWindow):
                     }
                     QSlider::groove {
                         width: """ + str(width2) + """px;
-                        margin: """ + str(margin2) + """px 0;
+                        height: """ + str(height * 0.9) + """px;
+                        border: 0px;
+                    }
+                    QSlider::add-page {
                         background: rgb(200, 200, 200);
                         border: 1px solid black;
-                        border-radius:""" + str(border_radius2) + """px;
+                        border-radius: """ + str(border_radius2) + """px;
                     }
                     QSlider::sub-page {
-                        width: """ + str(width2) + """px;
-                        margin: """ + str(margin2) + """px 0;
                         background: rgb(130, 130, 130);
                         border: 1px solid black;
                         border-radius: """ + str(border_radius2) + """px;
