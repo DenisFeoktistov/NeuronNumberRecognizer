@@ -186,9 +186,6 @@ class TrainingModeWindow(QMainWindow):
                     QSlider::groove {
                         width: """ + str(width2) + """px;
                         height: """ + str(height * 0.9) + """px;
-                        border: 0px;
-                    }
-                    QSlider::add-page {
                         background: rgb(200, 200, 200);
                         border: 1px solid black;
                         border-radius: """ + str(border_radius2) + """px;
@@ -199,6 +196,7 @@ class TrainingModeWindow(QMainWindow):
                         border-radius: """ + str(border_radius2) + """px;
                     }
                 """)
+
 
     def set_up_slider_label(self) -> None:
         matrix_height = self.matrix_widget.height
