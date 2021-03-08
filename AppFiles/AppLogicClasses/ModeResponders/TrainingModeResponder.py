@@ -1,6 +1,6 @@
 from __future__ import annotations
 from PyQt5.QtCore import QTimer
-
+import random
 
 from AppFiles.AppLogicClasses.SubsidiaryFiles.MNISTDataReader import get_random_info
 import AppFiles.AppLogicClasses.MainAppResponder as MainAppResponder
@@ -35,5 +35,8 @@ class TrainModeResponder:
 
     def switch(self) -> None:
         info = get_random_info("training")
+        answer = [random.random() for _ in range(10)]
         self.main_app_responder.app.main_app_interface.training_mode_window.responder.set_up_new_info(info)
-        self.main_app_responder.app.main_app_interface.training_mode_window.slider.valueChanged.connect(self.update_timer)
+        self.main_app_responder.app.main_app_interface.training_mode_window.responder.set_up_network_answer(answer)
+        self.main_app_responder.app.main_app_interface.training_mode_window.slider.valueChanged.connect(
+            self.update_timer)

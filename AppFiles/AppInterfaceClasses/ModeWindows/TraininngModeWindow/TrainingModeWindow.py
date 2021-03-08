@@ -71,7 +71,6 @@ class TrainingModeWindow(QMainWindow):
 
         font_size = int(self.height // 4 * TrainingModeWindow.REL_HEIGHT)
         self.neural_network_answer_label.setStyleSheet(f"font-size: {font_size}px;")
-        self.neural_network_answer_label.setText("9")
 
     def set_up_neuron_widgets_arrows_and_digit_labels(self) -> None:
         top_y = self.height // 2 - self.matrix_widget.height // 2

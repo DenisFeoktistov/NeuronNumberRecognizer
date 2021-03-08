@@ -23,3 +23,9 @@ class TrainingModeWindowResponder:
     def set_up_new_info(self, info: MnistDigitInfo) -> None:
         self.window.matrix_widget.set_matrix(info.matrix)
         self.window.digit_label.setText(str(info.value))
+
+    def set_up_network_answer(self, answer: list):
+        for i, neuron_widget in enumerate(self.window.neuron_widgets):
+            neuron_widget.set_value(answer[i])
+
+        self.window.neural_network_answer_label.setText(str(answer.index(max(answer))))
