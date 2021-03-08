@@ -34,13 +34,13 @@ class TrainingModeWindow(QMainWindow):
 
         self.next_button = QPushButton(parent=self, text="Next")
 
-        self.neural_network_answer_label = QLabel(parent=self, text="Neural network answer")
+        self.neural_network_answer_text_label = QLabel(parent=self, text="Neural network answer")
 
         self.neuron_widgets = [NeuronWidget(parent=self) for _ in range(TrainingModeWindow.OUTPUTS)]
         self.arrows_labels = [QLabel(parent=self, text="➔") for _ in range(TrainingModeWindow.OUTPUTS)]
         self.digit_labels = [QLabel(parent=self, text=str(i)) for i in range(TrainingModeWindow.OUTPUTS)]
 
-        self.neuron_network_answer_label = QLabel(parent=self)
+        self.neural_network_answer_label = QLabel(parent=self)
         self.initUI()
 
         self.responder.end_set_up()
@@ -54,24 +54,24 @@ class TrainingModeWindow(QMainWindow):
 
         self.set_up_digit_label()
         self.set_up_next_button()
-        self.set_up_neural_network_answer_label()
+        self.set_up_neural_network_answer_text_label()
         self.set_up_neuron_widgets_arrows_and_digit_labels()
-        self.set_up_neuron_network_answer_label()
+        self.set_up_neural_network_answer_label()
 
-    def set_up_neuron_network_answer_label(self) -> None:
+    def set_up_neural_network_answer_label(self) -> None:
         bottom = self.digit_labels[0].geometry().y()
         top = self.digit_labels[TrainingModeWindow.OUTPUTS - 1].geometry().y() + self.digit_labels[
             TrainingModeWindow.OUTPUTS - 1].geometry().height()
 
         left = self.digit_labels[0].geometry().x() + self.digit_labels[0].geometry().width() + self.width // 40
         right = self.width - self.width // 40
-        self.neuron_network_answer_label.move(left, bottom)
-        self.neuron_network_answer_label.resize(right - left, top - bottom)
-        self.neuron_network_answer_label.setAlignment(Qt.AlignCenter)
+        self.neural_network_answer_label.move(left, bottom)
+        self.neural_network_answer_label.resize(right - left, top - bottom)
+        self.neural_network_answer_label.setAlignment(Qt.AlignCenter)
 
-        font_size = int(200 * TrainingModeWindow.REL_HEIGHT)
-        self.neuron_network_answer_label.setStyleSheet(f"font-size: {font_size}px;")
-        self.neuron_network_answer_label.setText("9")
+        font_size = int(self.height // 4 * TrainingModeWindow.REL_HEIGHT)
+        self.neural_network_answer_label.setStyleSheet(f"font-size: {font_size}px;")
+        self.neural_network_answer_label.setText("9")
 
     def set_up_neuron_widgets_arrows_and_digit_labels(self) -> None:
         top_y = self.height // 2 - self.matrix_widget.height // 2
@@ -102,16 +102,16 @@ class TrainingModeWindow(QMainWindow):
             self.digit_labels[i].resize(radius, 2 * radius)
             self.digit_labels[i].setAlignment(Qt.AlignCenter)
 
-    def set_up_neural_network_answer_label(self) -> None:
+    def set_up_neural_network_answer_text_label(self) -> None:
         matrix_height = self.matrix_widget.height
         matrix_width = self.matrix_widget.width
 
-        self.neural_network_answer_label.move(self.width // 2 + matrix_width // 2,
-                                              self.height // 2 - matrix_height // 2 - self.height // 10)
-        self.neural_network_answer_label.resize(self.width // 2 - matrix_width // 2, self.height // 10)
-        self.neural_network_answer_label.setAlignment(Qt.AlignCenter)
+        self.neural_network_answer_text_label.move(self.width // 2 + matrix_width // 2,
+                                                   self.height // 2 - matrix_height // 2 - self.height // 10)
+        self.neural_network_answer_text_label.resize(self.width // 2 - matrix_width // 2, self.height // 10)
+        self.neural_network_answer_text_label.setAlignment(Qt.AlignCenter)
         font_size = int(self.height // 20 * TrainingModeWindow.REL_HEIGHT)
-        self.neural_network_answer_label.setStyleSheet(f"font-size: {font_size}px")
+        self.neural_network_answer_text_label.setStyleSheet(f"font-size: {font_size}px")
 
     def set_up_next_button(self) -> None:
         self.next_button.move(self.slider.geometry().x() - self.width // 80,
@@ -196,7 +196,6 @@ class TrainingModeWindow(QMainWindow):
                         border-radius: """ + str(border_radius2) + """px;
                     }
                 """)
-
 
     def set_up_slider_label(self) -> None:
         matrix_height = self.matrix_widget.height
