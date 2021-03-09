@@ -1,7 +1,6 @@
 from __future__ import annotations
 from PyQt5.QtWidgets import QMainWindow, QSlider, QLabel, QPushButton
 from PyQt5.QtCore import Qt
-from random import random, choice
 
 from AppFiles.AppInterfaceClasses.SubsidiaryClasses.MatrixWidget import MatrixWidget
 from AppFiles.AppInterfaceClasses.ModeWindows.TraininngModeWindow.TrainingModeWindowResponder import \
@@ -43,6 +42,7 @@ class TrainingModeWindow(QMainWindow):
             [(mode, QLabel(parent=self)) for mode in ["Automatic training", "Automatic testing", "Manual testing"]])
 
         self.neural_network_answer_label = QLabel(parent=self)
+
         self.initUI()
 
         self.responder.end_set_up()
@@ -212,10 +212,6 @@ class TrainingModeWindow(QMainWindow):
                 """)
 
     def set_up_slider_label(self) -> None:
-        matrix_height = self.matrix_widget.height
-        matrix_width = self.matrix_widget.width
-
-        slider_height = self.slider.height()
         self.slider_label.setAlignment(Qt.AlignLeft | Qt.AlignCenter)
         self.slider_label.move(self.slider.geometry().x() - self.width // 80,
                                self.slider.geometry().y() - self.height // 20)
