@@ -17,14 +17,14 @@ class TrainModeResponder:
         self.timer.timeout.connect(self.switch)
 
     def start(self) -> None:
-        self.main_app_responder.app.main_app_interface.training_mode_window.show()
-        self.main_app_responder.app.main_app_interface.training_mode_window.next_button.clicked.connect(self.switch)
+        self.main_app_responder.app.main_app_interface.main_window.show()
+        self.main_app_responder.app.main_app_interface.main_window.next_button.clicked.connect(self.switch)
         self.switch()
 
         self.update_timer()
 
     def update_timer(self) -> None:
-        coefficient = self.main_app_responder.app.main_app_interface.training_mode_window.responder.get_switch_speed_coefficient()
+        coefficient = self.main_app_responder.app.main_app_interface.main_window.responder.get_switch_speed_coefficient()
         if coefficient == 0:
             self.timer.stop()
         else:
@@ -36,7 +36,7 @@ class TrainModeResponder:
     def switch(self) -> None:
         info = get_random_info("training")
         answer = [random.random() for _ in range(10)]
-        self.main_app_responder.app.main_app_interface.training_mode_window.responder.set_up_new_info(info)
-        self.main_app_responder.app.main_app_interface.training_mode_window.responder.set_up_network_answer(answer)
-        self.main_app_responder.app.main_app_interface.training_mode_window.slider.valueChanged.connect(
+        self.main_app_responder.app.main_app_interface.main_window.responder.set_up_new_info(info)
+        self.main_app_responder.app.main_app_interface.main_window.responder.set_up_network_answer(answer)
+        self.main_app_responder.app.main_app_interface.main_window.slider.valueChanged.connect(
             self.update_timer)

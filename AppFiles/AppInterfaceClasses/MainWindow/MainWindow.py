@@ -2,60 +2,78 @@ from __future__ import annotations
 from PyQt5.QtWidgets import QMainWindow, QSlider, QLabel, QPushButton
 from PyQt5.QtCore import Qt
 
-from AppFiles.AppInterfaceClasses.SubsidiaryClasses.MatrixWidget import MatrixWidget
-from AppFiles.AppInterfaceClasses.ModeWindows.TraininngModeWindow.TrainingModeWindowResponder import \
-    TrainingModeWindowResponder
-from AppFiles.AppInterfaceClasses.SubsidiaryClasses.NeuronWidget import NeuronWidget
+from AppFiles.AppInterfaceClasses.MainWindow.SubsidiaryClasses.MatrixWidget import MatrixWidget
+from AppFiles.AppInterfaceClasses.MainWindow.MainWindowResponder import MainWindowResponder
+from AppFiles.AppInterfaceClasses.MainWindow.SubsidiaryClasses.NeuronWidget import NeuronWidget
+
 import AppFiles.AppInterfaceClasses.MainAppInterface as MainAppInterface
+import AppFiles.AppInterfaceClasses.MainWindow.ModeWindows.TrainingModeWindow.TrainingModeWindow as TrainingModeWindow
+import AppFiles.AppInterfaceClasses.MainWindow.ModeWindows.ManualTestingModeWindow.ManualTestingModeWiindow as \
+    ManualTestingModeWindow
+import AppFiles.AppInterfaceClasses.MainWindow.ModeWindows.AutoTestingModeWindow.AutoTestingModeWindow as \
+    AutoTestingModeWindow
 
 
-class TrainingModeWindow(QMainWindow):
+class MainWindow(QMainWindow):
     OUTPUTS = 10
     REL_WIDTH, REL_HEIGHT = 0.9, 0.8
 
     def __init__(self, main_app_interface: MainAppInterface.MainAppInterface) -> None:
-        super(TrainingModeWindow, self).__init__()
+        super(MainWindow, self).__init__()
         self.main_app_interface = main_app_interface
-        self.responder = TrainingModeWindowResponder(self)
+        self.responder = MainWindowResponder(self)
 
-        self.width = self.main_app_interface.app.user_screen_geometry.width() * TrainingModeWindow.REL_WIDTH
-        self.height = self.main_app_interface.app.user_screen_geometry.height() * TrainingModeWindow.REL_HEIGHT
+        self.width = self.main_app_interface.app.user_screen_geometry.width() * MainWindow.REL_WIDTH
+        self.height = self.main_app_interface.app.user_screen_geometry.height() * MainWindow.REL_HEIGHT
         self.height = min(self.height, self.width * 2 // 3)
 
         self.matrix_widget = MatrixWidget(parent=self, **self.get_matrix_widget_params())
 
         self.slider = QSlider(orientation=Qt.Vertical, parent=self)
 
-        self.slider_label = QLabel(text="Switch speed", parent=self)
+        # Yes, this buttons will be absolutely same, but it is design coincidence, because logically they are not the
+        # same. The same situation with next_button and clear button. Actually, with slider too, but I think, that I
+        # can leave slider like that.
+        self.switch_speed_label = QLabel(parent=self, text="Switch speed")
+        self.line_width_label = QLabel(parent=self, text="Line width")
 
         self.digit_label = QLabel(parent=self)
 
         self.next_button = QPushButton(parent=self, text="Next")
+        self.clear_button = QPushButton(parent=self, text="Clear")
 
         self.neural_network_answer_text_label = QLabel(parent=self, text="Neural network answer")
 
-        self.neuron_widgets = [NeuronWidget(parent=self) for _ in range(TrainingModeWindow.OUTPUTS)]
-        self.arrows_labels = [QLabel(parent=self, text="➔") for _ in range(TrainingModeWindow.OUTPUTS)]
-        self.digit_labels = [QLabel(parent=self, text=str(i)) for i in range(TrainingModeWindow.OUTPUTS)]
+        self.neuron_widgets = [NeuronWidget(parent=self) for _ in range(MainWindow.OUTPUTS)]
+        self.arrows_labels = [QLabel(parent=self, text="➔") for _ in range(MainWindow.OUTPUTS)]
+        self.digit_labels = [QLabel(parent=self, text=str(i)) for i in range(MainWindow.OUTPUTS)]
 
         self.modes_buttons = dict(
+            [(mode, QPushButton(parent=self)) for mode in ["Automatic training", "Automatic testing", "Manual testing"]])
+        self.outlines_for_modes_buttons = dict(
             [(mode, QLabel(parent=self)) for mode in ["Automatic training", "Automatic testing", "Manual testing"]])
 
         self.neural_network_answer_label = QLabel(parent=self)
 
         self.initUI()
 
-        self.responder.end_set_up()
+        self.training_mode_window = TrainingModeWindow.TrainingModeWindow(self)
+        self.auto_testing_mode_window = AutoTestingModeWindow.AutoTestingModeWindow(self)
+        self.manual_testing_mode_window = ManualTestingModeWindow.ManualTestingModeWindow(self)
+
+        self.end_set_up()
 
     def initUI(self) -> None:
         # Order of calls is important, because some of methods dependent on other. It is bad, I think, but I don't
         # think that it is fatal error.
         self.set_up_window()
         self.set_up_slider()
-        self.set_up_slider_label()
+        self.set_up_slider_label(self.switch_speed_label)
+        self.set_up_slider_label(self.line_width_label)
 
         self.set_up_digit_label()
-        self.set_up_next_button()
+        self.set_up_under_slider_button(self.next_button)
+        self.set_up_under_slider_button(self.clear_button)
         self.set_up_neural_network_answer_text_label()
         self.set_up_neuron_widgets_arrows_and_digit_labels()
         self.set_up_neural_network_answer_label()
@@ -72,15 +90,22 @@ class TrainingModeWindow(QMainWindow):
         step = (bottom - top) / len(self.modes_buttons)
         for i, key in enumerate(self.modes_buttons.keys()):
             self.modes_buttons[key].setText(key)
+
             self.modes_buttons[key].move(self.width * 0.01, top + step * i)
             self.modes_buttons[key].resize(width, step)
-            self.modes_buttons[key].setAlignment(Qt.AlignCenter)
-            self.modes_buttons[key].setStyleSheet(f"font-size: {font_size}px;")
+
+            border_size = self.height // 400
+            self.outlines_for_modes_buttons[key].setStyleSheet(
+                f"background: transparent; border: {border_size} solid rgb(235, 195, 80); border-radius: 5px")
+            self.outlines_for_modes_buttons[key].move(self.width * 0.01, top + step * i)
+            self.outlines_for_modes_buttons[key].resize(width, step)
+
+            self.modes_buttons[key].setStyleSheet(f"border: 0px solid black; font-size: {font_size}px;")
 
     def set_up_neural_network_answer_label(self) -> None:
         bottom = self.digit_labels[0].geometry().y()
-        top = self.digit_labels[TrainingModeWindow.OUTPUTS - 1].geometry().y() + self.digit_labels[
-            TrainingModeWindow.OUTPUTS - 1].geometry().height()
+        top = self.digit_labels[MainWindow.OUTPUTS - 1].geometry().y() + self.digit_labels[
+            MainWindow.OUTPUTS - 1].geometry().height()
 
         left = self.digit_labels[0].geometry().x() + self.digit_labels[0].geometry().width() + self.width // 40
         right = self.width - self.width // 40
@@ -88,15 +113,15 @@ class TrainingModeWindow(QMainWindow):
         self.neural_network_answer_label.resize(right - left, top - bottom)
         self.neural_network_answer_label.setAlignment(Qt.AlignCenter)
 
-        font_size = int(self.height // 4 * TrainingModeWindow.REL_HEIGHT)
+        font_size = int(self.height // 4 * MainWindow.REL_HEIGHT)
         self.neural_network_answer_label.setStyleSheet(f"font-size: {font_size}px;")
 
     def set_up_neuron_widgets_arrows_and_digit_labels(self) -> None:
         top_y = self.height // 2 - self.matrix_widget.height // 2
-        step = (self.height - top_y) / TrainingModeWindow.OUTPUTS
+        step = (self.height - top_y) / MainWindow.OUTPUTS
         radius = step * 0.9 // 2
 
-        for i in range(TrainingModeWindow.OUTPUTS):
+        for i in range(MainWindow.OUTPUTS):
             self.neuron_widgets[i].move(self.width // 2 + self.matrix_widget.width // 2 + self.width // 20,
                                         top_y + step * i)
             self.neuron_widgets[i].resize(radius)
@@ -106,12 +131,12 @@ class TrainingModeWindow(QMainWindow):
             self.arrows_labels[i].move(self.width // 2 + self.matrix_widget.width // 2 + 2 * self.width // 20,
                                        top_y + step * i)
 
-            font_size1 = int(self.height // 20 * TrainingModeWindow.REL_HEIGHT)
+            font_size1 = int(self.height // 20 * MainWindow.REL_HEIGHT)
             self.arrows_labels[i].setStyleSheet(f"font-size: {font_size1}px")
             self.arrows_labels[i].resize(2 * radius, 2 * radius)
             self.arrows_labels[i].setAlignment(Qt.AlignCenter)
 
-            font_size2 = int(self.height // 15 * TrainingModeWindow.REL_HEIGHT)
+            font_size2 = int(self.height // 15 * MainWindow.REL_HEIGHT)
             self.digit_labels[i].setStyleSheet(f"font-size: {font_size2}px")
             self.digit_labels[i].resize(radius, 2 * radius)
             self.digit_labels[i].setAlignment(Qt.AlignCenter)
@@ -124,22 +149,22 @@ class TrainingModeWindow(QMainWindow):
                                                    self.height // 2 - matrix_height // 2 - self.height // 10)
         self.neural_network_answer_text_label.resize(self.width // 2 - matrix_width // 2, self.height // 10)
         self.neural_network_answer_text_label.setAlignment(Qt.AlignCenter)
-        font_size = int(self.height // 20 * TrainingModeWindow.REL_HEIGHT)
+        font_size = int(self.height // 20 * MainWindow.REL_HEIGHT)
         self.neural_network_answer_text_label.setStyleSheet(f"font-size: {font_size}px")
 
-    def set_up_next_button(self) -> None:
-        self.next_button.move(self.slider.geometry().x() - self.width // 80,
-                              self.height // 2 + self.slider.geometry().y() // 2)
-        self.next_button.resize(self.slider.geometry().width() + self.width // 40, self.height // 20)
-        font_size = int(self.height // 27 * TrainingModeWindow.REL_HEIGHT)
-        self.next_button.setStyleSheet(f"font-size: {font_size}px; background: rgb(235, 195, 80); border-radius: 5px")
+    def set_up_under_slider_button(self, button) -> None:
+        button.move(self.slider.geometry().x() - self.width // 80,
+                    self.height // 2 + self.slider.geometry().y() // 2)
+        button.resize(self.slider.geometry().width() + self.width // 40, self.height // 20)
+        font_size = int(self.height // 27 * MainWindow.REL_HEIGHT)
+        button.setStyleSheet(f"font-size: {font_size}px; background: rgb(235, 195, 80); border-radius: 5px")
 
     def set_up_digit_text_label(self) -> None:
         matrix_height = self.matrix_widget.height
         matrix_width = self.matrix_widget.width
 
         self.digit_text_label.setAlignment(Qt.AlignCenter)
-        font_size = int(self.height // 27 * TrainingModeWindow.REL_HEIGHT)
+        font_size = int(self.height // 27 * MainWindow.REL_HEIGHT)
         self.digit_text_label.setStyleSheet(f"font-size: {font_size}px")
         self.digit_text_label.move(self.width // 2 - matrix_width // 2,
                                    self.height // 2 + matrix_height // 2)
@@ -149,7 +174,7 @@ class TrainingModeWindow(QMainWindow):
         matrix_height = matrix_width = self.height * 0.5
 
         self.digit_label.setAlignment(Qt.AlignCenter)
-        font_size = int(self.height // 10 * TrainingModeWindow.REL_HEIGHT)
+        font_size = int(self.height // 10 * MainWindow.REL_HEIGHT)
         self.digit_label.setStyleSheet(f"font-size: {font_size}px; border: 1px solid black")
         self.digit_label.move(self.width // 2 - matrix_width // 2,
                               self.height // 2 + matrix_height // 2 + self.height // 15)
@@ -157,8 +182,8 @@ class TrainingModeWindow(QMainWindow):
 
     def set_up_window(self) -> None:
         self.setFixedSize(self.width, self.height)
-        self.move(self.main_app_interface.app.user_screen_geometry.width() * (1 - TrainingModeWindow.REL_WIDTH) / 2,
-                  self.main_app_interface.app.user_screen_geometry.height() * (1 - TrainingModeWindow.REL_HEIGHT) / 2)
+        self.move(self.main_app_interface.app.user_screen_geometry.width() * (1 - MainWindow.REL_WIDTH) / 2,
+                  self.main_app_interface.app.user_screen_geometry.height() * (1 - MainWindow.REL_HEIGHT) / 2)
         self.setWindowTitle('Perceptron')
         self.setStyleSheet('background : rgb(170, 170, 170)')
 
@@ -176,14 +201,14 @@ class TrainingModeWindow(QMainWindow):
         matrix_height = self.matrix_widget.height
         matrix_width = self.matrix_widget.width
 
-        width = self.width // 30 * TrainingModeWindow.REL_WIDTH
+        width = self.width // 30 * MainWindow.REL_WIDTH
         height = matrix_height * 4 // 7
 
-        width1 = height1 = int(self.height // 30 * TrainingModeWindow.REL_WIDTH)
+        width1 = height1 = int(self.height // 30 * MainWindow.REL_WIDTH)
         border_radius1 = width1 // 2
         margin1 = -border_radius1 // 2
 
-        width2 = int(self.height // 50 * TrainingModeWindow.REL_WIDTH)
+        width2 = int(self.height // 50 * MainWindow.REL_WIDTH)
         border_radius2 = margin2 = width2 // 2
 
         self.slider.move(self.width // 2 - matrix_width // 2 - self.width // 15, self.height // 2 - height // 2)
@@ -211,11 +236,45 @@ class TrainingModeWindow(QMainWindow):
                     }
                 """)
 
-    def set_up_slider_label(self) -> None:
-        self.slider_label.setAlignment(Qt.AlignLeft | Qt.AlignCenter)
-        self.slider_label.move(self.slider.geometry().x() - self.width // 80,
-                               self.slider.geometry().y() - self.height // 20)
-        self.slider_label.resize(self.slider.width() + self.width // 40, self.height // 20)
-        font_size = int(self.height // 50 * TrainingModeWindow.REL_HEIGHT)
-        self.slider_label.setAlignment(Qt.AlignCenter)
-        self.slider_label.setStyleSheet(f"font-size: {font_size}px; background-color: transparent")
+    def set_up_slider_label(self, label) -> None:
+        label.setAlignment(Qt.AlignLeft | Qt.AlignCenter)
+        label.move(self.slider.geometry().x() - self.width // 80,
+                   self.slider.geometry().y() - self.height // 20)
+        label.resize(self.slider.width() + self.width // 40, self.height // 20)
+        font_size = int(self.height // 50 * MainWindow.REL_HEIGHT)
+        label.setAlignment(Qt.AlignCenter)
+        label.setStyleSheet(f"font-size: {font_size}px; background-color: transparent")
+
+    def end_set_up(self):
+        self.next_button.setEnabled(False)
+        self.next_button.setVisible(False)
+
+        self.clear_button.setEnabled(False)
+        self.clear_button.setVisible(False)
+
+        self.switch_speed_label.setVisible(False)
+        self.line_width_label.setVisible(False)
+
+        self.digit_label.setVisible(False)
+
+        for label in self.outlines_for_modes_buttons.values():
+            label.setVisible(False)
+        self.responder.end_set_up()
+
+    def set_auto_testing_mode(self):
+        self.manual_testing_mode_window.close()
+        self.training_mode_window.close()
+
+        self.auto_testing_mode_window.show()
+
+    def set_manual_testing_mode(self):
+        self.training_mode_window.close()
+        self.auto_testing_mode_window.close()
+
+        self.manual_testing_mode_window.show()
+
+    def set_training_mode(self):
+        self.manual_testing_mode_window.close()
+        self.auto_testing_mode_window.close()
+
+        self.training_mode_window.show()
