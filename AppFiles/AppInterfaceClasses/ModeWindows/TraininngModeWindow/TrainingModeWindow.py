@@ -97,13 +97,9 @@ class TrainingModeWindow(QMainWindow):
         radius = step * 0.9 // 2
 
         for i in range(TrainingModeWindow.OUTPUTS):
-            # test ---------------------------------
-            value = random()
-            # test ---------------------------------
             self.neuron_widgets[i].move(self.width // 2 + self.matrix_widget.width // 2 + self.width // 20,
                                         top_y + step * i)
             self.neuron_widgets[i].resize(radius)
-            self.neuron_widgets[i].set_value(value)
 
             self.digit_labels[i].move(self.width // 2 + self.matrix_widget.width // 2 + 3 * self.width // 20,
                                       top_y + step * i)
