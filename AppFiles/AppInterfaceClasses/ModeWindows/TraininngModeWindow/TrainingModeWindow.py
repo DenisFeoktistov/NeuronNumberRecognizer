@@ -40,6 +40,8 @@ class TrainingModeWindow(QMainWindow):
         self.arrows_labels = [QLabel(parent=self, text="➔") for _ in range(TrainingModeWindow.OUTPUTS)]
         self.digit_labels = [QLabel(parent=self, text=str(i)) for i in range(TrainingModeWindow.OUTPUTS)]
 
+        self.modes_buttons = dict([(mode, QLabel(parent=self)) for mode in ["Automatic training", "Automatic testing", "Manual testing"]])
+
         self.neural_network_answer_label = QLabel(parent=self)
         self.initUI()
 
@@ -57,6 +59,23 @@ class TrainingModeWindow(QMainWindow):
         self.set_up_neural_network_answer_text_label()
         self.set_up_neuron_widgets_arrows_and_digit_labels()
         self.set_up_neural_network_answer_label()
+
+        self.set_up_modes_buttons()
+
+    def set_up_modes_buttons(self):
+        top = self.height * 0.35
+        bottom = self.height * 0.65
+        width = self.width * 0.25
+
+        font_size = int(self.height / 7 / len(self.modes_buttons))
+
+        step = (bottom - top) / len(self.modes_buttons)
+        for i, key in enumerate(self.modes_buttons.keys()):
+            self.modes_buttons[key].setText(key)
+            self.modes_buttons[key].move(self.width * 0.01, top + step * i)
+            self.modes_buttons[key].resize(width, step)
+            self.modes_buttons[key].setAlignment(Qt.AlignCenter)
+            self.modes_buttons[key].setStyleSheet(f"font-size: {font_size}px;")
 
     def set_up_neural_network_answer_label(self) -> None:
         bottom = self.digit_labels[0].geometry().y()
