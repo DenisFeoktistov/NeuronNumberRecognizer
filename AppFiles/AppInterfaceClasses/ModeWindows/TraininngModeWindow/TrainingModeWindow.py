@@ -65,9 +65,9 @@ class TrainingModeWindow(QMainWindow):
     def set_up_modes_buttons(self):
         top = self.height * 0.35
         bottom = self.height * 0.65
-        width = self.width * 0.25
+        width = self.width * 0.2
 
-        font_size = int(self.height / 7 / len(self.modes_buttons))
+        font_size = int(self.height / 9 / len(self.modes_buttons))
 
         step = (bottom - top) / len(self.modes_buttons)
         for i, key in enumerate(self.modes_buttons.keys()):
