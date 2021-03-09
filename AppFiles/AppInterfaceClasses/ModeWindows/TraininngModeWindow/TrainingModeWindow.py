@@ -29,7 +29,6 @@ class TrainingModeWindow(QMainWindow):
 
         self.slider_label = QLabel(text="Switch speed", parent=self)
 
-        # self.digit_text_label = QLabel(parent=self, text="Digit:")
         self.digit_label = QLabel(parent=self)
 
         self.next_button = QPushButton(parent=self, text="Next")
@@ -40,7 +39,8 @@ class TrainingModeWindow(QMainWindow):
         self.arrows_labels = [QLabel(parent=self, text="➔") for _ in range(TrainingModeWindow.OUTPUTS)]
         self.digit_labels = [QLabel(parent=self, text=str(i)) for i in range(TrainingModeWindow.OUTPUTS)]
 
-        self.modes_buttons = dict([(mode, QLabel(parent=self)) for mode in ["Automatic training", "Automatic testing", "Manual testing"]])
+        self.modes_buttons = dict(
+            [(mode, QLabel(parent=self)) for mode in ["Automatic training", "Automatic testing", "Manual testing"]])
 
         self.neural_network_answer_label = QLabel(parent=self)
         self.initUI()
