@@ -218,7 +218,7 @@ class MainWindow(QMainWindow):
         self.set_up_slider_label(self.switch_speed_label)
 
     def add_line_width_label(self):
-        self.line_width_label = QLabel(parent=self, text="Line width label")
+        self.line_width_label = QLabel(parent=self, text="Line width")
         self.set_up_slider_label(self.line_width_label)
 
     def add_slider(self):
