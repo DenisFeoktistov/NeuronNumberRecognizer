@@ -7,7 +7,7 @@ from AppFiles.AppInterfaceClasses.MainWindow.MainWindowResponder import MainWind
 from AppFiles.AppInterfaceClasses.MainWindow.SubsidiaryClasses.NeuronWidget import NeuronWidget
 
 import AppFiles.AppInterfaceClasses.MainAppInterface as MainAppInterface
-import AppFiles.AppInterfaceClasses.MainWindow.ModeWindows.TrainingModeWindow.AutoTrainingModeWindow as TrainingModeWindow
+import AppFiles.AppInterfaceClasses.MainWindow.ModeWindows.AutoTrainingModeWindow.AutoTrainingModeWindow as TrainingModeWindow
 import AppFiles.AppInterfaceClasses.MainWindow.ModeWindows.ManualTestingModeWindow.ManualTestingModeWiindow as \
     ManualTestingModeWindow
 import AppFiles.AppInterfaceClasses.MainWindow.ModeWindows.AutoTestingModeWindow.AutoTestingModeWindow as \
@@ -57,11 +57,11 @@ class MainWindow(QMainWindow):
 
         self.initUI()
 
-        self.training_mode_window = TrainingModeWindow.AutoTrainingModeWindow(self)
+        self.auto_training_mode_window = TrainingModeWindow.AutoTrainingModeWindow(self)
         self.auto_testing_mode_window = AutoTestingModeWindow.AutoTestingModeWindow(self)
         self.manual_testing_mode_window = ManualTestingModeWindow.ManualTestingModeWindow(self)
 
-        self.end_set_up()
+        self.finish_init()
 
     def initUI(self) -> None:
         # Order of calls is important, because some of methods dependent on other. It is bad, I think, but I don't
@@ -152,7 +152,7 @@ class MainWindow(QMainWindow):
         font_size = int(self.height // 20 * MainWindow.REL_HEIGHT)
         self.neural_network_answer_text_label.setStyleSheet(f"font-size: {font_size}px")
 
-    def set_up_under_slider_button(self, button) -> None:
+    def set_up_under_slider_button(self, button: QPushButton) -> None:
         button.move(self.slider.geometry().x() - self.width // 80,
                     self.height // 2 + self.slider.geometry().y() // 2)
         button.resize(self.slider.geometry().width() + self.width // 40, self.height // 20)
@@ -236,7 +236,7 @@ class MainWindow(QMainWindow):
                     }
                 """)
 
-    def set_up_slider_label(self, label) -> None:
+    def set_up_slider_label(self, label: QLabel) -> None:
         label.setAlignment(Qt.AlignLeft | Qt.AlignCenter)
         label.move(self.slider.geometry().x() - self.width // 80,
                    self.slider.geometry().y() - self.height // 20)
@@ -245,7 +245,7 @@ class MainWindow(QMainWindow):
         label.setAlignment(Qt.AlignCenter)
         label.setStyleSheet(f"font-size: {font_size}px; background-color: transparent")
 
-    def end_set_up(self) -> None:
+    def finish_init(self) -> None:
         self.next_button.setEnabled(False)
         self.next_button.setVisible(False)
 
@@ -259,16 +259,22 @@ class MainWindow(QMainWindow):
 
         for label in self.outlines_for_modes_buttons.values():
             label.setVisible(False)
-        self.responder.end_set_up()
+        self.responder.finish_init()
+
+    def set_up(self) -> None:
+        self.auto_training_mode_window.set_up()
+        self.auto_testing_mode_window.set_up()
+        self.manual_testing_mode_window.set_up()
+        self.responder.set_up()
 
     def set_auto_testing_mode(self) -> None:
         self.manual_testing_mode_window.close()
-        self.training_mode_window.close()
+        self.auto_training_mode_window.close()
 
         self.auto_testing_mode_window.show()
 
     def set_manual_testing_mode(self) -> None:
-        self.training_mode_window.close()
+        self.auto_training_mode_window.close()
         self.auto_testing_mode_window.close()
 
         self.manual_testing_mode_window.show()
@@ -277,4 +283,4 @@ class MainWindow(QMainWindow):
         self.manual_testing_mode_window.close()
         self.auto_testing_mode_window.close()
 
-        self.training_mode_window.show()
+        self.auto_training_mode_window.show()

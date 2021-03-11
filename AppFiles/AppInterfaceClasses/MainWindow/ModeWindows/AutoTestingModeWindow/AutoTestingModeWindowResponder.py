@@ -1,15 +1,14 @@
 from __future__ import annotations
 
 import AppFiles.AppInterfaceClasses.MainWindow.ModeWindows.AutoTestingModeWindow.AutoTestingModeWindow as \
-        AutoTestingModeWindow
+    AutoTestingModeWindow
+import AppFiles.AppInterfaceClasses.MainWindow.ModeWindows.SubsidiaryFiles.AutoModeTemplateWindowResponder as \
+    AutoModeTemplateWindowResponder
 
 
-class AutoTestingModeWindowResponder:
+class AutoTestingModeWindowResponder(AutoModeTemplateWindowResponder.AutoModeTemplateWindowResponder):
     def __init__(self, window: AutoTestingModeWindow.AutoTestingModeWindow) -> None:
-        self.window = window
+        super().__init__(window)
 
-    def show(self) -> None:
-        pass
-
-    def close(self) -> None:
+    def set_up(self) -> None:
         pass

@@ -9,7 +9,7 @@ class MainAppInterface:
         self.main_window = MainWindow(self)
 
     def set_up(self) -> None:
-        pass
+        self.main_window.set_up()
 
     def show(self) -> None:
         self.main_window.set_auto_training_mode()

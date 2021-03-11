@@ -14,3 +14,6 @@ class ManualTestingModeWindowResponder:
 
     def close(self) -> None:
         pass
+
+    def set_up(self) -> None:
+        pass

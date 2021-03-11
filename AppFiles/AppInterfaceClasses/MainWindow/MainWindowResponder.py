@@ -11,7 +11,10 @@ class MainWindowResponder:
     def __init__(self, window: AppFiles.AppInterfaceClasses.MainWindow.MainWindow) -> None:
         self.window = window
 
-    def end_set_up(self) -> None:
+    def set_up(self) -> None:
+        pass
+
+    def finish_init(self) -> None:
         self.window.slider.setMaximum(MainWindowResponder.MAX_VALUE)
         self.window.slider.setMinimum(MainWindowResponder.MIN_VALUE)
         self.window.slider.setValue(MainWindowResponder.INIT_VALUE)

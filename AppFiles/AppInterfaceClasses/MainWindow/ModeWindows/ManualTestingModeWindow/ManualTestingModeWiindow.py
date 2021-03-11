@@ -11,6 +11,9 @@ class ManualTestingModeWindow:
         self.main_window = main_window
         self.responder = ManualTestingModeWindowResponder.ManualTestingModeWindowResponder(self)
 
+    def set_up(self) -> None:
+        self.responder.set_up()
+
     def show(self) -> None:
         self.main_window.clear_button.setVisible(True)
         self.main_window.clear_button.setEnabled(True)
