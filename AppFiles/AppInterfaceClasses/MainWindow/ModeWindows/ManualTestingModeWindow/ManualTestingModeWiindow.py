@@ -7,11 +7,11 @@ import AppFiles.AppInterfaceClasses.MainWindow.ModeWindows.ManualTestingModeWind
 
 
 class ManualTestingModeWindow:
-    def __init__(self, main_window: MainWindow.MainWindow):
+    def __init__(self, main_window: MainWindow.MainWindow) -> None:
         self.main_window = main_window
         self.responder = ManualTestingModeWindowResponder.ManualTestingModeWindowResponder(self)
 
-    def show(self):
+    def show(self) -> None:
         self.main_window.clear_button.setVisible(True)
         self.main_window.clear_button.setEnabled(True)
 
@@ -21,7 +21,7 @@ class ManualTestingModeWindow:
 
         self.responder.show()
 
-    def close(self):
+    def close(self) -> None:
         self.main_window.clear_button.setVisible(False)
         self.main_window.clear_button.setEnabled(False)
 

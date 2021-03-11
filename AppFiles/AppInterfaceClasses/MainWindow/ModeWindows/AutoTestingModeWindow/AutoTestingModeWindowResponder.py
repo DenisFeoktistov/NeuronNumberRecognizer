@@ -5,11 +5,11 @@ import AppFiles.AppInterfaceClasses.MainWindow.ModeWindows.AutoTestingModeWindow
 
 
 class AutoTestingModeWindowResponder:
-    def __init__(self, window: AutoTestingModeWindow.AutoTestingModeWindow):
+    def __init__(self, window: AutoTestingModeWindow.AutoTestingModeWindow) -> None:
         self.window = window
 
-    def show(self):
+    def show(self) -> None:
         pass
 
-    def close(self):
+    def close(self) -> None:
         pass

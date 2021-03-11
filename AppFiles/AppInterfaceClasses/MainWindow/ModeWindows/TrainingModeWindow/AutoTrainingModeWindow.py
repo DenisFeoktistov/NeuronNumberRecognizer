@@ -2,16 +2,16 @@ from __future__ import annotations
 
 
 import AppFiles.AppInterfaceClasses.MainWindow.MainWindow as MainWindow
-import AppFiles.AppInterfaceClasses.MainWindow.ModeWindows.TrainingModeWindow.TrainingModeWindowResponder \
+import AppFiles.AppInterfaceClasses.MainWindow.ModeWindows.TrainingModeWindow.AutoTrainingModeWindowResponder \
     as TrainingModeWindowResponder
 
 
-class TrainingModeWindow:
-    def __init__(self, main_window: MainWindow.MainWindow):
+class AutoTrainingModeWindow:
+    def __init__(self, main_window: MainWindow.MainWindow) -> None:
         self.main_window = main_window
-        self.responder = TrainingModeWindowResponder.TrainingModeWindowResponder(self)
+        self.responder = TrainingModeWindowResponder.AutoTrainingModeWindowResponder(self)
 
-    def show(self):
+    def show(self) -> None:
         self.main_window.next_button.setVisible(True)
         self.main_window.next_button.setEnabled(True)
 
@@ -23,7 +23,7 @@ class TrainingModeWindow:
 
         self.responder.show()
 
-    def close(self):
+    def close(self) -> None:
         self.main_window.next_button.setVisible(False)
         self.main_window.next_button.setEnabled(False)
 

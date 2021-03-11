@@ -6,11 +6,11 @@ import AppFiles.AppInterfaceClasses.MainWindow.ModeWindows.ManualTestingModeWind
 
 
 class ManualTestingModeWindowResponder:
-    def __init__(self, window: ManualTestingWindow.ManualTestingModeWindow):
+    def __init__(self, window: ManualTestingWindow.ManualTestingModeWindow) -> None:
         self.window = window
 
-    def show(self):
+    def show(self) -> None:
         pass
 
-    def close(self):
+    def close(self) -> None:
         pass

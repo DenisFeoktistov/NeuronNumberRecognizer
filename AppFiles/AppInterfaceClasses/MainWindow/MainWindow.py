@@ -7,7 +7,7 @@ from AppFiles.AppInterfaceClasses.MainWindow.MainWindowResponder import MainWind
 from AppFiles.AppInterfaceClasses.MainWindow.SubsidiaryClasses.NeuronWidget import NeuronWidget
 
 import AppFiles.AppInterfaceClasses.MainAppInterface as MainAppInterface
-import AppFiles.AppInterfaceClasses.MainWindow.ModeWindows.TrainingModeWindow.TrainingModeWindow as TrainingModeWindow
+import AppFiles.AppInterfaceClasses.MainWindow.ModeWindows.TrainingModeWindow.AutoTrainingModeWindow as TrainingModeWindow
 import AppFiles.AppInterfaceClasses.MainWindow.ModeWindows.ManualTestingModeWindow.ManualTestingModeWiindow as \
     ManualTestingModeWindow
 import AppFiles.AppInterfaceClasses.MainWindow.ModeWindows.AutoTestingModeWindow.AutoTestingModeWindow as \
@@ -57,7 +57,7 @@ class MainWindow(QMainWindow):
 
         self.initUI()
 
-        self.training_mode_window = TrainingModeWindow.TrainingModeWindow(self)
+        self.training_mode_window = TrainingModeWindow.AutoTrainingModeWindow(self)
         self.auto_testing_mode_window = AutoTestingModeWindow.AutoTestingModeWindow(self)
         self.manual_testing_mode_window = ManualTestingModeWindow.ManualTestingModeWindow(self)
 
@@ -80,7 +80,7 @@ class MainWindow(QMainWindow):
 
         self.set_up_modes_buttons()
 
-    def set_up_modes_buttons(self):
+    def set_up_modes_buttons(self) -> None:
         top = self.height * 0.35
         bottom = self.height * 0.65
         width = self.width * 0.2
@@ -245,7 +245,7 @@ class MainWindow(QMainWindow):
         label.setAlignment(Qt.AlignCenter)
         label.setStyleSheet(f"font-size: {font_size}px; background-color: transparent")
 
-    def end_set_up(self):
+    def end_set_up(self) -> None:
         self.next_button.setEnabled(False)
         self.next_button.setVisible(False)
 
@@ -261,19 +261,19 @@ class MainWindow(QMainWindow):
             label.setVisible(False)
         self.responder.end_set_up()
 
-    def set_auto_testing_mode(self):
+    def set_auto_testing_mode(self) -> None:
         self.manual_testing_mode_window.close()
         self.training_mode_window.close()
 
         self.auto_testing_mode_window.show()
 
-    def set_manual_testing_mode(self):
+    def set_manual_testing_mode(self) -> None:
         self.training_mode_window.close()
         self.auto_testing_mode_window.close()
 
         self.manual_testing_mode_window.show()
 
-    def set_training_mode(self):
+    def set_auto_training_mode(self) -> None:
         self.manual_testing_mode_window.close()
         self.auto_testing_mode_window.close()
 
