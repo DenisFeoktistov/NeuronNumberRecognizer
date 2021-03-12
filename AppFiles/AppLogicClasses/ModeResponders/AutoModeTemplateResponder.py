@@ -6,12 +6,13 @@ from AppFiles.AppLogicClasses.SubsidiaryFiles.MNISTDataReader import get_random_
 import AppFiles.AppLogicClasses.MainAppResponder as MainAppResponder
 
 
-class TrainModeResponder:
+class AutoModeTemplateResponder:
     MIN_INTERVAL = 10
     MAX_INTERVAL = 1000
 
-    def __init__(self, main_app_responder: MainAppResponder.MainAppResponder) -> None:
+    def __init__(self, main_app_responder: MainAppResponder.MainAppResponder, mode: str) -> None:
         self.main_app_responder = main_app_responder
+        self.mode = mode
 
         self.timer = QTimer()
         self.timer.timeout.connect(self.switch)
@@ -22,7 +23,6 @@ class TrainModeResponder:
         self.main_app_responder.app.main_app_interface.main_window.next_button.clicked.connect(self.switch)
 
     def start(self) -> None:
-        self.main_app_responder.app.main_app_interface.main_window.show()
         self.switch()
 
         self.update_timer()
@@ -32,15 +32,18 @@ class TrainModeResponder:
         if coefficient == 0:
             self.timer.stop()
         else:
-            interval = TrainModeResponder.MAX_INTERVAL - (
-                    TrainModeResponder.MAX_INTERVAL - TrainModeResponder.MIN_INTERVAL) * coefficient
+            interval = AutoModeTemplateResponder.MAX_INTERVAL - (
+                    AutoModeTemplateResponder.MAX_INTERVAL - AutoModeTemplateResponder.MIN_INTERVAL) * coefficient
             self.timer.setInterval(interval)
             self.timer.start()
 
     def switch(self) -> None:
-        info = get_random_info("training")
+        info = get_random_info(self.mode)
         answer = [random.random() for _ in range(10)]
         self.main_app_responder.app.main_app_interface.main_window.responder.set_up_new_info(info)
         self.main_app_responder.app.main_app_interface.main_window.responder.set_up_network_answer(answer)
         self.main_app_responder.app.main_app_interface.main_window.slider.valueChanged.connect(
             self.update_timer)
+
+    def close(self) -> None:
+        self.timer.stop()

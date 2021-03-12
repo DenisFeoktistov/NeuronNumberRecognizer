@@ -11,14 +11,5 @@ class MainAppInterface:
     def set_up(self) -> None:
         self.main_window.set_up()
 
-    def show(self) -> None:
-        self.main_window.set_auto_training_mode()
-
-    def set_auto_training_mode(self) -> None:
-        self.main_window.set_auto_training_mode()
-
-    def set_auto_testing_mode(self) -> None:
-        self.main_window.set_auto_testing_mode()
-
-    def set_manual_testing_mode(self) -> None:
-        self.main_window.set_manual_testing_mode()
+    def start(self) -> None:
+        self.main_window.show()
