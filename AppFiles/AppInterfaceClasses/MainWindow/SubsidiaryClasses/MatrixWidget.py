@@ -10,8 +10,10 @@ class MatrixWidget(QWidget):
 
     def __init__(self, parent: QMainWindow, x: int = 0, y: int = 0,
                  width: int = 300, height: int = 300, cols: int = 28,
-                 rows: int = 28) -> None:
+                 rows: int = 28, draw_mode: bool = False) -> None:
         super().__init__(parent=parent)
+        self.draw_mode = False
+
         self.setMouseTracking(True)
 
         self.parent = parent
@@ -39,6 +41,9 @@ class MatrixWidget(QWidget):
         self.resize(width, height)
         self.move(x, y)
         self.update()
+
+    def set_draw_mode(self, draw_mode: bool) -> None:
+        self.draw_mode = draw_mode
 
     def move(self, x: int, y: int) -> None:
         super().move(x, y)
@@ -74,17 +79,19 @@ class MatrixWidget(QWidget):
         self.buttons[i][j].setStyleSheet(f"background: rgb{tuple([color] * 3)}")
 
     def mouseMoveEvent(self, e: QtGui.QMouseEvent) -> None:
-        if 0 <= e.x() < self.width and 0 <= e.y() < self.height and e.buttons():
-            color = 230
-            i = int(e.x() // self.button_width)
-            j = int(e.y() // self.button_height)
-            self.set_color(i, j, color)
-            self.pictureChanged.emit()
+        if self.draw_mode:
+            if 0 <= e.x() < self.width and 0 <= e.y() < self.height and e.buttons():
+                color = 230
+                i = int(e.x() // self.button_width)
+                j = int(e.y() // self.button_height)
+                self.set_color(i, j, color)
+                self.pictureChanged.emit()
 
     def mousePressEvent(self, e: QtGui.QMouseEvent) -> None:
-        if 0 <= e.x() < self.width and 0 <= e.y() < self.height:
-            color = 230
-            i = int(e.x() // self.button_width)
-            j = int(e.y() // self.button_height)
-            self.set_color(i, j, color)
-            self.pictureChanged.emit()
+        if self.draw_mode:
+            if 0 <= e.x() < self.width and 0 <= e.y() < self.height:
+                color = 230
+                i = int(e.x() // self.button_width)
+                j = int(e.y() // self.button_height)
+                self.set_color(i, j, color)
+                self.pictureChanged.emit()
