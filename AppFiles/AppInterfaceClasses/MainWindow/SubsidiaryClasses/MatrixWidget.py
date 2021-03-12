@@ -1,11 +1,13 @@
 from PyQt5.QtWidgets import QPushButton, QMainWindow, QWidget
 from PyQt5 import QtGui, QtCore
 import numpy as np
+from math import sqrt
 from typing import Union
 
 
 class MatrixWidget(QWidget):
     MIN_BRIGHTNESS = 40
+    MAX_BRIGHTNESS = 230
     pictureChanged = QtCore.pyqtSignal()
 
     def __init__(self, parent: QMainWindow, x: int = 0, y: int = 0,
@@ -13,6 +15,7 @@ class MatrixWidget(QWidget):
                  rows: int = 28, draw_mode: bool = False) -> None:
         super().__init__(parent=parent)
         self.draw_mode = False
+        self.draw_line_coefficient = 0.
 
         self.setMouseTracking(True)
 
@@ -42,6 +45,9 @@ class MatrixWidget(QWidget):
         self.move(x, y)
         self.update()
 
+    def set_draw_line_coefficient(self, draw_line_coefficient: float):
+        self.draw_line_coefficient = min(1., max(0., draw_line_coefficient))
+
     def set_draw_mode(self, draw_mode: bool) -> None:
         self.draw_mode = draw_mode
 
@@ -61,6 +67,7 @@ class MatrixWidget(QWidget):
         for i in range(self.cols):
             for j in range(self.rows):
                 color = max(MatrixWidget.MIN_BRIGHTNESS, self.matrix[i][j])
+                self.matrix[i][j] = color
                 self.buttons[i][j].setStyleSheet(f"background-color: rgb{tuple([color for _ in range(3)])}")
 
     def set_matrix(self, matrix: np.array) -> None:
@@ -75,23 +82,36 @@ class MatrixWidget(QWidget):
         self.update()
 
     def set_color(self, i, j, color):
-        self.matrix[i][j] = color
+        self.matrix[i][j] = max(self.matrix[i][j], color)
+        color = self.matrix[i][j]
         self.buttons[i][j].setStyleSheet(f"background: rgb{tuple([color] * 3)}")
 
     def mouseMoveEvent(self, e: QtGui.QMouseEvent) -> None:
         if self.draw_mode:
             if 0 <= e.x() < self.width and 0 <= e.y() < self.height and e.buttons():
-                color = 230
-                i = int(e.x() // self.button_width)
-                j = int(e.y() // self.button_height)
-                self.set_color(i, j, color)
+                i, j = self.get_indexes_by_coords(e.x(), e.y())
+                self.draw_point_in_coords(i, j)
                 self.pictureChanged.emit()
 
     def mousePressEvent(self, e: QtGui.QMouseEvent) -> None:
         if self.draw_mode:
             if 0 <= e.x() < self.width and 0 <= e.y() < self.height:
-                color = 230
-                i = int(e.x() // self.button_width)
-                j = int(e.y() // self.button_height)
-                self.set_color(i, j, color)
+                i, j = self.get_indexes_by_coords(e.x(), e.y())
+
+                self.draw_point_in_coords(i, j)
                 self.pictureChanged.emit()
+
+    def draw_point_in_coords(self, i: int, j: int):
+        delta = 2
+        for i1 in range(max(0, i - delta), min(self.rows, i + delta + 1)):
+            for j1 in range(max(0, j - delta), min(self.cols, j + delta + 1)):
+                delta_i = abs(i - i1)
+                delta_j = abs(j - j1)
+                brightness = int(
+                    MatrixWidget.MAX_BRIGHTNESS * (1 - ((delta_i ** 2 + delta_j ** 2) * 0.5) ** 0.15 * (1 - self.draw_line_coefficient))
+                self.set_color(i1, j1, brightness)
+
+    def get_indexes_by_coords(self, x: int, y: int):
+        i = int(x // self.button_width)
+        j = int(y // self.button_height)
+        return i, j

@@ -19,9 +19,16 @@ class ManualTestingModeResponder:
         self.main_app_responder.app.main_app_interface.main_window.clear_button.clicked.connect(self.clear_matrix)
         self.main_app_responder.app.main_app_interface.main_window.matrix_widget.pictureChanged.connect(
             self.update_answer)
+        self.main_app_responder.app.main_app_interface.main_window.line_width_slider.valueChanged.connect(
+            self.update_line_width)
+        self.update_line_width()
 
     def close(self) -> None:
         self.main_app_responder.app.main_app_interface.main_window.matrix_widget.set_draw_mode(False)
+
+    def update_line_width(self):
+        value = self.main_app_responder.app.main_app_interface.main_window.line_width_slider.value()
+        self.main_app_responder.app.main_app_interface.main_window.matrix_widget.set_draw_line_coefficient(value / 100)
 
     def update_answer(self) -> None:
         pass

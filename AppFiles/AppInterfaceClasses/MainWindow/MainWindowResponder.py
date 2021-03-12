@@ -26,10 +26,10 @@ class MainWindowResponder:
     def get_switch_speed_coefficient(self) -> float:
         return (self.window.switch_speed_slider.value() / (
                 MainWindowResponder.MAX_VALUE - MainWindowResponder.MIN_VALUE)) ** 0.5
-    
+
     def get_line_width_coefficient(self) -> float:
         return (self.window.line_width_slider.value() / (
-                MainWindowResponder.MAX_VALUE - MainWindowResponder.MIN_VALUE)) ** 0.5
+                MainWindowResponder.MAX_VALUE - MainWindowResponder.MIN_VALUE))
 
     def set_up_new_info(self, info: MnistDigitInfo) -> None:
         self.window.matrix_widget.set_matrix(info.matrix)
