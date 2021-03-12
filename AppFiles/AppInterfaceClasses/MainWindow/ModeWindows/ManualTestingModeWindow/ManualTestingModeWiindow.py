@@ -18,6 +18,9 @@ class ManualTestingModeWindow:
         self.main_window.clear_button.setVisible(True)
         self.main_window.clear_button.setEnabled(True)
 
+        self.main_window.line_width_slider.setVisible(True)
+        self.main_window.line_width_slider.setEnabled(True)
+
         self.main_window.line_width_label.setVisible(True)
 
         self.main_window.outlines_for_modes_buttons["Manual testing"].setVisible(True)
@@ -27,6 +30,9 @@ class ManualTestingModeWindow:
     def close(self) -> None:
         self.main_window.clear_button.setVisible(False)
         self.main_window.clear_button.setEnabled(False)
+
+        self.main_window.line_width_slider.setVisible(False)
+        self.main_window.line_width_slider.setEnabled(False)
 
         self.main_window.line_width_label.setVisible(False)
 

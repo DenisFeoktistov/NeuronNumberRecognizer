@@ -40,7 +40,7 @@ class AutoModeTemplateResponder:
         answer = [random.random() for _ in range(10)]
         self.main_app_responder.app.main_app_interface.main_window.responder.set_up_new_info(info)
         self.main_app_responder.app.main_app_interface.main_window.responder.set_up_network_answer(answer)
-        self.main_app_responder.app.main_app_interface.main_window.slider.valueChanged.connect(
+        self.main_app_responder.app.main_app_interface.main_window.switch_speed_slider.valueChanged.connect(
             self.update_timer)
 
     def close(self) -> None:

@@ -15,6 +15,9 @@ class AutoModeTemplateWindow:
         self.main_window.next_button.setVisible(True)
         self.main_window.next_button.setEnabled(True)
 
+        self.main_window.switch_speed_slider.setVisible(True)
+        self.main_window.switch_speed_slider.setEnabled(True)
+
         self.main_window.switch_speed_label.setVisible(True)
 
         self.main_window.digit_label.setVisible(True)
@@ -24,6 +27,9 @@ class AutoModeTemplateWindow:
     def close(self) -> None:
         self.main_window.next_button.setVisible(False)
         self.main_window.next_button.setEnabled(False)
+
+        self.main_window.switch_speed_slider.setVisible(False)
+        self.main_window.switch_speed_slider.setEnabled(False)
 
         self.main_window.switch_speed_label.setVisible(False)
 

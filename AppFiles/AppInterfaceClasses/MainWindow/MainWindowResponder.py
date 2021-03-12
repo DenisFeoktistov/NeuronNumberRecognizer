@@ -1,6 +1,6 @@
 from __future__ import annotations
 from AppFiles.AppLogicClasses.SubsidiaryFiles.MNISTDataReader import MnistDigitInfo
-import AppFiles.AppInterfaceClasses.MainWindow.MainWindow
+import AppFiles.AppInterfaceClasses.MainWindow.MainWindow as MainWindow
 
 
 class MainWindowResponder:
@@ -8,19 +8,27 @@ class MainWindowResponder:
     MAX_VALUE = 100
     INIT_VALUE = 50
 
-    def __init__(self, window: AppFiles.AppInterfaceClasses.MainWindow.MainWindow) -> None:
+    def __init__(self, window: MainWindow.MainWindow) -> None:
         self.window = window
 
     def set_up(self) -> None:
         pass
 
     def finish_init(self) -> None:
-        self.window.slider.setMaximum(MainWindowResponder.MAX_VALUE)
-        self.window.slider.setMinimum(MainWindowResponder.MIN_VALUE)
-        self.window.slider.setValue(MainWindowResponder.INIT_VALUE)
+        self.window.switch_speed_slider.setMaximum(MainWindowResponder.MAX_VALUE)
+        self.window.switch_speed_slider.setMinimum(MainWindowResponder.MIN_VALUE)
+        self.window.switch_speed_slider.setValue(MainWindowResponder.INIT_VALUE)
+
+        self.window.line_width_slider.setMaximum(MainWindowResponder.MAX_VALUE)
+        self.window.line_width_slider.setMinimum(MainWindowResponder.MIN_VALUE)
+        self.window.line_width_slider.setValue(MainWindowResponder.INIT_VALUE)
 
     def get_switch_speed_coefficient(self) -> float:
-        return (self.window.slider.value() / (
+        return (self.window.switch_speed_slider.value() / (
+                MainWindowResponder.MAX_VALUE - MainWindowResponder.MIN_VALUE)) ** 0.5
+    
+    def get_line_width_coefficient(self) -> float:
+        return (self.window.line_width_slider.value() / (
                 MainWindowResponder.MAX_VALUE - MainWindowResponder.MIN_VALUE)) ** 0.5
 
     def set_up_new_info(self, info: MnistDigitInfo) -> None:

@@ -43,6 +43,12 @@ class MainWindow(QMainWindow):
         self.clear_button.setEnabled(False)
         self.clear_button.setVisible(False)
 
+        self.switch_speed_slider.setVisible(False)
+        self.switch_speed_slider.setEnabled(False)
+
+        self.line_width_slider.setVisible(False)
+        self.line_width_slider.setEnabled(False)
+
         self.switch_speed_label.setVisible(False)
         self.line_width_label.setVisible(False)
 
@@ -88,12 +94,10 @@ class MainWindow(QMainWindow):
     def add_widgets(self):
         self.add_matrix_widget()
 
-        self.add_slider()
+        self.add_switch_speed_slider()
+        self.add_line_width_slider()
 
-        # Yes, this buttons will be absolutely same, but it is design coincidence, because logically they are not the
-        # same. The same situation with next_button and clear button. Actually, with slider too, but I think, that I
-        # can leave slider like that.
-        self.add_speed_switch_label()
+        self.add_switch_speed_label()
         self.add_line_width_label()
 
         self.add_digit_label()
@@ -108,6 +112,14 @@ class MainWindow(QMainWindow):
         self.add_mode_buttons_and_outlines()
 
         self.add_neural_network_answer_label()
+
+    def add_switch_speed_slider(self):
+        self.switch_speed_slider = QSlider(orientation=Qt.Vertical, parent=self)
+        self.set_up_slider(self.switch_speed_slider)
+
+    def add_line_width_slider(self):
+        self.line_width_slider = QSlider(orientation=Qt.Vertical, parent=self)
+        self.set_up_slider(self.line_width_slider)
 
     def add_neural_network_answer_label(self):
         self.neural_network_answer_label = QLabel(parent=self)
@@ -213,7 +225,7 @@ class MainWindow(QMainWindow):
                               self.height // 2 + matrix_height // 2 + self.height // 15)
         self.digit_label.resize(matrix_width, self.height // 10)
 
-    def add_speed_switch_label(self):
+    def add_switch_speed_label(self):
         self.switch_speed_label = QLabel(parent=self, text="Switch speed")
         self.set_up_slider_label(self.switch_speed_label)
 
@@ -221,9 +233,7 @@ class MainWindow(QMainWindow):
         self.line_width_label = QLabel(parent=self, text="Line width")
         self.set_up_slider_label(self.line_width_label)
 
-    def add_slider(self):
-        self.slider = QSlider(orientation=Qt.Vertical, parent=self)
-
+    def set_up_slider(self, slider: QSlider):
         matrix_height = self.matrix_widget.height
         matrix_width = self.matrix_widget.width
 
@@ -237,9 +247,9 @@ class MainWindow(QMainWindow):
         width2 = int(self.height // 50 * MainWindow.REL_WIDTH)
         border_radius2 = margin2 = width2 // 2
 
-        self.slider.move(self.width // 2 - matrix_width // 2 - self.width // 15, self.height // 2 - height // 2)
-        self.slider.resize(width, height)
-        self.slider.setStyleSheet("""
+        slider.move(self.width // 2 - matrix_width // 2 - self.width // 15, self.height // 2 - height // 2)
+        slider.resize(width, height)
+        slider.setStyleSheet("""
                             QSlider::handle {
                                 background: rgb(235, 195, 80);
                                 border: 2px solid rgb(70, 70, 70);
@@ -271,17 +281,17 @@ class MainWindow(QMainWindow):
         self.matrix_widget = MatrixWidget(parent=self, x=x, y=y, width=width, height=height)
 
     def set_up_under_slider_button(self, button: QPushButton) -> None:
-        button.move(self.slider.geometry().x() - self.width // 80,
-                    self.height // 2 + self.slider.geometry().y() // 2)
-        button.resize(self.slider.geometry().width() + self.width // 40, self.height // 20)
+        button.move(self.switch_speed_slider.geometry().x() - self.width // 80,
+                    self.height // 2 + self.switch_speed_slider.geometry().y() // 2)
+        button.resize(self.switch_speed_slider.geometry().width() + self.width // 40, self.height // 20)
         font_size = int(self.height // 27 * MainWindow.REL_HEIGHT)
         button.setStyleSheet(f"font-size: {font_size}px; background: rgb(235, 195, 80); border-radius: 5px")
 
     def set_up_slider_label(self, label: QLabel) -> None:
         label.setAlignment(Qt.AlignLeft | Qt.AlignCenter)
-        label.move(self.slider.geometry().x() - self.width // 80,
-                   self.slider.geometry().y() - self.height // 20)
-        label.resize(self.slider.width() + self.width // 40, self.height // 20)
+        label.move(self.switch_speed_slider.geometry().x() - self.width // 80,
+                   self.switch_speed_slider.geometry().y() - self.height // 20)
+        label.resize(self.switch_speed_slider.width() + self.width // 40, self.height // 20)
         font_size = int(self.height // 50 * MainWindow.REL_HEIGHT)
         label.setAlignment(Qt.AlignCenter)
         label.setStyleSheet(f"font-size: {font_size}px; background-color: transparent")
