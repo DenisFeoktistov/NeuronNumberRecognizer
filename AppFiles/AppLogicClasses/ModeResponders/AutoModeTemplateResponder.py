@@ -17,8 +17,6 @@ class AutoModeTemplateResponder:
         self.timer = QTimer()
         self.timer.timeout.connect(self.switch)
 
-        self.set_up()
-
     def set_up(self) -> None:
         self.main_app_responder.app.main_app_interface.main_window.next_button.clicked.connect(self.switch)
 
