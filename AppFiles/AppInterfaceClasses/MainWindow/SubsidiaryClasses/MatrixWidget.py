@@ -50,7 +50,7 @@ class MatrixWidget(QWidget):
     def set_draw_line_coefficient(self, draw_line_coefficient: float):
         draw_line_coefficient = min(1., max(0., draw_line_coefficient))
         self.line_width = MatrixWidget.MIN_WIDTH + (
-                    MatrixWidget.MAX_WIDTH - MatrixWidget.MIN_WIDTH) * draw_line_coefficient
+                MatrixWidget.MAX_WIDTH - MatrixWidget.MIN_WIDTH) * draw_line_coefficient
 
     def set_draw_mode(self, draw_mode: bool) -> None:
         self.draw_mode = draw_mode
@@ -73,7 +73,7 @@ class MatrixWidget(QWidget):
                 color = max(MatrixWidget.MIN_BRIGHTNESS, self.matrix[i][j])
                 self.matrix[i][j] = color
                 self.buttons[i][j].setStyleSheet(
-                    f"background-color: rgb{tuple([color for _ in range(3)])}; border-color: rgb(0, 0, 0)")
+                    f"background-color: rgb{tuple([color for _ in range(3)])}; border-color: rgb(0, 0, 0); border-width: 0px")
 
     def set_matrix(self, matrix: np.array) -> None:
         self.cols = matrix.shape[0]
