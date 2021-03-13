@@ -6,7 +6,8 @@ import AppFiles.AppInterfaceClasses.MainWindow.MainWindow as MainWindow
 class MainWindowResponder:
     MIN_VALUE = 0
     MAX_VALUE = 100
-    INIT_VALUE = 50
+    SPEED_INIT_VALUE = 50
+    WIDTH_INIT_VALUE = 50
 
     def __init__(self, window: MainWindow.MainWindow) -> None:
         self.window = window
@@ -17,11 +18,11 @@ class MainWindowResponder:
     def finish_init(self) -> None:
         self.window.switch_speed_slider.setMaximum(MainWindowResponder.MAX_VALUE)
         self.window.switch_speed_slider.setMinimum(MainWindowResponder.MIN_VALUE)
-        self.window.switch_speed_slider.setValue(MainWindowResponder.INIT_VALUE)
+        self.window.switch_speed_slider.setValue(MainWindowResponder.SPEED_INIT_VALUE)
 
         self.window.line_width_slider.setMaximum(MainWindowResponder.MAX_VALUE)
         self.window.line_width_slider.setMinimum(MainWindowResponder.MIN_VALUE)
-        self.window.line_width_slider.setValue(MainWindowResponder.INIT_VALUE)
+        self.window.line_width_slider.setValue(MainWindowResponder.WIDTH_INIT_VALUE)
 
     def get_switch_speed_coefficient(self) -> float:
         return (self.window.switch_speed_slider.value() / (

@@ -8,7 +8,8 @@ from typing import Union
 class MatrixWidget(QWidget):
     MIN_BRIGHTNESS = 40
     MAX_BRIGHTNESS = 230
-    MAX_WIDTH = 3
+    MAX_WIDTH = 1.75
+    MIN_WIDTH = 1.25
     pictureChanged = QtCore.pyqtSignal()
 
     def __init__(self, parent: QMainWindow, x: int = 0, y: int = 0,
@@ -16,7 +17,7 @@ class MatrixWidget(QWidget):
                  rows: int = 28, draw_mode: bool = False) -> None:
         super().__init__(parent=parent)
         self.draw_mode = False
-        self.draw_line_coefficient = 0.
+        self.line_width = 1
 
         self.setMouseTracking(True)
 
@@ -47,9 +48,8 @@ class MatrixWidget(QWidget):
         self.update()
 
     def set_draw_line_coefficient(self, draw_line_coefficient: float):
-        self.draw_line_coefficient = min(1., max(0., draw_line_coefficient))
-        self.draw_line_coefficient = 1 / MatrixWidget.MAX_WIDTH + self.draw_line_coefficient * (
-                    1 - 1 / MatrixWidget.MAX_WIDTH)
+        draw_line_coefficient = min(1., max(0., draw_line_coefficient))
+        self.line_width = MatrixWidget.MIN_WIDTH + (MatrixWidget.MAX_WIDTH - MatrixWidget.MIN_WIDTH) * draw_line_coefficient
 
     def set_draw_mode(self, draw_mode: bool) -> None:
         self.draw_mode = draw_mode
@@ -105,9 +105,18 @@ class MatrixWidget(QWidget):
                 self.pictureChanged.emit()
 
     def draw_point_in_coords(self, i: int, j: int):
-        width = MatrixWidget.MAX_WIDTH * self.draw_line_coefficient
+        width = self.line_width
         self.set_color(i, j, MatrixWidget.MAX_BRIGHTNESS)
-        print(width)
+
+        temp1 = int(self.line_width) // 2
+        temp2 = (int(self.line_width) + 1) // 2
+        for i1 in range(max(0, i - temp2), min(self.rows, i + temp2 + 1)):
+            for j1 in range(max(0, j - temp2), min(self.rows, j + temp2 + 1)):
+                delta_i = abs(i - i1)
+                delta_j = abs(j - j1)
+                color = int(MatrixWidget.MIN_BRIGHTNESS + (MatrixWidget.MAX_BRIGHTNESS - MatrixWidget.MIN_BRIGHTNESS) * min(
+                    1, self.line_width - delta_i - delta_j))
+                self.set_color(i1, j1, color)
 
     def get_indexes_by_coords(self, x: int, y: int):
         i = int(x // self.button_width)
