@@ -7,7 +7,8 @@ from AppFiles.AppInterfaceClasses.MainWindow.MainWindowResponder import MainWind
 from AppFiles.AppInterfaceClasses.MainWindow.SubsidiaryClasses.NeuronWidget import NeuronWidget
 
 import AppFiles.AppInterfaceClasses.MainAppInterface as MainAppInterface
-import AppFiles.AppInterfaceClasses.MainWindow.ModeWindows.AutoTrainingModeWindow.AutoTrainingModeWindow as TrainingModeWindow
+import \
+    AppFiles.AppInterfaceClasses.MainWindow.ModeWindows.AutoTrainingModeWindow.AutoTrainingModeWindow as TrainingModeWindow
 import AppFiles.AppInterfaceClasses.MainWindow.ModeWindows.ManualTestingModeWindow.ManualTestingModeWiindow as \
     ManualTestingModeWindow
 import AppFiles.AppInterfaceClasses.MainWindow.ModeWindows.AutoTestingModeWindow.AutoTestingModeWindow as \
@@ -134,11 +135,12 @@ class MainWindow(QMainWindow):
         self.neural_network_answer_label.setAlignment(Qt.AlignCenter)
 
         font_size = int(self.height // 4 * MainWindow.REL_HEIGHT)
-        self.neural_network_answer_label.setStyleSheet(f"font-size: {font_size}px;")
+        self.neural_network_answer_label.setStyleSheet(f"font-size: {font_size}px; color: rgb(0, 0, 0)")
 
     def add_mode_buttons_and_outlines(self):
         self.modes_buttons = dict(
-            [(mode, QPushButton(parent=self)) for mode in ["Automatic training", "Automatic testing", "Manual testing"]])
+            [(mode, QPushButton(parent=self)) for mode in
+             ["Automatic training", "Automatic testing", "Manual testing"]])
         self.outlines_for_modes_buttons = dict(
             [(mode, QLabel(parent=self)) for mode in ["Automatic training", "Automatic testing", "Manual testing"]])
 
@@ -161,7 +163,8 @@ class MainWindow(QMainWindow):
             self.outlines_for_modes_buttons[key].move(self.width * 0.01, top + step * i)
             self.outlines_for_modes_buttons[key].resize(width, step)
 
-            self.modes_buttons[key].setStyleSheet(f"border: 0px solid black; font-size: {font_size}px;")
+            self.modes_buttons[key].setStyleSheet(
+                f"border: 0px solid black; font-size: {font_size}px; color: rgb(0, 0, 0)")
 
     def add_neuron_widgets_and_digit_labels(self):
         self.neuron_widgets = [NeuronWidget(parent=self) for _ in range(MainWindow.OUTPUTS)]
@@ -183,12 +186,12 @@ class MainWindow(QMainWindow):
                                        top_y + step * i)
 
             font_size1 = int(self.height // 20 * MainWindow.REL_HEIGHT)
-            self.arrows_labels[i].setStyleSheet(f"font-size: {font_size1}px")
+            self.arrows_labels[i].setStyleSheet(f"font-size: {font_size1}px; color: rgb(0, 0, 0)")
             self.arrows_labels[i].resize(2 * radius, 2 * radius)
             self.arrows_labels[i].setAlignment(Qt.AlignCenter)
 
             font_size2 = int(self.height // 15 * MainWindow.REL_HEIGHT)
-            self.digit_labels[i].setStyleSheet(f"font-size: {font_size2}px")
+            self.digit_labels[i].setStyleSheet(f"font-size: {font_size2}px; color: rgb(0, 0, 0)")
             self.digit_labels[i].resize(radius, 2 * radius)
             self.digit_labels[i].setAlignment(Qt.AlignCenter)
 
@@ -202,7 +205,7 @@ class MainWindow(QMainWindow):
         self.neural_network_answer_text_label.resize(self.width // 2 - matrix_width // 2, self.height // 10)
         self.neural_network_answer_text_label.setAlignment(Qt.AlignCenter)
         font_size = int(self.height // 20 * MainWindow.REL_HEIGHT)
-        self.neural_network_answer_text_label.setStyleSheet(f"font-size: {font_size}px")
+        self.neural_network_answer_text_label.setStyleSheet(f"font-size: {font_size}px; color: rgb(0, 0, 0)")
 
     def add_next_button(self):
         self.next_button = QPushButton(parent=self, text="Next")
@@ -220,7 +223,7 @@ class MainWindow(QMainWindow):
 
         self.digit_label.setAlignment(Qt.AlignCenter)
         font_size = int(self.height // 10 * MainWindow.REL_HEIGHT)
-        self.digit_label.setStyleSheet(f"font-size: {font_size}px; border: 1px solid black")
+        self.digit_label.setStyleSheet(f"font-size: {font_size}px; border: 1px solid black; color: rgb(0, 0, 0)")
         self.digit_label.move(self.width // 2 - matrix_width // 2,
                               self.height // 2 + matrix_height // 2 + self.height // 15)
         self.digit_label.resize(matrix_width, self.height // 10)
@@ -285,7 +288,7 @@ class MainWindow(QMainWindow):
                     self.height // 2 + self.switch_speed_slider.geometry().y() // 2)
         button.resize(self.switch_speed_slider.geometry().width() + self.width // 40, self.height // 20)
         font_size = int(self.height // 27 * MainWindow.REL_HEIGHT)
-        button.setStyleSheet(f"font-size: {font_size}px; background: rgb(235, 195, 80); border-radius: 5px")
+        button.setStyleSheet(f"font-size: {font_size}px; background: rgb(235, 195, 80); border-radius: 5px; color: rgb(0, 0, 0)")
 
     def set_up_slider_label(self, label: QLabel) -> None:
         label.setAlignment(Qt.AlignLeft | Qt.AlignCenter)
@@ -294,4 +297,4 @@ class MainWindow(QMainWindow):
         label.resize(self.switch_speed_slider.width() + self.width // 40, self.height // 20)
         font_size = int(self.height // 50 * MainWindow.REL_HEIGHT)
         label.setAlignment(Qt.AlignCenter)
-        label.setStyleSheet(f"font-size: {font_size}px; background-color: transparent")
+        label.setStyleSheet(f"font-size: {font_size}px; background-color: transparent; color: rgb(0, 0, 0)")

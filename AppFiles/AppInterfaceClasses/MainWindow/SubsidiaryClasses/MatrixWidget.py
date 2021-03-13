@@ -49,7 +49,8 @@ class MatrixWidget(QWidget):
 
     def set_draw_line_coefficient(self, draw_line_coefficient: float):
         draw_line_coefficient = min(1., max(0., draw_line_coefficient))
-        self.line_width = MatrixWidget.MIN_WIDTH + (MatrixWidget.MAX_WIDTH - MatrixWidget.MIN_WIDTH) * draw_line_coefficient
+        self.line_width = MatrixWidget.MIN_WIDTH + (
+                    MatrixWidget.MAX_WIDTH - MatrixWidget.MIN_WIDTH) * draw_line_coefficient
 
     def set_draw_mode(self, draw_mode: bool) -> None:
         self.draw_mode = draw_mode
@@ -71,7 +72,8 @@ class MatrixWidget(QWidget):
             for j in range(self.rows):
                 color = max(MatrixWidget.MIN_BRIGHTNESS, self.matrix[i][j])
                 self.matrix[i][j] = color
-                self.buttons[i][j].setStyleSheet(f"background-color: rgb{tuple([color for _ in range(3)])}")
+                self.buttons[i][j].setStyleSheet(
+                    f"background-color: rgb{tuple([color for _ in range(3)])}; border-color: rgb(0, 0, 0)")
 
     def set_matrix(self, matrix: np.array) -> None:
         self.cols = matrix.shape[0]
@@ -114,8 +116,9 @@ class MatrixWidget(QWidget):
             for j1 in range(max(0, j - temp2), min(self.rows, j + temp2 + 1)):
                 delta_i = abs(i - i1)
                 delta_j = abs(j - j1)
-                color = int(MatrixWidget.MIN_BRIGHTNESS + (MatrixWidget.MAX_BRIGHTNESS - MatrixWidget.MIN_BRIGHTNESS) * min(
-                    1, self.line_width - delta_i - delta_j))
+                color = int(
+                    MatrixWidget.MIN_BRIGHTNESS + (MatrixWidget.MAX_BRIGHTNESS - MatrixWidget.MIN_BRIGHTNESS) * min(
+                        1, self.line_width - delta_i - delta_j))
                 self.set_color(i1, j1, color)
 
     def get_indexes_by_coords(self, x: int, y: int):
