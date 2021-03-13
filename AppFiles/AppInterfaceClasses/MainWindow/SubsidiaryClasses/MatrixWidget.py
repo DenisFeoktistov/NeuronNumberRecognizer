@@ -8,6 +8,7 @@ from typing import Union
 class MatrixWidget(QWidget):
     MIN_BRIGHTNESS = 40
     MAX_BRIGHTNESS = 230
+    MAX_WIDTH = 3
     pictureChanged = QtCore.pyqtSignal()
 
     def __init__(self, parent: QMainWindow, x: int = 0, y: int = 0,
@@ -47,6 +48,8 @@ class MatrixWidget(QWidget):
 
     def set_draw_line_coefficient(self, draw_line_coefficient: float):
         self.draw_line_coefficient = min(1., max(0., draw_line_coefficient))
+        self.draw_line_coefficient = 1 / MatrixWidget.MAX_WIDTH + self.draw_line_coefficient * (
+                    1 - 1 / MatrixWidget.MAX_WIDTH)
 
     def set_draw_mode(self, draw_mode: bool) -> None:
         self.draw_mode = draw_mode
@@ -102,14 +105,9 @@ class MatrixWidget(QWidget):
                 self.pictureChanged.emit()
 
     def draw_point_in_coords(self, i: int, j: int):
-        delta = 2
-        for i1 in range(max(0, i - delta), min(self.rows, i + delta + 1)):
-            for j1 in range(max(0, j - delta), min(self.cols, j + delta + 1)):
-                delta_i = abs(i - i1)
-                delta_j = abs(j - j1)
-                brightness = int(
-                    MatrixWidget.MAX_BRIGHTNESS * (1 - ((delta_i ** 2 + delta_j ** 2) * 0.5) ** 0.15 * (1 - self.draw_line_coefficient))
-                self.set_color(i1, j1, brightness)
+        width = MatrixWidget.MAX_WIDTH * self.draw_line_coefficient
+        self.set_color(i, j, MatrixWidget.MAX_BRIGHTNESS)
+        print(width)
 
     def get_indexes_by_coords(self, x: int, y: int):
         i = int(x // self.button_width)
