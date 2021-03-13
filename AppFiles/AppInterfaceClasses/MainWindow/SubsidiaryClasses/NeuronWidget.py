@@ -41,7 +41,7 @@ class NeuronWidget:
         self.label.resize(self.radius, self.radius)
         self.move(self.x, self.y)
         font_size = int(self.radius / 2)
-        self.label.setStyleSheet(f"font-size: {font_size}px; background: transparent")
+        self.label.setStyleSheet(f"font-size: {font_size}px; background: transparent; color: rgb(0, 0, 0)")
 
     def set_value(self, value: Union[int, float]) -> None:
         self.value = min(1, max(0, value))
