@@ -10,6 +10,3 @@ class MainAppInterface:
 
     def set_up(self) -> None:
         self.main_window.set_up()
-
-    def start(self) -> None:
-        self.main_window.show()
