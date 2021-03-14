@@ -27,7 +27,8 @@ class MainScrollArea(QScrollArea):
     @staticmethod
     def set_up_widget(widget: QWidget):
         widget.setFixedHeight(100)
-        widget.setStyleSheet("border: 3px solid black; border-radius: 10px; font-size: 20px; font-weight: 500")
+        widget.setStyleSheet(
+            "border: 3px solid black; border-radius: 10px; font-size: 20px; font-weight: 500; background: rgb(150, 150, 150)")
 
 
 class SelectNetworkWindow(QMainWindow):
@@ -45,9 +46,10 @@ class SelectNetworkWindow(QMainWindow):
 
         self.set_up_window()
         self.set_up_scroll_area()
+        self.add_new_button()
 
         # test
-        for i in range(50):
+        for i in range(5):
             button = QPushButton()
             button.setText(str(i) + "\n" + str(i + 1))
             button.resize(self.width * 7 // 10, 50)
@@ -62,7 +64,7 @@ class SelectNetworkWindow(QMainWindow):
         self.setStyleSheet('background : rgb(170, 170, 170)')
 
     def set_up_scroll_area(self) -> None:
-        self.scroll_area.setFixedSize(self.width * 8 // 10, self.height * 9 // 10)
+        self.scroll_area.setFixedSize(self.width * 8 // 10, self.height * 8 // 10)
         self.scroll_area.move(self.width // 10, self.height // 20)
         self.scroll_area.setWidgetResizable(True)
         self.scroll_area.setViewportMargins(10, 0, 30, 0)
@@ -78,3 +80,14 @@ class SelectNetworkWindow(QMainWindow):
                                     border-radius: 5px;
                                 }
                                 """)
+
+    def add_new_button(self):
+        self.new_button = QPushButton(parent=self, text="Add new network")
+        self.new_button.resize(self.width // 2, self.height // 10)
+        self.new_button.move(self.width // 2 - self.new_button.width() // 2,
+                             self.height * 39 // 40 - self.new_button.height())
+        font_size = self.height // 20
+        self.new_button.setStyleSheet(
+            f"font-size: {font_size}px; background: rgb(235, 195, 80); border: 2px solid black; "
+            f"border-radius: 5px; color: rgb(0, 0, 0)")
+
