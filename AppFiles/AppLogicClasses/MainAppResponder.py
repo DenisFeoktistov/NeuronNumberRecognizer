@@ -26,6 +26,7 @@ class MainAppResponder:
             self.set_auto_training_mode)
 
     def start(self) -> None:
+        self.app.main_app_interface.main_window.show()
         self.set_auto_training_mode()
 
     def set_auto_testing_mode(self) -> None:

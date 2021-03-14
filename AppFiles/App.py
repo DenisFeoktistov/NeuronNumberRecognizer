@@ -22,5 +22,4 @@ class App(QApplication):
         self.main_app_responder.set_up()
 
     def start(self) -> None:
-        self.main_app_interface.start()
         self.main_app_responder.start()
