@@ -24,6 +24,10 @@ class MainWindowResponder:
         self.window.line_width_slider.setMinimum(MainWindowResponder.MIN_VALUE)
         self.window.line_width_slider.setValue(MainWindowResponder.WIDTH_INIT_VALUE)
 
+        # test
+        self.window.set_name("Main_network")
+        self.window.set_iterations(1543)
+
     def get_switch_speed_coefficient(self) -> float:
         return (self.window.switch_speed_slider.value() / (
                 MainWindowResponder.MAX_VALUE - MainWindowResponder.MIN_VALUE)) ** 0.5

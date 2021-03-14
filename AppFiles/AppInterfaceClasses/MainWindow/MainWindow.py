@@ -1,6 +1,7 @@
 from __future__ import annotations
-from PyQt5.QtWidgets import QMainWindow, QSlider, QLabel, QPushButton
+from PyQt5.QtWidgets import QMainWindow, QSlider, QLabel, QPushButton, QGraphicsDropShadowEffect
 from PyQt5.QtCore import Qt
+from PyQt5.QtGui import QColor
 
 from AppFiles.AppInterfaceClasses.MainWindow.SubsidiaryClasses.MatrixWidget import MatrixWidget
 from AppFiles.AppInterfaceClasses.MainWindow.MainWindowResponder import MainWindowResponder
@@ -113,6 +114,44 @@ class MainWindow(QMainWindow):
         self.add_mode_buttons_and_outlines()
 
         self.add_neural_network_answer_label()
+
+        self.add_neural_network_info()
+
+    def add_neural_network_info(self):
+        self.add_name_label()
+        self.add_iterations_label()
+
+    def add_name_label(self):
+        self.name_text_label = QLabel(parent=self, text="Network name: ")
+        font_size = int(self.height // 50)
+        self.name_text_label.move(self.width // 100, self.height // 20)
+        self.name_text_label.resize(self.width // 12, self.height // 18)
+        self.name_text_label.setStyleSheet(f"font-size: {font_size}px")
+
+        self.name_label = QLabel(parent=self)
+        self.name_label.move(self.name_text_label.x() + self.name_text_label.width(), self.name_text_label.y())
+        self.name_label.resize(self.width // 12, self.height // 18)
+        self.name_label.setStyleSheet(f"font-size: {font_size}px; font-weight: 900")
+
+    def set_name(self, name):
+        self.name_label.setText(str(name))
+
+    def set_iterations(self, iterations):
+        self.iterations_label.setText(str(iterations))
+
+    def add_iterations_label(self):
+        self.iterations_text_label = QLabel(parent=self, text="Total iterations: ")
+        font_size = int(self.height // 50)
+        self.iterations_text_label.move(self.name_text_label.x(), self.name_text_label.y() + self.name_text_label.height())
+        self.iterations_text_label.resize(self.name_text_label.width(), self.name_text_label.height())
+        self.iterations_text_label.setStyleSheet(f"font-size: {font_size}px")
+
+        self.iterations_label = QLabel(parent=self)
+        font_size = int(self.height // 50)
+        self.iterations_label.move(self.iterations_text_label.x() + self.iterations_text_label.width(),
+                                        self.iterations_text_label.y())
+        self.iterations_label.resize(self.iterations_text_label.width(), self.iterations_text_label.height())
+        self.iterations_label.setStyleSheet(f"font-size: {font_size}px; font-weight: 900")
 
     def add_switch_speed_slider(self):
         self.switch_speed_slider = QSlider(orientation=Qt.Vertical, parent=self)
@@ -298,3 +337,4 @@ class MainWindow(QMainWindow):
         font_size = int(self.height // 50 * MainWindow.REL_HEIGHT)
         label.setAlignment(Qt.AlignCenter)
         label.setStyleSheet(f"font-size: {font_size}px; background-color: transparent; color: rgb(0, 0, 0)")
+
