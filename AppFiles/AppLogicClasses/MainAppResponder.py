@@ -26,7 +26,7 @@ class MainAppResponder:
             self.set_auto_training_mode)
 
     def start(self) -> None:
-        self.app.main_app_interface.add_new_network_window.show()
+        self.app.main_app_interface.select_network_window.show()
 
     def set_auto_testing_mode(self) -> None:
         self.auto_training_mode_responder.close()
@@ -45,3 +45,11 @@ class MainAppResponder:
         self.auto_training_mode_responder.close()
 
         self.manual_testing_mode_responder.start()
+
+    def finish_adding_new_network(self) -> None:
+        self.app.main_app_interface.add_new_network_window.close()
+        self.app.main_app_interface.select_network_window.show()
+
+    def add_new_network(self):
+        self.app.main_app_interface.select_network_window.close()
+        self.app.main_app_interface.add_new_network_window.show()

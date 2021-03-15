@@ -1,7 +1,9 @@
 from __future__ import annotations
+
 from PyQt5.QtWidgets import QMainWindow, QScrollArea, QPushButton, QWidget, QVBoxLayout, QScrollBar, QLineEdit
 from PyQt5.QtCore import Qt
 import AppFiles.AppInterfaceClasses.MainAppInterface as MainAppInterface
+import AppFiles.AppInterfaceClasses.StartWindows.AddNewNetworkWindow.AddNewNetworkWindowResponder as AddNewNetworkWindowResponder
 
 
 class AddNewNetworkWindow(QMainWindow):
@@ -11,6 +13,7 @@ class AddNewNetworkWindow(QMainWindow):
         super().__init__()
 
         self.main_app_interface = main_app_interface
+        self.responder = AddNewNetworkWindowResponder.AddNewNetworkWindowResponder(self)
 
         self.width = int(self.main_app_interface.app.user_screen_geometry.width() * AddNewNetworkWindow.REL_WIDTH)
         self.height = int(self.main_app_interface.app.user_screen_geometry.height() * AddNewNetworkWindow.REL_HEIGHT)
@@ -18,6 +21,9 @@ class AddNewNetworkWindow(QMainWindow):
         self.set_up_window()
         self.add_name_line()
         self.add_create_button()
+
+    def set_up(self):
+        self.create_button.clicked.connect(self.responder.add_network)
 
     def set_up_window(self) -> None:
         self.setFixedSize(self.width, self.height)
@@ -44,3 +50,6 @@ class AddNewNetworkWindow(QMainWindow):
         self.create_button.setStyleSheet(
             f"font-size: {font_size}px; background: rgb(235, 195, 80); border: 2px solid black; "
             f"border-radius: 5px; color: rgb(0, 0, 0)")
+
+    def set_error(self):
+        self.name_line.setText("Incorrect name!")

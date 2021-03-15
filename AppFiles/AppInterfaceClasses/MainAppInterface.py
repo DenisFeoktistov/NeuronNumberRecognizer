@@ -14,3 +14,5 @@ class MainAppInterface:
 
     def set_up(self) -> None:
         self.main_window.set_up()
+        self.select_network_window.set_up()
+        self.add_new_network_window.set_up()

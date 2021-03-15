@@ -56,6 +56,9 @@ class SelectNetworkWindow(QMainWindow):
 
             self.scroll_area.add_widget(button)
 
+    def set_up(self):
+        self.new_button.clicked.connect(self.main_app_interface.app.main_app_responder.add_new_network)
+
     def set_up_window(self) -> None:
         self.setFixedSize(self.width, self.height)
         self.move(self.main_app_interface.app.user_screen_geometry.width() * (1 - SelectNetworkWindow.REL_WIDTH) / 2,
