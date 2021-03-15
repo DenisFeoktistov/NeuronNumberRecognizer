@@ -1,6 +1,7 @@
 from __future__ import annotations
 from SubsidiaryFiles.MNISTDataReader import MnistDigitInfo
 import AppFiles.AppInterfaceClasses.MainWindow.MainWindow as MainWindow
+from SubsidiaryFiles.Network import get_info_by_name
 
 
 class MainWindowResponder:
@@ -11,6 +12,11 @@ class MainWindowResponder:
 
     def __init__(self, window: MainWindow.MainWindow) -> None:
         self.window = window
+
+    def show(self, name: str):
+        info = get_info_by_name(name)
+        self.window.set_name(info["name"])
+        self.window.set_iterations(info["iterations"])
 
     def set_up(self) -> None:
         pass

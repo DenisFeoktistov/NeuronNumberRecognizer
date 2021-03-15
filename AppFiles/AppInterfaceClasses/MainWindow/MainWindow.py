@@ -60,6 +60,10 @@ class MainWindow(QMainWindow):
             label.setVisible(False)
         self.responder.finish_init()
 
+    def show(self, name: str) -> None:
+        super().show()
+        self.responder.show(name)
+
     def set_up(self) -> None:
         self.auto_training_mode_window.set_up()
         self.auto_testing_mode_window.set_up()
@@ -336,4 +340,3 @@ class MainWindow(QMainWindow):
         font_size = self.height // 60
         label.setAlignment(Qt.AlignCenter)
         label.setStyleSheet(f"font-size: {font_size}px; background-color: transparent; color: rgb(0, 0, 0)")
-

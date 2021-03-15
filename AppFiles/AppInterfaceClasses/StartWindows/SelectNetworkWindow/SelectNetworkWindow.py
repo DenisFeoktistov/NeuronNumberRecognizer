@@ -77,6 +77,10 @@ class SelectNetworkWindow(QMainWindow):
                                            height=self.height // 10,
                                            width=self.width)
             self.scroll_area.add_widget(new_widget)
+            new_widget.clicked.connect(self.select_event)
+
+    def select_event(self) -> None:
+        self.main_app_interface.app.main_app_responder.select_network_event(self.sender().name)
 
 
 class MainScrollArea(QScrollArea):
