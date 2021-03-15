@@ -1,7 +1,32 @@
 from __future__ import annotations
-from PyQt5.QtWidgets import QMainWindow, QScrollArea, QPushButton, QWidget, QVBoxLayout, QScrollBar
+from PyQt5.QtWidgets import QMainWindow, QScrollArea, QPushButton, QWidget, QVBoxLayout, QScrollBar, QLabel
+from PyQt5.QtCore import Qt
 
 import AppFiles.AppInterfaceClasses.MainAppInterface as MainAppInterface
+from AppFiles.AppLogicClasses.SubsidiaryFiles.Network import get_info
+
+
+class NetworkInfoButton(QPushButton):
+    def __init__(self, parent: QWidget, name: str, iterations: int, height: int, width: int):
+        super().__init__()
+        self.parent = parent
+
+        self.name = name
+        self.iterations = iterations
+        self.width = width
+        self.height = height
+
+        self.setText(f"Name: {self.name}\n"
+                     f"Iterations: {self.iterations}")
+        self.resize(self.width, self.height)
+
+    def resize(self, width: int, height: int) -> None:
+        self.width = width
+        self.height = height
+        super().resize(self.width, self.height)
+
+        font_size = self.height // 5
+        self.setStyleSheet(f"font-size: {font_size}px")
 
 
 class Container(QWidget):
@@ -13,6 +38,10 @@ class Container(QWidget):
         widget.setParent(self)
         self.layout().addWidget(widget)
 
+    def clear(self):
+        for i in reversed(range(self.layout().count())):
+            self.layout().itemAt(i).widget().setParent(None)
+
 
 class MainScrollArea(QScrollArea):
     def __init__(self, parent: QMainWindow):
@@ -23,6 +52,9 @@ class MainScrollArea(QScrollArea):
     def add_widget(self, widget: QWidget):
         self.set_up_widget(widget)
         self.container.add_widget(widget)
+
+    def clear(self):
+        self.container.clear()
 
     @staticmethod
     def set_up_widget(widget: QWidget):
@@ -48,13 +80,15 @@ class SelectNetworkWindow(QMainWindow):
         self.set_up_scroll_area()
         self.add_new_button()
 
-        # test
-        for i in range(5):
-            button = QPushButton()
-            button.setText(str(i) + "\n" + str(i + 1))
-            button.resize(self.width * 7 // 10, 50)
+        self.add_widgets()
 
-            self.scroll_area.add_widget(button)
+    def show(self) -> None:
+        super().show()
+        self.clear()
+        self.add_widgets()
+
+    def clear(self):
+        self.scroll_area.clear()
 
     def set_up(self):
         self.new_button.clicked.connect(self.main_app_interface.app.main_app_responder.add_new_network)
@@ -79,7 +113,7 @@ class SelectNetworkWindow(QMainWindow):
                                 }
                                 QScrollBar::handle {
                                     background: rgb(235, 195, 80);
-                                    border: 2px solid rgb(70, 70, 70);
+                                    border: 3px solid rgb(70, 70, 70);
                                     border-radius: 5px;
                                 }
                                 """)
@@ -94,3 +128,9 @@ class SelectNetworkWindow(QMainWindow):
             f"font-size: {font_size}px; background: rgb(235, 195, 80); border: 2px solid black; "
             f"border-radius: 5px; color: rgb(0, 0, 0)")
 
+    def add_widgets(self):
+        for d in get_info():
+            new_widget = NetworkInfoButton(parent=self, name=d["name"], iterations=d["iterations"],
+                                           height=self.height // 10,
+                                           width=self.width)
+            self.scroll_area.add_widget(new_widget)
