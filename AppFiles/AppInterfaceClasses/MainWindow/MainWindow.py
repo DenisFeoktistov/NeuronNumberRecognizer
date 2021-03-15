@@ -1,11 +1,11 @@
 from __future__ import annotations
-from PyQt5.QtWidgets import QMainWindow, QSlider, QLabel, QPushButton, QGraphicsDropShadowEffect
+from PyQt5.QtWidgets import QMainWindow, QSlider, QLabel, QPushButton
 from PyQt5.QtCore import Qt
 from typing import Any
 
-from AppFiles.AppInterfaceClasses.MainWindow.SubsidiaryClasses.MatrixWidget import MatrixWidget
+from SubsidiaryFiles.MatrixWidget import MatrixWidget
 from AppFiles.AppInterfaceClasses.MainWindow.MainWindowResponder import MainWindowResponder
-from AppFiles.AppInterfaceClasses.MainWindow.SubsidiaryClasses.NeuronWidget import NeuronWidget
+from SubsidiaryFiles.NeuronWidget import NeuronWidget
 
 import AppFiles.AppInterfaceClasses.MainAppInterface as MainAppInterface
 import \

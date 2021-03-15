@@ -1,9 +1,8 @@
 from __future__ import annotations
-from PyQt5.QtWidgets import QMainWindow, QScrollArea, QPushButton, QWidget, QVBoxLayout, QScrollBar, QLabel
-from PyQt5.QtCore import Qt
+from PyQt5.QtWidgets import QMainWindow, QScrollArea, QPushButton, QWidget, QVBoxLayout
 
 import AppFiles.AppInterfaceClasses.MainAppInterface as MainAppInterface
-from AppFiles.AppLogicClasses.SubsidiaryFiles.Network import get_info
+from SubsidiaryFiles.Network import get_info
 
 
 class NetworkInfoButton(QPushButton):

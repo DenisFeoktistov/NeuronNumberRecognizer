@@ -1,5 +1,5 @@
 from __future__ import annotations
-from AppFiles.AppLogicClasses.SubsidiaryFiles.MNISTDataReader import MnistDigitInfo
+from SubsidiaryFiles.MNISTDataReader import MnistDigitInfo
 import AppFiles.AppInterfaceClasses.MainWindow.MainWindow as MainWindow
 
 
