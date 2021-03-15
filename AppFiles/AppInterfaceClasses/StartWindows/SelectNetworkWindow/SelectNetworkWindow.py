@@ -5,63 +5,6 @@ import AppFiles.AppInterfaceClasses.MainAppInterface as MainAppInterface
 from SubsidiaryFiles.Network import get_info
 
 
-class NetworkInfoButton(QPushButton):
-    def __init__(self, parent: QWidget, name: str, iterations: int, height: int, width: int):
-        super().__init__()
-        self.parent = parent
-
-        self.name = name
-        self.iterations = iterations
-        self.width = width
-        self.height = height
-
-        self.setText(f"Name: {self.name}\n"
-                     f"Iterations: {self.iterations}")
-        self.resize(self.width, self.height)
-
-    def resize(self, width: int, height: int) -> None:
-        self.width = width
-        self.height = height
-        super().resize(self.width, self.height)
-
-        font_size = self.height // 5
-        self.setStyleSheet(f"font-size: {font_size}px")
-
-
-class Container(QWidget):
-    def __init__(self):
-        super().__init__()
-        self.setLayout(QVBoxLayout())
-
-    def add_widget(self, widget: QWidget):
-        widget.setParent(self)
-        self.layout().addWidget(widget)
-
-    def clear(self):
-        for i in reversed(range(self.layout().count())):
-            self.layout().itemAt(i).widget().setParent(None)
-
-
-class MainScrollArea(QScrollArea):
-    def __init__(self, parent: QMainWindow):
-        super().__init__(parent=parent)
-        self.container = Container()
-        self.setWidget(self.container)
-
-    def add_widget(self, widget: QWidget):
-        self.set_up_widget(widget)
-        self.container.add_widget(widget)
-
-    def clear(self):
-        self.container.clear()
-
-    @staticmethod
-    def set_up_widget(widget: QWidget):
-        widget.setFixedHeight(100)
-        widget.setStyleSheet(
-            "border: 3px solid black; border-radius: 10px; font-size: 20px; font-weight: 500; background: rgb(150, 150, 150)")
-
-
 class SelectNetworkWindow(QMainWindow):
     REL_WIDTH, REL_HEIGHT = 0.3, 0.5
 
@@ -83,14 +26,15 @@ class SelectNetworkWindow(QMainWindow):
 
     def show(self) -> None:
         super().show()
+
         self.clear()
         self.add_widgets()
 
-    def clear(self):
+    def clear(self) -> None:
         self.scroll_area.clear()
 
-    def set_up(self):
-        self.new_button.clicked.connect(self.main_app_interface.app.main_app_responder.add_new_network)
+    def set_up(self) -> None:
+        self.new_button.clicked.connect(self.main_app_interface.app.main_app_responder.add_new_network_start)
 
     def set_up_window(self) -> None:
         self.setFixedSize(self.width, self.height)
@@ -117,7 +61,7 @@ class SelectNetworkWindow(QMainWindow):
                                 }
                                 """)
 
-    def add_new_button(self):
+    def add_new_button(self) -> None:
         self.new_button = QPushButton(parent=self, text="Add new network")
         self.new_button.resize(self.width // 2, self.height // 10)
         self.new_button.move(self.width // 2 - self.new_button.width() // 2,
@@ -127,9 +71,65 @@ class SelectNetworkWindow(QMainWindow):
             f"font-size: {font_size}px; background: rgb(235, 195, 80); border: 2px solid black; "
             f"border-radius: 5px; color: rgb(0, 0, 0)")
 
-    def add_widgets(self):
+    def add_widgets(self) -> None:
         for d in get_info():
-            new_widget = NetworkInfoButton(parent=self, name=d["name"], iterations=d["iterations"],
+            new_widget = NetworkInfoButton(name=d["name"], iterations=d["iterations"],
                                            height=self.height // 10,
                                            width=self.width)
             self.scroll_area.add_widget(new_widget)
+
+
+class MainScrollArea(QScrollArea):
+    def __init__(self, parent: QMainWindow) -> None:
+        super().__init__(parent=parent)
+        self.container = Container()
+        self.setWidget(self.container)
+
+    def add_widget(self, widget: QWidget) -> None:
+        self.set_up_widget(widget)
+        self.container.add_widget(widget)
+
+    def clear(self) -> None:
+        self.container.clear()
+
+    @staticmethod
+    def set_up_widget(widget: QWidget) -> None:
+        widget.setFixedHeight(100)
+        widget.setStyleSheet(
+            "border: 3px solid black; border-radius: 10px; font-size: 20px; font-weight: 500; background: rgb(150, 150, 150)")
+
+
+class Container(QWidget):
+    def __init__(self) -> None:
+        super().__init__()
+        self.setLayout(QVBoxLayout())
+
+    def add_widget(self, widget: QWidget) -> None:
+        widget.setParent(self)
+        self.layout().addWidget(widget)
+
+    def clear(self) -> None:
+        for i in reversed(range(self.layout().count())):
+            self.layout().itemAt(i).widget().setParent(None)
+
+
+class NetworkInfoButton(QPushButton):
+    def __init__(self, name: str, iterations: int, height: int, width: int) -> None:
+        super().__init__()
+
+        self.name = name
+        self.iterations = iterations
+        self.width = width
+        self.height = height
+
+        self.setText(f"Name: {self.name}\n"
+                     f"Iterations: {self.iterations}")
+        self.resize(self.width, self.height)
+
+    def resize(self, width: int, height: int) -> None:
+        self.width = width
+        self.height = height
+        super().resize(self.width, self.height)
+
+        font_size = self.height // 5
+        self.setStyleSheet(f"font-size: {font_size}px")

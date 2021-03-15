@@ -12,7 +12,7 @@ class ManualTestingModeResponder:
         self.main_app_responder.app.main_app_interface.main_window.matrix_widget.clear()
         self.main_app_responder.app.main_app_interface.main_window.matrix_widget.set_draw_mode(True)
 
-    def clear_matrix(self):
+    def clear_matrix(self) -> None:
         self.main_app_responder.app.main_app_interface.main_window.matrix_widget.clear()
 
     def set_up(self) -> None:

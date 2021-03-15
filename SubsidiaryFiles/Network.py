@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Dict
 import os
 from random import randint
 
@@ -8,7 +8,7 @@ def add_new_network(name: str) -> None:
         pass
 
 
-def get_info() -> list:
+def get_info() -> List[Dict]:
     res = list()
     for file in os.listdir("./data/networks"):
         if file.endswith(".json"):

@@ -46,10 +46,10 @@ class MainAppResponder:
 
         self.manual_testing_mode_responder.start()
 
-    def finish_adding_new_network(self) -> None:
+    def add_new_network_finish(self) -> None:
         self.app.main_app_interface.add_new_network_window.close()
         self.app.main_app_interface.select_network_window.show()
 
-    def add_new_network(self):
+    def add_new_network_start(self) -> None:
         self.app.main_app_interface.select_network_window.close()
         self.app.main_app_interface.add_new_network_window.show()

@@ -22,7 +22,7 @@ class AddNewNetworkWindow(QMainWindow):
         self.add_name_line()
         self.add_create_button()
 
-    def set_up(self):
+    def set_up(self) -> None:
         self.create_button.clicked.connect(self.responder.add_network)
 
     def set_up_window(self) -> None:
@@ -32,7 +32,7 @@ class AddNewNetworkWindow(QMainWindow):
         self.setWindowTitle('Add new network')
         self.setStyleSheet('background : rgb(170, 170, 170)')
 
-    def add_name_line(self):
+    def add_name_line(self) -> None:
         self.name_line = QLineEdit(parent=self)
         self.name_line.resize(self.width * 3 // 4, self.height // 3)
         self.name_line.move(self.width // 2 - self.name_line.width() // 2, self.height // 8)
@@ -41,7 +41,7 @@ class AddNewNetworkWindow(QMainWindow):
             f"border: 3px solid black; font-size: {font_size}px; background: rgb(190, 190, 190);")
         self.name_line.setAttribute(Qt.WA_MacShowFocusRect, False)
 
-    def add_create_button(self):
+    def add_create_button(self) -> None:
         self.create_button = QPushButton(parent=self, text="Add new network")
         self.create_button.resize(self.width // 2, self.height // 3)
         self.create_button.move(self.width // 2 - self.create_button.width() // 2,
@@ -51,5 +51,5 @@ class AddNewNetworkWindow(QMainWindow):
             f"font-size: {font_size}px; background: rgb(235, 195, 80); border: 2px solid black; "
             f"border-radius: 5px; color: rgb(0, 0, 0)")
 
-    def set_error(self):
+    def set_error(self) -> None:
         self.name_line.setText("Incorrect name!")
