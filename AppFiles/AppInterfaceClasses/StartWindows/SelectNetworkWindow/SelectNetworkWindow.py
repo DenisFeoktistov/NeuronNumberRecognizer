@@ -100,7 +100,7 @@ class MainScrollArea(QScrollArea):
     def set_up_widget(widget: QWidget) -> None:
         widget.setFixedHeight(100)
         widget.setStyleSheet(
-            "border: 3px solid black; border-radius: 10px; font-size: 20px; font-weight: 500; background: rgb(150, 150, 150)")
+            "border: 3px solid black; border-radius: 10px; font-size: 20px; font-weight: 700; background: rgb(150, 150, 150); color: black")
 
 
 class Container(QWidget):
@@ -136,4 +136,4 @@ class NetworkInfoButton(QPushButton):
         super().resize(self.width, self.height)
 
         font_size = self.height // 5
-        self.setStyleSheet(f"font-size: {font_size}px")
+        self.setStyleSheet(f"font-size: {font_size}px; color: black")

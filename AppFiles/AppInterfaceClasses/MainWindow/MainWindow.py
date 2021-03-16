@@ -131,12 +131,12 @@ class MainWindow(QMainWindow):
         font_size = self.height // 50
         self.name_text_label.move(self.width // 100, self.height // 20)
         self.name_text_label.resize(self.width // 12, self.height // 18)
-        self.name_text_label.setStyleSheet(f"font-size: {font_size}px")
+        self.name_text_label.setStyleSheet(f"font-size: {font_size}px; color: black")
 
         self.name_label = QLabel(parent=self)
         self.name_label.move(self.name_text_label.x() + self.name_text_label.width(), self.name_text_label.y())
         self.name_label.resize(self.width // 12, self.height // 18)
-        self.name_label.setStyleSheet(f"font-size: {font_size}px; font-weight: 900")
+        self.name_label.setStyleSheet(f"font-size: {font_size}px; color: black; font-weight: 900")
 
     def set_name(self, name: str) -> None:
         self.name_label.setText(str(name))
