@@ -16,7 +16,7 @@ class AddNewNetworkWindowResponder:
         for i in range(len(names)):
             if names[i].index(".") != -1:
                 names[i] = names[:names[i].index(".")]
-        if new_name not in names:
+        if new_name not in names and new_name != "":
             self.finish(new_name)
         else:
             self.window.set_error()
