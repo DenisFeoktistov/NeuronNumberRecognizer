@@ -1,6 +1,7 @@
 from __future__ import annotations
 from PyQt5.QtWidgets import QMainWindow, QSlider, QLabel, QPushButton
 from PyQt5.QtCore import Qt
+from PyQt5 import QtGui
 from typing import Any
 
 from SubsidiaryFiles.MatrixWidget import MatrixWidget
@@ -340,3 +341,6 @@ class MainWindow(QMainWindow):
         font_size = self.height // 60
         label.setAlignment(Qt.AlignCenter)
         label.setStyleSheet(f"font-size: {font_size}px; background-color: transparent; color: rgb(0, 0, 0)")
+
+    def closeEvent(self, e: QtGui.QCloseEvent) -> None:
+        self.responder.close()

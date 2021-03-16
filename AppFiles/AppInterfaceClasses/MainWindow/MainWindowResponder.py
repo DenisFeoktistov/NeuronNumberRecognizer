@@ -51,3 +51,6 @@ class MainWindowResponder:
             neuron_widget.set_value(answer[i])
 
         self.window.neural_network_answer_label.setText(str(answer.index(max(answer))))
+
+    def close(self) -> None:
+        self.window.main_app_interface.app.main_app_responder.close_main_window()
