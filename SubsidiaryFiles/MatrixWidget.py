@@ -11,7 +11,6 @@ class MatrixWidget(QWidget):
     MAX_WIDTH = 1.75
     MIN_WIDTH = 1.25
 
-    GAPS = 0
     pictureChanged = QtCore.pyqtSignal()
 
     def __init__(self, parent: QMainWindow, x: int = 0, y: int = 0,
@@ -30,8 +29,8 @@ class MatrixWidget(QWidget):
         self.cols = cols
         self.rows = rows
 
-        self.button_width = (self.width - MatrixWidget.GAPS * (self.cols - 1)) // self.cols
-        self.button_height = (self.height - MatrixWidget.GAPS * (self.rows - 1)) // self.rows
+        self.button_width = self.width // self.cols + 1
+        self.button_height = self.height // self.rows + 1
 
         self.matrix = np.array([[0] * self.cols for _ in range(self.rows)], dtype=np.uint8)
         self.buttons = np.array(
@@ -78,7 +77,7 @@ class MatrixWidget(QWidget):
                 color2 = MatrixWidget.MIN_BRIGHTNESS - 20
                 self.buttons[i][j].setStyleSheet(
                     f"background-color: rgb{tuple([color for _ in range(3)])}; "
-                    f"border: 2px solid rgb{tuple([color2] * 3)}")
+                    f"border: 1px solid rgb{tuple([color2] * 3)}")
 
     def set_matrix(self, matrix: np.array) -> None:
         self.cols = matrix.shape[0]
@@ -97,7 +96,7 @@ class MatrixWidget(QWidget):
             color = self.matrix[i][j]
             color2 = MatrixWidget.MIN_BRIGHTNESS - 20
             self.buttons[i][j].setStyleSheet(f"background: rgb{tuple([color] * 3)};"
-                                             f"border: 2px solid rgb{tuple([color2] * 3)}")
+                                             f"border: 1px solid rgb{tuple([color2] * 3)}")
 
     def mouseMoveEvent(self, e: QtGui.QMouseEvent) -> None:
         if self.draw_mode:
