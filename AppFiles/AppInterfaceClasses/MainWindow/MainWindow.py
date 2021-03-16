@@ -149,14 +149,14 @@ class MainWindow(QMainWindow):
         font_size = self.height // 50
         self.iterations_text_label.move(self.name_text_label.x(), self.name_text_label.y() + self.name_text_label.height())
         self.iterations_text_label.resize(self.name_text_label.width(), self.name_text_label.height())
-        self.iterations_text_label.setStyleSheet(f"font-size: {font_size}px")
+        self.iterations_text_label.setStyleSheet(f"font-size: {font_size}px; color: black")
 
         self.iterations_label = QLabel(parent=self)
         font_size = self.height // 50
         self.iterations_label.move(self.iterations_text_label.x() + self.iterations_text_label.width(),
                                         self.iterations_text_label.y())
         self.iterations_label.resize(self.iterations_text_label.width(), self.iterations_text_label.height())
-        self.iterations_label.setStyleSheet(f"font-size: {font_size}px; font-weight: 900")
+        self.iterations_label.setStyleSheet(f"font-size: {font_size}px; font-weight: 900; color: black")
 
     def add_switch_speed_slider(self) -> None:
         self.switch_speed_slider = QSlider(orientation=Qt.Vertical, parent=self)
