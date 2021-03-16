@@ -78,7 +78,7 @@ class MatrixWidget(QWidget):
                 color2 = MatrixWidget.MIN_BRIGHTNESS - 20
                 self.buttons[i][j].setStyleSheet(
                     f"background-color: rgb{tuple([color for _ in range(3)])}; "
-                    f"border: 1px solid rgb{tuple([color2] * 3)}")
+                    f"border: 2px solid rgb{tuple([color2] * 3)}")
 
     def set_matrix(self, matrix: np.array) -> None:
         self.cols = matrix.shape[0]
@@ -97,7 +97,7 @@ class MatrixWidget(QWidget):
             color = self.matrix[i][j]
             color2 = MatrixWidget.MIN_BRIGHTNESS - 20
             self.buttons[i][j].setStyleSheet(f"background: rgb{tuple([color] * 3)};"
-                                             f"border: 1px solid rgb{tuple([color2] * 3)}")
+                                             f"border: 2px solid rgb{tuple([color2] * 3)}")
 
     def mouseMoveEvent(self, e: QtGui.QMouseEvent) -> None:
         if self.draw_mode:
