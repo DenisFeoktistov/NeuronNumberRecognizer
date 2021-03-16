@@ -3,6 +3,7 @@ from PyQt5 import QtGui, QtCore
 import numpy as np
 from math import sqrt
 from typing import Union
+from SubsidiaryFiles.Constants import MATRIX_HEIGHT, MATRIX_WIDTH
 
 
 class MatrixWidget(QWidget):
@@ -14,8 +15,7 @@ class MatrixWidget(QWidget):
     pictureChanged = QtCore.pyqtSignal()
 
     def __init__(self, parent: QMainWindow, x: int = 0, y: int = 0,
-                 width: int = 300, height: int = 300, cols: int = 28,
-                 rows: int = 28, draw_mode: bool = False) -> None:
+                 width: int = 300, height: int = 300, draw_mode: bool = False) -> None:
         super().__init__(parent=parent)
         self.draw_mode = draw_mode
 
@@ -26,15 +26,13 @@ class MatrixWidget(QWidget):
         self.y = int(y)
         self.width = int(width)
         self.height = int(height)
-        self.cols = cols
-        self.rows = rows
 
-        self.button_width = self.width // self.cols + 1
-        self.button_height = self.height // self.rows + 1
+        self.button_width = self.width // MATRIX_WIDTH + 1
+        self.button_height = self.height // MATRIX_HEIGHT + 1
 
-        self.matrix = np.array([[0] * self.cols for _ in range(self.rows)], dtype=np.uint8)
+        self.matrix = np.array([[0] * MATRIX_WIDTH for _ in range(MATRIX_HEIGHT)], dtype=np.uint8)
         self.buttons = np.array(
-            [[QPushButton(parent=self.parent) for __ in range(self.cols)] for _ in range(self.rows)],
+            [[QPushButton(parent=self.parent) for __ in range(MATRIX_WIDTH)] for _ in range(MATRIX_HEIGHT)],
             dtype=QPushButton)
 
         for row in self.buttons:
@@ -59,9 +57,9 @@ class MatrixWidget(QWidget):
         self.x = x
         self.y = y
         super().move(x, y)
-        for i in range(self.cols):
-            for j in range(self.rows):
-                self.buttons[i][j].move(x + i * self.width // self.cols, y + j * self.height // self.rows)
+        for i in range(MATRIX_WIDTH):
+            for j in range(MATRIX_HEIGHT):
+                self.buttons[i][j].move(x + i * self.width // MATRIX_WIDTH, y + j * self.height // MATRIX_HEIGHT)
 
     def resize(self, width: int, height: int) -> None:
         super().resize(width, height)
@@ -70,8 +68,8 @@ class MatrixWidget(QWidget):
         self.move(self.x, self.y)  # yes, move also work as resizer
 
     def update(self) -> None:
-        for i in range(self.cols):
-            for j in range(self.rows):
+        for i in range(MATRIX_WIDTH):
+            for j in range(MATRIX_HEIGHT):
                 color = max(MatrixWidget.MIN_BRIGHTNESS, self.matrix[i][j])
                 self.matrix[i][j] = color
                 color2 = MatrixWidget.MIN_BRIGHTNESS - 20
@@ -80,18 +78,18 @@ class MatrixWidget(QWidget):
                     f"border: 1px solid rgb{tuple([color2] * 3)}")
 
     def set_matrix(self, matrix: np.array) -> None:
-        self.cols = matrix.shape[0]
-        self.rows = matrix.shape[1]
+        MATRIX_WIDTH = matrix.shape[0]
+        MATRIX_HEIGHT = matrix.shape[1]
 
         self.matrix = matrix
         self.update()
 
     def clear(self):
-        self.matrix = np.array([[0] * self.rows for _ in range(self.cols)], dtype=np.uint8)
+        self.matrix = np.array([[0] * MATRIX_HEIGHT for _ in range(MATRIX_WIDTH)], dtype=np.uint8)
         self.update()
 
     def set_color(self, i, j, color):
-        if 0 <= i < self.rows and 0 <= j < self.cols:
+        if 0 <= i < MATRIX_HEIGHT and 0 <= j < MATRIX_WIDTH:
             self.matrix[i][j] = max(self.matrix[i][j], color)
             color = self.matrix[i][j]
             color2 = MatrixWidget.MIN_BRIGHTNESS - 20

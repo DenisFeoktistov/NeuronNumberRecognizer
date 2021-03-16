@@ -15,10 +15,10 @@ import AppFiles.AppInterfaceClasses.MainWindow.ModeWindows.ManualTestingModeWind
     ManualTestingModeWindow
 import AppFiles.AppInterfaceClasses.MainWindow.ModeWindows.AutoTestingModeWindow.AutoTestingModeWindow as \
     AutoTestingModeWindow
+from SubsidiaryFiles.Constants import OUTPUTS
 
 
 class MainWindow(QMainWindow):
-    OUTPUTS = 10
     REL_WIDTH, REL_HEIGHT = 0.9, 0.8
 
     def __init__(self, main_app_interface: MainAppInterface.MainAppInterface) -> None:
@@ -169,8 +169,8 @@ class MainWindow(QMainWindow):
     def add_neural_network_answer_label(self) -> None:
         self.neural_network_answer_label = QLabel(parent=self)
         bottom = self.digit_labels[0].geometry().y()
-        top = self.digit_labels[MainWindow.OUTPUTS - 1].geometry().y() + self.digit_labels[
-            MainWindow.OUTPUTS - 1].geometry().height()
+        top = self.digit_labels[OUTPUTS - 1].geometry().y() + self.digit_labels[
+            OUTPUTS - 1].geometry().height()
 
         left = self.digit_labels[0].geometry().x() + self.digit_labels[0].geometry().width() + self.width // 40
         right = self.width - self.width // 40
@@ -211,15 +211,15 @@ class MainWindow(QMainWindow):
                 f"border: 0px solid black; font-size: {font_size}px; color: rgb(0, 0, 0)")
 
     def add_neuron_widgets_and_digit_labels(self) -> None:
-        self.neuron_widgets = [NeuronWidget(parent=self) for _ in range(MainWindow.OUTPUTS)]
-        self.arrows_labels = [QLabel(parent=self, text="➔") for _ in range(MainWindow.OUTPUTS)]
-        self.digit_labels = [QLabel(parent=self, text=str(i)) for i in range(MainWindow.OUTPUTS)]
+        self.neuron_widgets = [NeuronWidget(parent=self) for _ in range(OUTPUTS)]
+        self.arrows_labels = [QLabel(parent=self, text="➔") for _ in range(OUTPUTS)]
+        self.digit_labels = [QLabel(parent=self, text=str(i)) for i in range(OUTPUTS)]
 
         top_y = self.height // 2 - self.matrix_widget.height // 2
-        step = (self.height - top_y) / MainWindow.OUTPUTS
+        step = (self.height - top_y) / OUTPUTS
         radius = step * 0.9 // 2
 
-        for i in range(MainWindow.OUTPUTS):
+        for i in range(OUTPUTS):
             self.neuron_widgets[i].move(self.width // 2 + self.matrix_widget.width // 2 + self.width // 20,
                                         top_y + step * i)
             self.neuron_widgets[i].resize(radius)
