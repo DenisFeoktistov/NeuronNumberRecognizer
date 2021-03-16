@@ -53,3 +53,7 @@ class AddNewNetworkWindow(QMainWindow):
 
     def set_error(self) -> None:
         self.name_line.setText("Incorrect name!")
+
+    def show(self) -> None:
+        super().show()
+        self.name_line.setText("")
