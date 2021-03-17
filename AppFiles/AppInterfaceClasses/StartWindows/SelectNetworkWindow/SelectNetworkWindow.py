@@ -2,7 +2,7 @@ from __future__ import annotations
 from PyQt5.QtWidgets import QMainWindow, QScrollArea, QPushButton, QWidget, QVBoxLayout
 
 import AppFiles.AppInterfaceClasses.MainAppInterface as MainAppInterface
-from SubsidiaryFiles.Network import get_info
+from SubsidiaryFiles.Network import get_all_primary_info
 
 
 class SelectNetworkWindow(QMainWindow):
@@ -72,7 +72,7 @@ class SelectNetworkWindow(QMainWindow):
             f"border-radius: 5px; color: rgb(0, 0, 0)")
 
     def add_widgets(self) -> None:
-        for d in get_info():
+        for d in get_all_primary_info():
             new_widget = NetworkInfoButton(name=d["name"], iterations=d["iterations"],
                                            height=self.height // 10,
                                            width=self.width)
