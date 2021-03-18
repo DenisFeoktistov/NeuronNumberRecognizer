@@ -1,3 +1,6 @@
+import json
+
+
 from SubsidiaryFiles.Modules.NetworkSubsidiary import *
 
 
@@ -20,3 +23,7 @@ class Network:
         self.data = self.network["data"]
         self.template = self.network["template"]
         self.iterations = self.network["iterations"]
+
+    def save_changes(self):
+        with open(self.path, "w") as network_file:
+            json.dump(self.network, network_file)
