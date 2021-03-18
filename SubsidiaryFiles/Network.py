@@ -13,22 +13,23 @@ class Network:
         pass
 
 
-def get_data_by_name(name: str) -> dict:  # a little bit hard to set real type
+def get_network_by_name(name: str) -> dict:  # a little bit hard to set real type
     path = find_path_by_name(name)
     if path:
         with open(path) as file_json:
-            data = json.load(file_json)
-        return data
+            network = json.load(file_json)
+        network["data"] = convert_data_to_numpy(network["data"])
+        return network
 
 
 def add_new_network(name: str) -> None:
-    with open(f"{NETWORKS_DIRECTORY_PATH}/{name}.json", "w") as new_network:
-        data = dict()
-        data["iterations"] = 0
-        data["template"] = NETWORK_MAIN_TEMPLATE_INDEX
-        data["data"] = create_empty_data()
+    with open(f"{NETWORKS_DIRECTORY_PATH}/{name}.json", "w") as new_network_file:
+        network = dict()
+        network["iterations"] = 0
+        network["template"] = NETWORK_MAIN_TEMPLATE_INDEX
+        network["data"] = create_empty_data()
 
-        json.dump(data, new_network)
+        json.dump(network, new_network_file)
 
 
 def create_empty_data() -> list:
@@ -72,8 +73,7 @@ def convert_data_to_numpy(data: list) -> np.array:
 def get_all_primary_info() -> List[dict]:
     res = list()
     for file in os.listdir(NETWORKS_DIRECTORY_PATH):
-        if file.endswith(".json"):
-            res.append(get_info_by_name(file[:-5]))
+        res.append(get_info_by_name(crop_json(file)))
     return sorted(res, key=lambda info: info["iterations"], reverse=True)
 
 
@@ -91,12 +91,17 @@ def get_info_by_name(get_name: str) -> dict:
 def find_path_by_name(get_name: str) -> str:
     for file in os.listdir(NETWORKS_DIRECTORY_PATH):
         if file.endswith(".json"):
-            name = file[:-5]
+            name = crop_json(file)
             if name == get_name:
                 return NETWORKS_DIRECTORY_PATH + file
     raise Exception(f"No such file: {get_name}")
 
 
 def get_name_from_path(path: str) -> str:
-    return path[len(NETWORKS_DIRECTORY_PATH):-5]
+    return crop_json(path[len(NETWORKS_DIRECTORY_PATH):])
 
+
+def crop_json(file: str) -> str:
+    if file.endswith(".json"):
+        file = file[:-5]
+    return file
