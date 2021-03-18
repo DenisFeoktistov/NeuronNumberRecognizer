@@ -1,5 +1,5 @@
 import os
-from random import random
+from random import random, randint
 import json
 import numpy as np
 
@@ -34,11 +34,13 @@ def create_empty_data() -> list:
         data.append(list())
 
         for j in range(NETWORK_MAIN_TEMPLATE[i]):
+            bias = randint(-10, 10)
+
             neuron_output = list()
 
             if i != len(NETWORK_MAIN_TEMPLATE) - 1:
                 neuron_output = [random() for _ in range(NETWORK_MAIN_TEMPLATE[i + 1])]
-            data[i].append(neuron_output)
+            data[i].append({"output": neuron_output, "bias": bias})
     return data
 
 
@@ -47,7 +49,10 @@ def convert_data_to_list(data: np.array) -> list:
     for i in range(len(NETWORK_MAIN_TEMPLATE)):
         new_data.append(list())
         for j in range(NETWORK_MAIN_TEMPLATE[i]):
-            new_data[i].append(list(data[i][j]))
+            neuron = data[i][j]
+
+            new_neuron = {"output": list(neuron["output"]), "bias": neuron["bias"]}
+            new_data[i].append(new_neuron)
     return new_data
 
 
@@ -56,7 +61,10 @@ def convert_data_to_numpy(data: list) -> np.array:
     for i in range(len(NETWORK_MAIN_TEMPLATE)):
         new_data.append(list())
         for j in range(NETWORK_MAIN_TEMPLATE[i]):
-            new_data[i].append(np.array(data[i][j]))
+            neuron = data[i][j]
+
+            new_neuron = {"output": np.array(neuron["output"]), "bias": neuron["bias"]}
+            new_data[i].append(new_neuron)
     new_data = np.array(new_data)
     return new_data
 
