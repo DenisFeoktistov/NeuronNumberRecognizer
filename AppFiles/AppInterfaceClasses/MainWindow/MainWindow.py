@@ -4,9 +4,9 @@ from PyQt5.QtCore import Qt
 from PyQt5 import QtGui
 from typing import Any
 
-from SubsidiaryFiles.Classes.MatrixWidget import MatrixWidget
+from SubsidiaryFiles.Classes.MatrixWidget.MatrixWidget import MatrixWidget
 from AppFiles.AppInterfaceClasses.MainWindow.MainWindowResponder import MainWindowResponder
-from SubsidiaryFiles.Classes.NeuronWidget import NeuronWidget
+from SubsidiaryFiles.Classes.MatrixWidget.NeuronWidget import NeuronWidget
 
 import AppFiles.AppInterfaceClasses.MainAppInterface as MainAppInterface
 import \

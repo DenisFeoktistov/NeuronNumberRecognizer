@@ -3,7 +3,7 @@ import os
 
 
 import AppFiles.AppInterfaceClasses.StartWindows.AddNewNetworkWindow.AddNewNetworkWindow as AddNewNetworkWindow
-from SubsidiaryFiles.Classes.Network import add_new_network
+from SubsidiaryFiles.Classes.Network.Network import add_new_network
 
 
 class AddNewNetworkWindowResponder:

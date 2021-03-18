@@ -4,7 +4,7 @@ from typing import Any
 
 from AppFiles.AppInterfaceClasses.MainAppInterface import MainAppInterface
 from AppFiles.AppLogicClasses.MainAppResponder import MainAppResponder
-from SubsidiaryFiles.Classes.Network import Network
+from SubsidiaryFiles.Classes.Network.Network import Network
 
 
 class App(QApplication):
