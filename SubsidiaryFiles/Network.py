@@ -34,38 +34,33 @@ def add_new_network(name: str) -> None:
 
 def create_empty_data() -> list:
     data = list()
-    for i in range(len(NETWORK_MAIN_TEMPLATE["row sizes"])):
+    for i in range(len(NETWORK_MAIN_TEMPLATE)):
         data.append(list())
 
-        for j in range(NETWORK_MAIN_TEMPLATE["row sizes"][i]):
-            neuron_input = list()
+        for j in range(NETWORK_MAIN_TEMPLATE[i]):
             neuron_output = list()
 
-            if i != 0:
-                for k in range(NETWORK_MAIN_TEMPLATE["row sizes"][i - 1]):
-                    neuron_input.append(data[i - 1][k]["output"][j])
-            if i != len(NETWORK_MAIN_TEMPLATE["row sizes"]) - 1:
-                neuron_output = [random() for _ in range(NETWORK_MAIN_TEMPLATE["row sizes"][i + 1])]
-            neuron_data = {"output": neuron_output, "input": neuron_input}
-            data[i].append(neuron_data)
+            if i != len(NETWORK_MAIN_TEMPLATE) - 1:
+                neuron_output = [random() for _ in range(NETWORK_MAIN_TEMPLATE[i + 1])]
+            data[i].append(neuron_output)
     return data
 
 
 def convert_data_to_list(data: np.array) -> list:
     new_data = list()
-    for i in range(len(NETWORK_MAIN_TEMPLATE["row sizes"])):
+    for i in range(len(NETWORK_MAIN_TEMPLATE)):
         new_data.append(list())
-        for j in range(NETWORK_MAIN_TEMPLATE["row sizes"][i]):
-            new_data[i].append({"input": list(data[i][j]["input"]), "output": list(data[i][j]["output"])})
+        for j in range(NETWORK_MAIN_TEMPLATE[i]):
+            new_data[i].append(list(data[i][j]))
     return new_data
 
 
 def convert_data_to_numpy(data: list) -> np.array:
     new_data = list()
-    for i in range(len(NETWORK_MAIN_TEMPLATE["row sizes"])):
+    for i in range(len(NETWORK_MAIN_TEMPLATE)):
         new_data.append(list())
-        for j in range(NETWORK_MAIN_TEMPLATE["row sizes"][i]):
-            new_data[i].append({"input": np.array(data[i][j]["input"]), "output": np.array(data[i][j]["output"])})
+        for j in range(NETWORK_MAIN_TEMPLATE[i]):
+            new_data[i].append(np.array(data[i][j]))
     new_data = np.array(new_data)
     return new_data
 
@@ -73,7 +68,8 @@ def convert_data_to_numpy(data: list) -> np.array:
 def get_all_primary_info() -> List[dict]:
     res = list()
     for file in os.listdir(NETWORKS_DIRECTORY_PATH):
-        res.append(get_info_by_name(crop_json(file)))
+        if file.endswith(".json"):
+            res.append(get_info_by_name(crop_json(file)))
     return sorted(res, key=lambda info: info["iterations"], reverse=True)
 
 
