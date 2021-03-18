@@ -2,7 +2,7 @@ from SubsidiaryFiles.NetworkSubsidiary import *
 
 
 class Network:
-    def __init__(self):
+    def __init__(self) -> None:
         self.path = None
         self.name = None
 
@@ -11,7 +11,7 @@ class Network:
         self.template = None
         self.iterations = None
 
-    def set_network(self, name: str):
+    def set_network(self, name: str) -> None:
         self.path = get_path_by_name(name)
         self.name = name
 

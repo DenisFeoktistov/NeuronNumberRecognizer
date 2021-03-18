@@ -1,4 +1,3 @@
-from typing import List
 import os
 from random import random
 import json
@@ -23,7 +22,7 @@ def add_new_network(name: str) -> None:
         json.dump(network, new_network_file)
 
 
-def get_network_by_path(path: str):
+def get_network_by_path(path: str) -> dict:
     with open(f"{path}") as network_file:
         network = json.load(network_file)
     return network
@@ -62,7 +61,7 @@ def convert_data_to_numpy(data: list) -> np.array:
     return new_data
 
 
-def get_all_primary_info() -> List[dict]:
+def get_all_primary_info() -> list:
     res = list()
     for file in os.listdir(NETWORKS_DIRECTORY_PATH):
         if file.endswith(".json"):
