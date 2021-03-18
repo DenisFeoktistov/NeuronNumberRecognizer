@@ -1,7 +1,6 @@
 from __future__ import annotations
-from SubsidiaryFiles.MNISTDataReader import MnistDigitInfo
+from SubsidiaryFiles.Modules.MNISTDataReader import MnistDigitInfo
 import AppFiles.AppInterfaceClasses.MainWindow.MainWindow as MainWindow
-from SubsidiaryFiles.Network import get_info_by_name
 
 
 class MainWindowResponder:

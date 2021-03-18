@@ -1,4 +1,4 @@
-from SubsidiaryFiles.NetworkSubsidiary import *
+from SubsidiaryFiles.Modules.NetworkSubsidiary import *
 
 
 class Network:

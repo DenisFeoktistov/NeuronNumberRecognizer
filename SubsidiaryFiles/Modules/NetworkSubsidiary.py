@@ -4,7 +4,7 @@ import json
 import numpy as np
 
 
-from SubsidiaryFiles.Constants import *
+from SubsidiaryFiles.Modules.Constants import *
 
 
 def get_network_by_name(name: str) -> dict:  # a little bit hard to set real type

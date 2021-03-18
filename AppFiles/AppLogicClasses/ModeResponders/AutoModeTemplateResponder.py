@@ -2,7 +2,7 @@ from __future__ import annotations
 from PyQt5.QtCore import QTimer
 import random
 
-from SubsidiaryFiles.MNISTDataReader import get_random_info
+from SubsidiaryFiles.Modules.MNISTDataReader import get_random_info
 import AppFiles.AppLogicClasses.MainAppResponder as MainAppResponder
 
 

@@ -4,9 +4,9 @@ from PyQt5.QtCore import Qt
 from PyQt5 import QtGui
 from typing import Any
 
-from SubsidiaryFiles.MatrixWidget import MatrixWidget
+from SubsidiaryFiles.Classes.MatrixWidget import MatrixWidget
 from AppFiles.AppInterfaceClasses.MainWindow.MainWindowResponder import MainWindowResponder
-from SubsidiaryFiles.NeuronWidget import NeuronWidget
+from SubsidiaryFiles.Classes.NeuronWidget import NeuronWidget
 
 import AppFiles.AppInterfaceClasses.MainAppInterface as MainAppInterface
 import \
@@ -15,7 +15,7 @@ import AppFiles.AppInterfaceClasses.MainWindow.ModeWindows.ManualTestingModeWind
     ManualTestingModeWindow
 import AppFiles.AppInterfaceClasses.MainWindow.ModeWindows.AutoTestingModeWindow.AutoTestingModeWindow as \
     AutoTestingModeWindow
-from SubsidiaryFiles.Constants import OUTPUTS
+from SubsidiaryFiles.Modules.Constants import OUTPUTS
 
 
 class MainWindow(QMainWindow):

@@ -1,9 +1,7 @@
 from PyQt5.QtWidgets import QPushButton, QMainWindow, QWidget
 from PyQt5 import QtGui, QtCore
 import numpy as np
-from math import sqrt
-from typing import Union
-from SubsidiaryFiles.Constants import MATRIX_HEIGHT, MATRIX_WIDTH
+from SubsidiaryFiles.Modules.Constants import MATRIX_HEIGHT, MATRIX_WIDTH
 
 
 class MatrixWidget(QWidget):

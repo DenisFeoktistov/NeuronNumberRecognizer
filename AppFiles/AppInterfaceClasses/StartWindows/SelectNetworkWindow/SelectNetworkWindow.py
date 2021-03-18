@@ -2,7 +2,7 @@ from __future__ import annotations
 from PyQt5.QtWidgets import QMainWindow, QScrollArea, QPushButton, QWidget, QVBoxLayout
 
 import AppFiles.AppInterfaceClasses.MainAppInterface as MainAppInterface
-from SubsidiaryFiles.Network import get_all_primary_info
+from SubsidiaryFiles.Classes.Network import get_all_primary_info
 
 
 class SelectNetworkWindow(QMainWindow):
