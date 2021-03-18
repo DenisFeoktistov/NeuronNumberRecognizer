@@ -57,7 +57,9 @@ class MainAppResponder:
     def select_network_event(self, name) -> None:
         self.app.main_app_interface.select_network_window.close()
 
-        self.app.main_app_interface.main_window.show(name)
+        self.app.network.set_network(name)
+
+        self.app.main_app_interface.main_window.show()
         self.set_auto_training_mode()
 
     def close_main_window(self) -> None:

@@ -4,6 +4,7 @@ from typing import Any
 
 from AppFiles.AppInterfaceClasses.MainAppInterface import MainAppInterface
 from AppFiles.AppLogicClasses.MainAppResponder import MainAppResponder
+from SubsidiaryFiles.Network import Network
 
 
 class App(QApplication):
@@ -14,6 +15,7 @@ class App(QApplication):
 
         self.main_app_interface = MainAppInterface(self)
         self.main_app_responder = MainAppResponder(self)
+        self.network = Network()
 
         self.set_up()
 

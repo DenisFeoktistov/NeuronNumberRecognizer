@@ -13,10 +13,11 @@ class MainWindowResponder:
     def __init__(self, window: MainWindow.MainWindow) -> None:
         self.window = window
 
-    def show(self, name: str):
-        info = get_info_by_name(name)
-        self.window.set_name(info["name"])
-        self.window.set_iterations(info["iterations"])
+    def show(self):
+        name = self.window.main_app_interface.app.network.name
+        iterations = self.window.main_app_interface.app.network.iterations
+        self.window.set_name(name)
+        self.window.set_iterations(iterations)
 
     def set_up(self) -> None:
         pass
