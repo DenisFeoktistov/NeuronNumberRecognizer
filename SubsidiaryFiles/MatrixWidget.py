@@ -78,9 +78,6 @@ class MatrixWidget(QWidget):
                     f"border: 1px solid rgb{tuple([color2] * 3)}")
 
     def set_matrix(self, matrix: np.array) -> None:
-        MATRIX_WIDTH = matrix.shape[0]
-        MATRIX_HEIGHT = matrix.shape[1]
-
         self.matrix = matrix
         self.update()
 
