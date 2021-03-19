@@ -34,7 +34,7 @@ def create_empty_data() -> list:
         data.append(list())
 
         for j in range(NETWORK_MAIN_TEMPLATE[i]):
-            bias = randint(-10, 10)
+            bias = random()
 
             neuron_output = list()
 

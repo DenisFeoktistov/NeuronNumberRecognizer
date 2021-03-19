@@ -37,7 +37,11 @@ class AutoModeTemplateResponder:
 
     def switch(self) -> None:
         info = get_random_info(self.mode)
-        answer = [random.random() for _ in range(10)]
+
+        self.main_app_responder.app.network.process_matrix(info.matrix)
+        answer = self.main_app_responder.app.network.get_output()
+        print(answer)
+
         self.main_app_responder.app.main_app_interface.main_window.responder.set_up_new_info(info)
         self.main_app_responder.app.main_app_interface.main_window.responder.set_up_network_answer(answer)
         self.main_app_responder.app.main_app_interface.main_window.switch_speed_slider.valueChanged.connect(
