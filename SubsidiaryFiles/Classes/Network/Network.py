@@ -26,7 +26,8 @@ class Network:
         self.template = self.network["template"]
         self.iterations = self.network["iterations"]
 
-        self.values = np.array([np.array([None] * row_size) for row_size in self.template])
+        self.values = [np.array([0.] * row_size) for row_size in self.template]
+        self.values = np.array(self.values, dtype=np.ndarray)
 
     def save_changes(self):
         with open(self.path, "w") as network_file:

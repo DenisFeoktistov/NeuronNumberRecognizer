@@ -65,6 +65,7 @@ def convert_data_to_numpy(data: list) -> np.array:
 
             new_neuron = {"output": np.array(neuron["output"]), "bias": neuron["bias"]}
             new_data[i].append(new_neuron)
+        new_data[-1] = np.array(new_data[-1])
     new_data = np.array(new_data)
     return new_data
 
