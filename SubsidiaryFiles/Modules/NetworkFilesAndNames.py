@@ -40,34 +40,34 @@ def create_empty_data() -> list:
 
             if i != len(NETWORK_MAIN_TEMPLATE) - 1:
                 neuron_output = [random() for _ in range(NETWORK_MAIN_TEMPLATE[i + 1])]
-            data[i].append({"output": neuron_output, "bias": bias})
+            data[i].append({"output_weights": neuron_output, "bias": bias})
     return data
 
 
-def convert_data_to_list(data: np.array) -> list:
-    new_data = list()
-    for i in range(len(NETWORK_MAIN_TEMPLATE)):
-        new_data.append(list())
-        for j in range(NETWORK_MAIN_TEMPLATE[i]):
-            neuron = data[i][j]
-
-            new_neuron = {"output": list(neuron["output"]), "bias": neuron["bias"]}
-            new_data[i].append(new_neuron)
-    return new_data
-
-
-def convert_data_to_numpy(data: list) -> np.array:
-    new_data = list()
-    for i in range(len(NETWORK_MAIN_TEMPLATE)):
-        new_data.append(list())
-        for j in range(NETWORK_MAIN_TEMPLATE[i]):
-            neuron = data[i][j]
-
-            new_neuron = {"output": np.array(neuron["output"]), "bias": neuron["bias"]}
-            new_data[i].append(new_neuron)
-        new_data[-1] = np.array(new_data[-1])
-    new_data = np.array(new_data)
-    return new_data
+# def convert_data_to_list(data: np.array) -> list:
+#     new_data = list()
+#     for i in range(len(NETWORK_MAIN_TEMPLATE)):
+#         new_data.append(list())
+#         for j in range(NETWORK_MAIN_TEMPLATE[i]):
+#             neuron = data[i][j]
+#
+#             new_neuron = {"output_weights": list(neuron["output"]), "bias": neuron["bias"]}
+#             new_data[i].append(new_neuron)
+#     return new_data
+#
+#
+# def convert_data_to_numpy(data: list) -> np.array:
+#     new_data = list()
+#     for i in range(len(NETWORK_MAIN_TEMPLATE)):
+#         new_data.append(list())
+#         for j in range(NETWORK_MAIN_TEMPLATE[i]):
+#             neuron = data[i][j]
+#
+#             new_neuron = {"output_weights": np.array(neuron["output"]), "bias": neuron["bias"]}
+#             new_data[i].append(new_neuron)
+#         new_data[-1] = np.array(new_data[-1])
+#     new_data = np.array(new_data)
+#     return new_data
 
 
 def get_all_primary_info() -> list:

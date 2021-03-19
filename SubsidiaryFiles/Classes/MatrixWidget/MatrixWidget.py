@@ -75,7 +75,7 @@ class MatrixWidget(QWidget):
                     f"background-color: rgb{tuple([color for _ in range(3)])}; "
                     f"border: 1px solid rgb{tuple([color2] * 3)}")
 
-    def set_matrix(self, matrix: np.array) -> None:
+    def set_matrix(self, matrix: np.ndarray) -> None:
         self.matrix = matrix
         self.update()
 
