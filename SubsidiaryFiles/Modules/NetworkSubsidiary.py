@@ -15,7 +15,7 @@ def get_network_by_name(name: str) -> dict:  # a little bit hard to set real typ
 def add_new_network(name: str) -> None:
     network = dict()
     network["iterations"] = 0
-    network["template"] = NETWORK_MAIN_TEMPLATE_INDEX
+    network["template"] = NETWORK_TEMPLATES[NETWORK_MAIN_TEMPLATE_INDEX]
     network["data"] = create_empty_data()
 
     with open(f"{NETWORKS_DIRECTORY_PATH}/{name}.json", "w") as new_network_file:

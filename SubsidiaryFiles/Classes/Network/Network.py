@@ -14,6 +14,8 @@ class Network:
         self.template = None
         self.iterations = None
 
+        self.values = None
+
     def set_network(self, name: str) -> None:
         self.path = get_path_by_name(name)
         self.name = name
@@ -23,6 +25,8 @@ class Network:
         self.data = self.network["data"]
         self.template = self.network["template"]
         self.iterations = self.network["iterations"]
+
+        self.values = np.array([np.array([None] * row_size) for row_size in self.template])
 
     def save_changes(self):
         with open(self.path, "w") as network_file:
