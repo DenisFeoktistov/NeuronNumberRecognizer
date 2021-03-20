@@ -1,3 +1,6 @@
+import json
+
+
 from SubsidiaryFiles.Modules.NetworkFilesAndNames import *
 from SubsidiaryFiles.Modules.NetworkMath import *
 
@@ -12,6 +15,8 @@ class Network:
         self.template: list = None
         self.iterations: int = None
 
+        self.layers: list = None
+
     def set_network(self, name: str) -> None:
         self.path = get_path_by_name(name)
         self.name = name
@@ -21,66 +26,49 @@ class Network:
         self.template = network["template"]
         self.iterations = network["iterations"]
 
-        self.data = list()
+        self.layers = [Layer(layer_data) for layer_data in network["data"]]
 
-        for row in network["data"]:
-            self.data.append(list())
-            for neuron_dict in row:
-                self.data[-1].append(Neuron(neuron_dict))
+    def convert_to_default(self) -> dict:
+        res = dict()
 
-    def save_changes(self):
-        data = list()
+        res["template"] = self.template
+        res["iterations"] = self.iterations
+        res["data"] = [layer.convert_to_default() for layer in self.layers]
 
-        for row in self.data:
-            data.append(list())
-            for neuron in row:
-                data[-1].append(neuron.convert_to_dict())
+        return res
 
-        res = {"template": self.template, "iterations": self.iterations, "data": data}
-
-        with open(self.path, "w") as network_file:
-            json.dump(res, network_file)
-
-    def clear_values(self) -> None:
-        for i in range(len(self.data)):
-            for j in range(len(self.data[i])):
-                self.data[i][j].value = 0.
+    def save(self) -> None:
+        with open(self.path, "w") as output:
+            json.dump(self.convert_to_default(), output)
 
     def process_matrix(self, matrix: np.ndarray) -> None:
-        self.clear_values()
-        matrix = matrix.ravel()
-        for i in range(matrix.size):
-            self.data[0][i].value = activation_function(matrix[i])
-
-        for i in range(len(self.data[:-1])):
-            for j1 in range(len(self.data[i])):
-                print(i, j1)
-                self.data[i][j1].process_value()
-
-                for j2 in range(len(self.data[i + 1])):
-                    self.data[i][j2].value += self.data[i][j1].value * self.data[i][j1].output_weights[j2]
-
-        for j in range(len(self.data[-1])):
-            self.data[-1][j].process_value()
+        pass
 
     def get_output(self) -> list:
-        return list(map(lambda neuron: neuron.value,  self.data[-1]))
+        return list(self.layers[-1].values)
 
 
-class Neuron:
-    def __init__(self, neuron_dict: dict) -> None:
-        self.value = 0.
+class Layer:
+    def __init__(self, layer_data: dict):
+        self.size = len(layer_data["layer_data"])
+        self.type = layer_data["layer_type"]
 
-        self.output_weights = neuron_dict["output_weights"]
-        self.bias = 0  # neuron_dict["bias"]
+        self.values = np.zeros(self.size)
+        if self.type != OUTPUT:
+            self.weights = np.array([neuron["output_weights"] for neuron in layer_data["layer_data"]])
+        if self.type != INPUT:
+            self.biases = np.array([neuron["bias"] for neuron in layer_data["layer_data"]])
 
-    def process_value(self) -> None:
-        print("value: ", self.value)
-        print("after: ", activation_function(self.value))
-        self.value = activation_function(self.value)
-
-    def convert_to_dict(self) -> dict:
+    def convert_to_default(self) -> dict:
         res = dict()
-        res["output_weights"] = self.output_weights
-        res["bias"] = self.bias
+        res["layer_type"] = self.type
+        res["layer_data"] = list()
+
+        for i in range(self.size):
+            res["layer_data"].append(dict)
+            if self.type != OUTPUT:
+                res["layer_data"][i]["output_weights"] = list(self.weights[i])
+            if self.type != INPUT:
+                res["layer_data"][i]["bias"] = self.biases[i]
+
         return res

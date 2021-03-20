@@ -40,7 +40,6 @@ class AutoModeTemplateResponder:
 
         self.main_app_responder.app.network.process_matrix(info.matrix)
         answer = self.main_app_responder.app.network.get_output()
-        print(answer)
 
         self.main_app_responder.app.main_app_interface.main_window.responder.set_up_new_info(info)
         self.main_app_responder.app.main_app_interface.main_window.responder.set_up_network_answer(answer)

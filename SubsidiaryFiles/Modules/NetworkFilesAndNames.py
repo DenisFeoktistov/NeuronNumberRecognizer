@@ -7,6 +7,11 @@ import numpy as np
 from SubsidiaryFiles.Modules.Constants import *
 
 
+INPUT = 1
+HIDDEN = 2
+OUTPUT = 3
+
+
 def get_network_by_name(name: str) -> dict:  # a little bit hard to set real type
     path = get_path_by_name(name)
     return get_network_by_path(path)
@@ -31,7 +36,17 @@ def get_network_by_path(path: str) -> dict:
 def create_empty_data() -> list:
     data = list()
     for i in range(len(NETWORK_MAIN_TEMPLATE)):
-        data.append(list())
+        data.append(dict())
+        data[-1]["layer_type"] = -1
+
+        if i == 0:
+            data[-1]["layer_type"] = INPUT
+        elif i == len(NETWORK_MAIN_TEMPLATE) - 1:
+            data[-1]["layer_type"] = OUTPUT
+        else:
+            data[-1]["layer_type"] = HIDDEN
+
+        data[-1]["layer_data"] = list()
 
         for j in range(NETWORK_MAIN_TEMPLATE[i]):
             bias = random()
@@ -40,34 +55,11 @@ def create_empty_data() -> list:
 
             if i != len(NETWORK_MAIN_TEMPLATE) - 1:
                 neuron_output = [random() for _ in range(NETWORK_MAIN_TEMPLATE[i + 1])]
-            data[i].append({"output_weights": neuron_output, "bias": bias})
+            if i != 0:
+                data[i]["layer_data"].append({"output_weights": neuron_output, "bias": bias})
+            else:
+                data[i]["layer_data"].append({"output_weights": neuron_output})
     return data
-
-
-# def convert_data_to_list(data: np.array) -> list:
-#     new_data = list()
-#     for i in range(len(NETWORK_MAIN_TEMPLATE)):
-#         new_data.append(list())
-#         for j in range(NETWORK_MAIN_TEMPLATE[i]):
-#             neuron = data[i][j]
-#
-#             new_neuron = {"output_weights": list(neuron["output"]), "bias": neuron["bias"]}
-#             new_data[i].append(new_neuron)
-#     return new_data
-#
-#
-# def convert_data_to_numpy(data: list) -> np.array:
-#     new_data = list()
-#     for i in range(len(NETWORK_MAIN_TEMPLATE)):
-#         new_data.append(list())
-#         for j in range(NETWORK_MAIN_TEMPLATE[i]):
-#             neuron = data[i][j]
-#
-#             new_neuron = {"output_weights": np.array(neuron["output"]), "bias": neuron["bias"]}
-#             new_data[i].append(new_neuron)
-#         new_data[-1] = np.array(new_data[-1])
-#     new_data = np.array(new_data)
-#     return new_data
 
 
 def get_all_primary_info() -> list:
