@@ -48,7 +48,6 @@ class Network:
                 self.layers[i].biases if self.layers[i - 1].type != INPUT else np.zeros((self.layers[i].size, 1))))
 
     def get_output(self) -> list:
-        print(list(map(lambda arr: arr[0], self.layers[-1].values)))
         return list(map(lambda arr: arr[0], self.layers[-1].values))
 
 
