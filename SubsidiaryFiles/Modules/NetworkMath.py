@@ -14,5 +14,9 @@ def derivative_of_activation_function(x: np.ndarray) -> np.ndarray:
     return activation_function(x) * activation_function(1 - activation_function(x))
 
 
-def get_cost(output: np.ndarray, correct: np.ndarray) -> np.ndarray:
-    return (output - correct) ** 2
+def cost_function(output: np.ndarray, correct: np.ndarray) -> np.ndarray:
+    return 0.5 * (output - correct) ** 2
+
+
+def derivative_of_cost_function(output: np.ndarray, correct: np.ndarray) -> np.ndarray:
+    return output - correct
