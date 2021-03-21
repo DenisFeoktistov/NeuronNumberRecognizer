@@ -35,12 +35,12 @@ class Network:
 
         return res
 
-    def save(self) -> None:
+    def save_changes(self) -> None:
         with open(self.path, "w") as output:
             json.dump(self.convert_to_default(), output)
 
     def process_matrix(self, matrix: np.ndarray) -> None:
-        self.layers[0].values = activation_function(matrix.ravel())
+        self.layers[0].values = activation_function(process_color_matrix(matrix.ravel()))
         self.layers[0].values = self.layers[0].values.reshape((self.layers[0].values.size, 1))
 
         for i in range(1, len(self.layers)):
@@ -68,11 +68,16 @@ class Layer:
         res["layer_type"] = self.type
         res["layer_data"] = list()
 
+        if self.type != OUTPUT:
+            weights = self.weights.transpose()
+        if self.type != INPUT:
+            biases = self.biases.reshape((self.biases.size, ))
+
         for i in range(self.size):
-            res["layer_data"].append(dict)
+            res["layer_data"].append(dict())
             if self.type != OUTPUT:
-                res["layer_data"][i]["output_weights"] = list(self.weights[i])
+                res["layer_data"][i]["output_weights"] = list(weights[i])
             if self.type != INPUT:
-                res["layer_data"][i]["bias"] = self.biases[i]
+                res["layer_data"][i]["bias"] = biases[i]
 
         return res
