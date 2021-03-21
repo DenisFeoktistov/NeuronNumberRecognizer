@@ -73,8 +73,7 @@ class Network:
         correct = np.array([1 if i == correct_value else 0 for i in range(10)])
 
         cost = [np.zeros(layer.size) for layer in self.layers]
-        delta_weights = [np.zeros(layer.weights.shape) for layer in self.layers]
-        delta_biases = [np.zeros(layer.biases.shape) for layer in self.layers]
+        local_delta_layers = [DeltaLayer(layer) for layer in self.layers]
 
         cost[-1] = get_cost(self.layers[-1].values.ravel(), correct)
 
@@ -116,13 +115,19 @@ class Layer:
 
 class DeltaLayer:
     def __init__(self, layer: Layer):
-        self.delta_weights = np.zeros(layer.weights.shape)
-        self.delta_biases = np.zeros(layer.biases.shape)
+        self.type = layer.type
+
+        if self.type != OUTPUT:
+            self.delta_weights = np.zeros(layer.weights.shape)
+        if self.type != INPUT:
+            self.delta_biases = np.zeros(layer.biases.shape)
 
     def __iadd__(self, other: DeltaLayer):
         self.delta_weights = self.delta_weights + other.delta_weights
         self.delta_biases = self.delta_biases + other.delta_biases
 
     def clear(self):
-        self.delta_weights = np.zeros(self.delta_weights.shape)
-        self.delta_biases = np.zeros(self.delta_biases.shape)
+        if self.type != OUTPUT:
+            self.delta_weights = np.zeros(self.delta_weights.shape)
+        if self.type != INPUT:
+            self.delta_biases = np.zeros(self.delta_biases.shape)
