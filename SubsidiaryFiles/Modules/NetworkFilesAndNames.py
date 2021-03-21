@@ -67,7 +67,7 @@ def get_all_primary_info() -> list:
     for file in os.listdir(NETWORKS_DIRECTORY_PATH):
         if file.endswith(".json"):
             res.append(get_info_by_path(NETWORKS_DIRECTORY_PATH + file))
-    return sorted(res, key=lambda info: info["iterations"], reverse=True)
+    return sorted(res, key=lambda info: (-info["iterations"], info["name"]), reverse=False)
 
 
 def get_info_by_name(name: str) -> dict:
