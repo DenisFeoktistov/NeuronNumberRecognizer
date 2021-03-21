@@ -38,7 +38,7 @@ class AutoModeTemplateResponder:
     def switch(self) -> None:
         info = get_random_info(self.mode)
 
-        self.main_app_responder.app.network.process_matrix(info.matrix)
+        self.main_app_responder.app.network.process_matrix(info.matrix, info.value)
         answer = self.main_app_responder.app.network.get_output()
 
         self.main_app_responder.app.main_app_interface.main_window.responder.set_up_new_info(info)
