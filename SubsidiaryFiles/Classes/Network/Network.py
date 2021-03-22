@@ -51,8 +51,9 @@ class Network:
         self.layers[0].values = self.layers[0].values.reshape((self.layers[0].values.size, 1))
 
         for i in range(1, len(self.layers)):
-            self.layers[i].values = np.dot(self.layers[i - 1].weights, self.layers[i - 1].act_values) + self.layers[
-                i].biases
+            self.layers[i].values = np.dot(self.layers[i - 1].weights,
+                                           self.layers[i - 1].act_values) + \
+                                    self.layers[i].biases
 
         self.back_propagation(correct_answer)
         self.epoch_iterations += 1
@@ -89,6 +90,14 @@ class Network:
             cost[-i] = np.dot(self.layers[-i].weights.transpose(), cost[-i + 1]) * der1
             local_delta_layers[-i].delta_biases = cost[-i]
             local_delta_layers[-i - 1].delta_weights = np.dot(cost[-i], self.layers[-i - 1].values.transpose())
+
+            print(f"Layer {-i}")
+            print(f"\t der: {der1}")
+            print(f"\t cost[-{i}]: {cost[-i]}")
+            print(f"\t loc_delta[-{i} - 1].weights: {local_delta_layers[-i - 1].delta_weights}")
+            print(f"\t")
+            print(f"\t")
+            print(f"\t")
 
         for local_delta_layer, delta_layer in zip(local_delta_layers, self.delta_layers):
             if delta_layer.type != OUTPUT:
