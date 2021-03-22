@@ -52,7 +52,7 @@ def create_empty_data() -> list:
             neuron_output = list()
 
             if data[row]["layer_type"] != OUTPUT:
-                neuron_output = [random() / NETWORK_MAIN_TEMPLATE[row + 1] * choice([-1, 1]) for _ in
+                neuron_output = [random() / NETWORK_MAIN_TEMPLATE[row] * choice([-1, 1]) for _ in
                                  range(NETWORK_MAIN_TEMPLATE[row + 1])]
             if data[row]["layer_type"] != INPUT:
                 data[row]["layer_data"].append({"output_weights": neuron_output, "bias": bias})
