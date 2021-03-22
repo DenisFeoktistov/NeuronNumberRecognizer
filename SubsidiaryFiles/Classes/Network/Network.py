@@ -80,8 +80,9 @@ class Network:
         cost = [np.zeros((layer.size, 1)) for layer in self.layers]
         local_delta_layers = [DeltaLayer(layer) for layer in self.layers]
 
-        cost[-1] = derivative_of_cost_function(self.layers[-1].act_values, correct)
-        # print(cost[-1], end="\n\n\n")
+        cost[-1] = derivative_of_cost_function(self.layers[-1].act_values, correct) * derivative_of_activation_function(
+            self.layers[-1].values)
+        print(derivative_of_activation_function(self.layers[-1].values))
 
         local_delta_layers[-1].delta_biases = cost[-1]
         local_delta_layers[-2].delta_weights = np.dot(cost[-1], self.layers[-2].act_values.transpose())
