@@ -1,11 +1,9 @@
 import os
-from random import random, randint
+from random import random, randint, choice
 import json
 import numpy as np
 
-
 from SubsidiaryFiles.Modules.Constants import *
-
 
 INPUT = 1
 HIDDEN = 2
@@ -54,7 +52,8 @@ def create_empty_data() -> list:
             neuron_output = list()
 
             if data[row]["layer_type"] != OUTPUT:
-                neuron_output = [random() for _ in range(NETWORK_MAIN_TEMPLATE[row + 1])]
+                neuron_output = [random() / NETWORK_MAIN_TEMPLATE[row + 1] * choice([-1, 1]) for _ in
+                                 range(NETWORK_MAIN_TEMPLATE[row + 1])]
             if data[row]["layer_type"] != INPUT:
                 data[row]["layer_data"].append({"output_weights": neuron_output, "bias": bias})
             else:

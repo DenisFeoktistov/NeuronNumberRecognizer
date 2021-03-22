@@ -19,4 +19,6 @@ def cost_function(output: np.ndarray, correct: np.ndarray) -> np.ndarray:
 
 
 def derivative_of_cost_function(output: np.ndarray, correct: np.ndarray) -> np.ndarray:
+    print("Output: ", output.ravel())
+    print("Correct: ", correct.ravel())
     return output - correct

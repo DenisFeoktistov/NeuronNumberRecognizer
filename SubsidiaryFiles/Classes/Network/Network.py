@@ -81,6 +81,7 @@ class Network:
         local_delta_layers = [DeltaLayer(layer) for layer in self.layers]
 
         cost[-1] = derivative_of_cost_function(self.layers[-1].act_values, correct)
+        # print(cost[-1], end="\n\n\n")
 
         local_delta_layers[-1].delta_biases = cost[-1]
         local_delta_layers[-2].delta_weights = np.dot(cost[-1], self.layers[-2].act_values.transpose())
@@ -91,14 +92,6 @@ class Network:
             local_delta_layers[-i].delta_biases = cost[-i]
             local_delta_layers[-i - 1].delta_weights = np.dot(cost[-i], self.layers[-i - 1].values.transpose())
 
-            print(f"Layer {-i}")
-            print(f"\t der: {der1}")
-            print(f"\t cost[-{i}]: {cost[-i]}")
-            print(f"\t loc_delta[-{i} - 1].weights: {local_delta_layers[-i - 1].delta_weights}")
-            print(f"\t")
-            print(f"\t")
-            print(f"\t")
-
         for local_delta_layer, delta_layer in zip(local_delta_layers, self.delta_layers):
             if delta_layer.type != OUTPUT:
                 delta_layer.delta_weights += local_delta_layer.delta_weights
@@ -106,7 +99,7 @@ class Network:
                 delta_layer.delta_biases += local_delta_layer.delta_biases
 
     def get_output(self) -> list:
-        return list(map(lambda arr: arr[0], self.layers[-1].values))
+        return list(map(lambda arr: arr[0], self.layers[-1].act_values))
 
 
 class Layer:
