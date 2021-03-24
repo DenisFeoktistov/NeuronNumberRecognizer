@@ -4,6 +4,11 @@ import AppFiles.AppLogicClasses.MainAppResponder as MainAppResponder
 
 
 class ManualTestingModeResponder:
+    MIN_VALUE = 0
+    MAX_VALUE = 100
+
+    WIDTH_INIT_VALUE = 50
+
     def __init__(self, main_app_responder: MainAppResponder.MainAppResponder) -> None:
         self.main_app_responder = main_app_responder
 
@@ -16,6 +21,14 @@ class ManualTestingModeResponder:
         self.main_app_responder.app.main_app_interface.main_window.matrix_widget.clear()
 
     def set_up(self) -> None:
+        self.main_app_responder.app.main_app_interface.main_window.line_width_slider.setMaximum(
+            ManualTestingModeResponder.MAX_VALUE)
+        self.main_app_responder.app.main_app_interface.main_window.line_width_slider.setMinimum(
+            ManualTestingModeResponder.MIN_VALUE)
+
+        self.main_app_responder.app.main_app_interface.main_window.line_width_slider.setValue(
+            ManualTestingModeResponder.WIDTH_INIT_VALUE)
+
         self.main_app_responder.app.main_app_interface.main_window.clear_button.clicked.connect(self.clear_matrix)
         self.main_app_responder.app.main_app_interface.main_window.matrix_widget.pictureChanged.connect(
             self.update_answer)
@@ -32,3 +45,7 @@ class ManualTestingModeResponder:
 
     def update_answer(self) -> None:
         pass
+
+    def get_line_width_coefficient(self) -> float:
+        return (self.main_app_responder.app.main_app_interface.main_window.line_width_slider.value() / (
+                ManualTestingModeResponder.MAX_VALUE - ManualTestingModeResponder.MIN_VALUE))

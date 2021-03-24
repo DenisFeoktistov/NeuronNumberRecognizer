@@ -77,7 +77,7 @@ def get_info_by_path(path: str) -> dict:
     name = get_name_from_path(path=path)
     with open(path) as network:
         network = json.load(network)
-        iterations = network["iterations"]
+    iterations = network["iterations"]
     return {"name": name, "iterations": iterations}
 
 

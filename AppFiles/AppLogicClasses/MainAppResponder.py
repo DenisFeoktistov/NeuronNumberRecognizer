@@ -64,5 +64,5 @@ class MainAppResponder:
 
     def close_main_window(self) -> None:
         self.app.main_app_interface.main_window.close()
-        self.app.main_app_interface.select_network_window.show()
         self.app.network.save_changes()
+        self.app.main_app_interface.select_network_window.show()

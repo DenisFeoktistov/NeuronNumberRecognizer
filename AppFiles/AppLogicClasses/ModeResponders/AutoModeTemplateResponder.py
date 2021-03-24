@@ -7,8 +7,14 @@ import AppFiles.AppLogicClasses.MainAppResponder as MainAppResponder
 
 
 class AutoModeTemplateResponder:
-    MIN_INTERVAL = 10
+    MIN_VALUE = 0
+    MAX_VALUE = 100
+
+    MIN_INTERVAL = 1
     MAX_INTERVAL = 1000
+
+    SPEED_INIT_VALUE = 50
+    CONNECTED = False
 
     def __init__(self, main_app_responder: MainAppResponder.MainAppResponder, mode: str) -> None:
         self.main_app_responder = main_app_responder
@@ -18,9 +24,21 @@ class AutoModeTemplateResponder:
         self.timer.timeout.connect(self.switch)
 
     def set_up(self) -> None:
-        self.main_app_responder.app.main_app_interface.main_window.next_button.clicked.connect(self.switch)
-        self.main_app_responder.app.main_app_interface.main_window.switch_speed_slider.valueChanged.connect(
-            self.update_timer)
+        if not AutoModeTemplateResponder.CONNECTED:
+            AutoModeTemplateResponder.CONNECTED = True
+
+            self.main_app_responder.app.main_app_interface.main_window.switch_speed_slider.setMaximum(
+                AutoModeTemplateResponder.MAX_VALUE)
+            self.main_app_responder.app.main_app_interface.main_window.switch_speed_slider.setMinimum(
+                AutoModeTemplateResponder.MIN_VALUE)
+
+            self.main_app_responder.app.main_app_interface.main_window.next_button.clicked.connect(self.switch)
+            self.main_app_responder.app.main_app_interface.main_window.switch_speed_slider.valueChanged.connect(
+                self.update_timer)
+            self.main_app_responder.app.main_app_interface.main_window.switch_speed_slider.setValue(
+                AutoModeTemplateResponder.SPEED_INIT_VALUE)
+
+            self.timer.stop()
 
     def start(self) -> None:
         self.switch()
@@ -28,7 +46,7 @@ class AutoModeTemplateResponder:
         self.update_timer()
 
     def update_timer(self) -> None:
-        coefficient = self.main_app_responder.app.main_app_interface.main_window.responder.get_switch_speed_coefficient()
+        coefficient = self.get_switch_speed_coefficient()
         if coefficient == 0:
             self.timer.stop()
         else:
@@ -42,9 +60,16 @@ class AutoModeTemplateResponder:
 
         self.main_app_responder.app.network.process_matrix(info.matrix, info.value)
         answer = self.main_app_responder.app.network.get_output()
+        iterations = self.main_app_responder.app.network.iterations
 
         self.main_app_responder.app.main_app_interface.main_window.responder.set_up_new_info(info)
         self.main_app_responder.app.main_app_interface.main_window.responder.set_up_network_answer(answer)
+        if iterations % 50 == 0:
+            self.main_app_responder.app.main_app_interface.main_window.iterations_label.setText(str(iterations))
 
     def close(self) -> None:
         self.timer.stop()
+
+    def get_switch_speed_coefficient(self) -> float:
+        return (self.main_app_responder.app.main_app_interface.main_window.switch_speed_slider.value() / (
+                AutoModeTemplateResponder.MAX_VALUE - AutoModeTemplateResponder.MIN_VALUE)) ** 0.5

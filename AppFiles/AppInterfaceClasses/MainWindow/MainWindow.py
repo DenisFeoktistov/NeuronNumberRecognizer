@@ -59,11 +59,13 @@ class MainWindow(QMainWindow):
 
         for label in self.outlines_for_modes_buttons.values():
             label.setVisible(False)
-        self.responder.finish_init()
 
     def show(self) -> None:
         super().show()
         self.responder.show()
+
+    def closeEvent(self, e: QtGui.QCloseEvent) -> None:
+        self.responder.close()
 
     def set_up(self) -> None:
         self.auto_training_mode_window.set_up()
@@ -341,6 +343,3 @@ class MainWindow(QMainWindow):
         font_size = self.height // 60
         label.setAlignment(Qt.AlignCenter)
         label.setStyleSheet(f"font-size: {font_size}px; background-color: transparent; color: rgb(0, 0, 0)")
-
-    def closeEvent(self, e: QtGui.QCloseEvent) -> None:
-        self.responder.close()

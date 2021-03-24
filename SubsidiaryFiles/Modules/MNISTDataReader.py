@@ -61,4 +61,9 @@ def get_nth_info(n: int, mode: str) -> MAX_INFO_NUMBER:
 
 def get_random_info(mode: str) -> MnistDigitInfo:
     n = randint(0, MAX_INFO_NUMBER[mode])
-    return get_nth_info(n, mode)
+    try:
+        return get_nth_info(n, mode)
+    except Exception as e:
+        # I found out, that something goes wrong sometimes, so I want to catch an error
+        print(f"Something went wrong with n = {n}..." + "\n" + str(e))
+        return get_random_info(mode)

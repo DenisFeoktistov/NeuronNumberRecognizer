@@ -13,6 +13,7 @@ class Network:
 
         self.template: List[int]
         self.iterations: int
+        self.mini_batch_iterations: int
 
         self.values: List[np.ndarray]
         self.act_values: List[np.ndarray]
@@ -22,13 +23,12 @@ class Network:
         self.biases: List[np.ndarray]
         self.delta_biases: List[np.ndarray]
 
-        self.mini_batch_iterations = 0
-
     def process_matrix(self, matrix: np.ndarray, correct_answer: int) -> None:
         self.feed_forward(matrix)
 
         self.back_propagation(correct_answer)
 
+        self.iterations += 1
         self.mini_batch_iterations += 1
 
         if not self.mini_batch_iterations % ITERATIONS_FOR_MINI_BATCH:
