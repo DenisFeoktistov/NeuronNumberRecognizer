@@ -1,6 +1,6 @@
 from __future__ import annotations
 import json
-from typing import List, Dict
+from typing import List
 
 from SubsidiaryFiles.Modules.NetworkFilesAndNames import *
 from SubsidiaryFiles.Modules.NetworkMath import *
@@ -8,47 +8,50 @@ from SubsidiaryFiles.Modules.NetworkMath import *
 
 class Network:
     def __init__(self) -> None:
-        self.path: str = None
-        self.name: str = None
+        self.path: str
+        self.name: str
 
-        self.template: list = None
-        self.iterations: int = None
+        self.template: List[int]
+        self.iterations: int
 
-        self.values: list = None
-        self.act_values: list = None
+        self.values: List[np.ndarray]
+        self.act_values: List[np.ndarray]
 
-        self.weights: list = None
-        self.delta_weights: list = None
-        self.biases: list = None
-        self.delta_biases: list = None
+        self.weights: List[np.ndarray]
+        self.delta_weights: List[np.ndarray]
+        self.biases: List[np.ndarray]
+        self.delta_biases: List[np.ndarray]
 
-        self.epoch_iterations = 0
+        self.mini_batch_iterations = 0
 
-    def process_matrix(self, matrix, correct_answer):
-        self.values[0] = self.act_values[0] = process_color_matrix(matrix.ravel())
-        self.values[0] = self.values[0].reshape(self.values[0].size, 1)
-        self.values[0] = None  # just for testing
-        self.act_values[0] = self.act_values[0].reshape(self.act_values[0].size, 1)
+    def process_matrix(self, matrix: np.ndarray, correct_answer: int) -> None:
+        self.feed_forward(matrix)
+
+        self.back_propagation(correct_answer)
+
+        self.mini_batch_iterations += 1
+
+        if not self.mini_batch_iterations % ITERATIONS_FOR_MINI_BATCH:
+            self.update_parameters()
+
+    def update_parameters(self) -> None:
+        self.weights = [weight - delta_weight * (MAIN_LEARNING_SPEED / ITERATIONS_FOR_MINI_BATCH) for
+                        weight, delta_weight in
+                        zip(self.weights, self.delta_weights)]
+        self.biases = [biases - delta_biases * (MAIN_LEARNING_SPEED / ITERATIONS_FOR_MINI_BATCH) for
+                       biases, delta_biases in
+                       zip(self.biases, self.delta_biases)]
+        self.delta_weights = [np.zeros(layer.shape) for layer in self.weights]
+        self.delta_biases = [np.zeros(layer.shape) for layer in self.biases]
+
+    def feed_forward(self, matrix: np.ndarray) -> None:
+        self.values[0] = self.act_values[0] = process_color_matrix(matrix.ravel()).reshape((matrix.size, 1))
 
         for i in range(len(self.template) - 1):
             self.values[i + 1] = np.dot(self.weights[i], self.act_values[i]) + self.biases[i]
             self.act_values[i + 1] = activation_function(self.values[i + 1])
 
-        self.epoch_iterations += 1
-
-        self.back_propagation(correct_answer)
-
-        if self.epoch_iterations == ITERATIONS_FOR_EPOCH:
-            self.weights = [weight - delta_weight * (LEARNING_SPEED / ITERATIONS_FOR_EPOCH) for weight, delta_weight in
-                            zip(self.weights, self.delta_weights)]
-            self.biases = [biases - delta_biases * (LEARNING_SPEED / ITERATIONS_FOR_EPOCH) for biases, delta_biases in
-                           zip(self.biases, self.delta_biases)]
-            self.epoch_iterations = 0
-
-            self.delta_weights = [np.zeros(layer.shape) for layer in self.weights]
-            self.delta_biases = [np.zeros(layer.shape) for layer in self.biases]
-
-    def back_propagation(self, correct):
+    def back_propagation(self, correct: int) -> None:
         correct = np.array([1. if i == correct else 0. for i in range(10)]).reshape((10, 1))
         local_delta_weights = [np.zeros(layer.shape) for layer in self.weights]
         local_delta_biases = [np.zeros(layer.shape) for layer in self.biases]
@@ -71,7 +74,7 @@ class Network:
         self.delta_biases = [delta_bias_layer + local_delta_bias_layer for local_delta_bias_layer, delta_bias_layer in
                              zip(local_delta_biases, self.delta_biases)]
 
-    def get_output(self):
+    def get_output(self) -> List[float]:
         return list(self.act_values[-1].ravel())
 
     def set_network(self, name: str) -> None:
@@ -95,6 +98,8 @@ class Network:
         self.values = [np.zeros((layer, 1)) for layer in self.template]
         self.act_values = [np.zeros(layer.shape) for layer in self.values]
 
+        self.mini_batch_iterations = 0
+
     def convert_to_default(self) -> dict:
         res = dict()
 
@@ -106,20 +111,20 @@ class Network:
         weights = [layer_weights.transpose() for layer_weights in self.weights]
 
         for i in range(len(self.template)):
-            res["data"][i]["layer_type"] = -1
             if i == 0:
-                res["data"][i]["layer_type"] = INPUT
+                type = INPUT
             elif i == len(self.template) - 1:
-                res["data"][i]["layer_type"] = OUTPUT
+                type = OUTPUT
             else:
-                res["data"][i]["layer_type"] = HIDDEN
+                type = HIDDEN
 
+            res["data"][i]["layer_type"] = type
             res["data"][i]["layer_data"] = list()
 
             for j in range(self.template[i]):
-                if i != 0:
+                if type != INPUT:
                     neuron_bias = biases[i - 1][j]
-                    if i != len(self.template) - 1:
+                    if type != OUTPUT:
                         neuron_weights = list(weights[i][j])
                         res["data"][i]["layer_data"].append({"bias": neuron_bias, "output_weights": neuron_weights})
                     else:
