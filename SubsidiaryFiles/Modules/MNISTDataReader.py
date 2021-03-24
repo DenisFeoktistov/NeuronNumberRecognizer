@@ -60,7 +60,7 @@ def get_nth_info(n: int, mode: str) -> MAX_INFO_NUMBER:
 
 
 def get_random_info(mode: str) -> MnistDigitInfo:
-    n = randint(0, MAX_INFO_NUMBER[mode])
+    n = randint(0, MAX_INFO_NUMBER[mode] - 1)
     try:
         return get_nth_info(n, mode)
     except Exception as e:
