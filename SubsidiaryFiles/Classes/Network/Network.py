@@ -25,9 +25,9 @@ class Network:
         self.epoch_iterations = 0
 
     def process_matrix(self, matrix, correct_answer):
-        self.values[0] = matrix.ravel()
-        self.act_values[0] = activation_function(self.values[0])
+        self.values[0] = self.act_values[0] = process_color_matrix(matrix.ravel())
         self.values[0] = self.values[0].reshape(self.values[0].size, 1)
+        self.values[0] = None  # just for testing
         self.act_values[0] = self.act_values[0].reshape(self.act_values[0].size, 1)
 
         for i in range(len(self.template) - 1):
@@ -37,21 +37,24 @@ class Network:
         self.epoch_iterations += 1
 
         self.back_propagation(correct_answer)
+
         if self.epoch_iterations == ITERATIONS_FOR_EPOCH:
-            print("EPOCH")
-            self.weights = [weight - delta_weight * LEARNING_SPEED / ITERATIONS_FOR_EPOCH for weight, delta_weight in zip(self.weights, self.delta_weights)]
-            self.biases = [biases - delta_biases * LEARNING_SPEED / ITERATIONS_FOR_EPOCH for biases, delta_biases in zip(self.biases, self.delta_biases)]
+            self.weights = [weight - delta_weight * (LEARNING_SPEED / ITERATIONS_FOR_EPOCH) for weight, delta_weight in
+                            zip(self.weights, self.delta_weights)]
+            self.biases = [biases - delta_biases * (LEARNING_SPEED / ITERATIONS_FOR_EPOCH) for biases, delta_biases in
+                           zip(self.biases, self.delta_biases)]
             self.epoch_iterations = 0
 
             self.delta_weights = [np.zeros(layer.shape) for layer in self.weights]
             self.delta_biases = [np.zeros(layer.shape) for layer in self.biases]
 
     def back_propagation(self, correct):
-        correct = np.array([1 if i == correct else 0 for i in range(10)]).reshape((10, 1))
+        correct = np.array([1. if i == correct else 0. for i in range(10)]).reshape((10, 1))
         local_delta_weights = [np.zeros(layer.shape) for layer in self.weights]
         local_delta_biases = [np.zeros(layer.shape) for layer in self.biases]
 
-        delta = derivative_of_cost_function(self.act_values[-1], correct)
+        delta = derivative_of_cost_function(self.act_values[-1], correct) * derivative_of_activation_function(
+            self.values[-1])
         local_delta_biases[-1] = delta
         local_delta_weights[-1] = np.dot(delta, self.act_values[-2].transpose())
 
@@ -61,9 +64,12 @@ class Network:
             local_delta_biases[-i] = delta
             local_delta_weights[-i] = np.dot(delta, self.act_values[-i - 1].transpose())
 
-        self.delta_weights = [delta_weight_layer + local_delta_weight_layer for local_delta_weight_layer, delta_weight_layer in zip(local_delta_weights, self.delta_weights)]
+        self.delta_weights = [delta_weight_layer + local_delta_weight_layer for
+                              local_delta_weight_layer, delta_weight_layer in
+                              zip(local_delta_weights, self.delta_weights)]
 
-        self.delta_biases = [delta_bias_layer + local_delta_bias_layer for local_delta_bias_layer, delta_bias_layer in zip(local_delta_biases, self.delta_biases)]
+        self.delta_biases = [delta_bias_layer + local_delta_bias_layer for local_delta_bias_layer, delta_bias_layer in
+                             zip(local_delta_biases, self.delta_biases)]
 
     def get_output(self):
         return list(self.act_values[-1].ravel())
@@ -81,8 +87,10 @@ class Network:
                         layer in
                         network["data"][:-1]]
         self.delta_weights = [np.zeros(layer.shape) for layer in self.weights]
-        self.biases = [np.array([neuron["bias"] for neuron in layer["layer_data"]]).reshape((len(layer["layer_data"]), 1)) for layer in
-                       network["data"][1:]]
+        self.biases = [
+            np.array([neuron["bias"] for neuron in layer["layer_data"]]).reshape((len(layer["layer_data"]), 1)) for
+            layer in
+            network["data"][1:]]
         self.delta_biases = [np.zeros(layer.shape) for layer in self.biases]
         self.values = [np.zeros((layer, 1)) for layer in self.template]
         self.act_values = [np.zeros(layer.shape) for layer in self.values]

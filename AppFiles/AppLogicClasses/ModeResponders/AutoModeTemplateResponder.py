@@ -19,6 +19,8 @@ class AutoModeTemplateResponder:
 
     def set_up(self) -> None:
         self.main_app_responder.app.main_app_interface.main_window.next_button.clicked.connect(self.switch)
+        self.main_app_responder.app.main_app_interface.main_window.switch_speed_slider.valueChanged.connect(
+            self.update_timer)
 
     def start(self) -> None:
         self.switch()
@@ -43,8 +45,6 @@ class AutoModeTemplateResponder:
 
         self.main_app_responder.app.main_app_interface.main_window.responder.set_up_new_info(info)
         self.main_app_responder.app.main_app_interface.main_window.responder.set_up_network_answer(answer)
-        self.main_app_responder.app.main_app_interface.main_window.switch_speed_slider.valueChanged.connect(
-            self.update_timer)
 
     def close(self) -> None:
         self.timer.stop()

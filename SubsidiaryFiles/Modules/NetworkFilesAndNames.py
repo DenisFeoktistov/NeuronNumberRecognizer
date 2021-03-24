@@ -47,15 +47,15 @@ def create_empty_data() -> list:
         data[row]["layer_data"] = list()
 
         for j in range(NETWORK_MAIN_TEMPLATE[row]):
-            bias = random()
+            bias = np.random.randn(1)[0]
 
             neuron_output = list()
 
             if data[row]["layer_type"] != OUTPUT:
-                neuron_output = [random() / NETWORK_MAIN_TEMPLATE[row] * choice([-1, 1]) for _ in
+                neuron_output = [np.random.randn(1)[0] for _ in
                                  range(NETWORK_MAIN_TEMPLATE[row + 1])]
             if data[row]["layer_type"] != INPUT:
-                data[row]["layer_data"].append({"output_weights": neuron_output, "bias": bias})
+                data[row]["layer_data"].append({"output_weights": neuron_output, "bias": bias / NETWORK_MAIN_TEMPLATE[row - 1]})
             else:
                 data[row]["layer_data"].append({"output_weights": neuron_output})
     return data
