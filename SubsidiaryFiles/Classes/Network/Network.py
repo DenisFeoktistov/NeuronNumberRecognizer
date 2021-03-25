@@ -12,8 +12,13 @@ class Network:
         self.name: str
 
         self.template: List[int]
+
         self.iterations: int
-        self.mini_batch_iterations: int
+        self.batches: int
+        self.learning_speed: float
+        self.batch_size: int
+
+        self.batch_iterations: int
 
         self.values: List[np.ndarray]
         self.act_values: List[np.ndarray]
@@ -29,16 +34,17 @@ class Network:
         self.back_propagation(correct_answer)
 
         self.iterations += 1
-        self.mini_batch_iterations += 1
+        self.batch_iterations += 1
 
-        if not self.mini_batch_iterations % ITERATIONS_FOR_MINI_BATCH:
+        if not self.batch_iterations % self.batch_size:
+            self.batches += 1
             self.update_parameters()
 
     def update_parameters(self) -> None:
-        self.weights = [weight - delta_weight * (MAIN_LEARNING_SPEED / ITERATIONS_FOR_MINI_BATCH) for
+        self.weights = [weight - delta_weight * (MAIN_LEARNING_SPEED / self.batch_size) for
                         weight, delta_weight in
                         zip(self.weights, self.delta_weights)]
-        self.biases = [biases - delta_biases * (MAIN_LEARNING_SPEED / ITERATIONS_FOR_MINI_BATCH) for
+        self.biases = [biases - delta_biases * (MAIN_LEARNING_SPEED / self.batch_size) for
                        biases, delta_biases in
                        zip(self.biases, self.delta_biases)]
         self.delta_weights = [np.zeros(layer.shape) for layer in self.weights]
@@ -84,7 +90,11 @@ class Network:
         network = get_network_by_path(self.path)
 
         self.template = network["template"]
+
         self.iterations = network["iterations"]
+        self.batches = network["batches"]
+        self.learning_speed = network["learning speed"]
+        self.batch_size = network["batch size"]
 
         self.weights = [np.array([np.array(neuron["output_weights"]) for neuron in layer["layer_data"]]).transpose() for
                         layer in
@@ -98,13 +108,18 @@ class Network:
         self.values = [np.zeros((layer, 1)) for layer in self.template]
         self.act_values = [np.zeros(layer.shape) for layer in self.values]
 
-        self.mini_batch_iterations = 0
+        self.batch_iterations = 0
 
     def convert_to_default(self) -> dict:
         res = dict()
 
         res["template"] = self.template
+
         res["iterations"] = self.iterations
+        res["batches"] = self.batches
+        res["learning speed"] = self.learning_speed
+        res["batch size"] = self.batch_size
+
         res["data"] = [dict() for _ in range(len(self.values))]
 
         biases = [layer_biases.transpose().ravel() for layer_biases in self.biases]

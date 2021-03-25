@@ -73,8 +73,8 @@ class SelectNetworkWindow(QMainWindow):
 
     def add_widgets(self) -> None:
         for d in get_all_primary_info():
-            new_widget = NetworkInfoButton(name=d["name"], iterations=d["iterations"],
-                                           height=self.height // 10,
+            new_widget = NetworkInfoButton(info=d,
+                                           height=self.height // 7,
                                            width=self.width)
             self.scroll_area.add_widget(new_widget)
             new_widget.clicked.connect(self.select_event)
@@ -96,9 +96,8 @@ class MainScrollArea(QScrollArea):
     def clear(self) -> None:
         self.container.clear()
 
-    @staticmethod
-    def set_up_widget(widget: QWidget) -> None:
-        widget.setFixedHeight(100)
+    def set_up_widget(self, widget: NetworkInfoButton) -> None:
+        widget.setFixedHeight(self.height() // 14 * (len(widget.lines) + 1))
         widget.setStyleSheet(
             "border: 3px solid black; border-radius: 10px; font-size: 20px; font-weight: 700; background: rgb(150, 150, 150); color: black")
 
@@ -118,16 +117,21 @@ class Container(QWidget):
 
 
 class NetworkInfoButton(QPushButton):
-    def __init__(self, name: str, iterations: int, height: int, width: int) -> None:
+    VISIBLE_PARAMETERS = ["name", "batches"]
+
+    def __init__(self, info: dict, height: int, width: int) -> None:
         super().__init__()
 
-        self.name = name
-        self.iterations = iterations
+        self.info = info
+
+        self.name = self.info["name"]
         self.width = width
         self.height = height
 
-        self.setText(f"Name: {self.name}\n"
-                     f"Iterations: {self.iterations}")
+        self.lines = list(map(lambda key: f"{key.capitalize()}: {self.info[key]}",
+                              filter(lambda key: key in NetworkInfoButton.VISIBLE_PARAMETERS, self.info)))
+        text = "\n".join(self.lines)
+        self.setText(text)
         self.resize(self.width, self.height)
 
     def resize(self, width: int, height: int) -> None:
@@ -135,5 +139,5 @@ class NetworkInfoButton(QPushButton):
         self.height = height
         super().resize(self.width, self.height)
 
-        font_size = self.height // 5
+        font_size = (self.height // 2) // len(self.info)
         self.setStyleSheet(f"font-size: {font_size}px; color: black")

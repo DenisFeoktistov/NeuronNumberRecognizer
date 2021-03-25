@@ -17,8 +17,13 @@ def get_network_by_name(name: str) -> dict:  # a little bit hard to set real typ
 
 def add_new_network(name: str) -> None:
     network = dict()
+    network["template"] = MAIN_NETWORK_TEMPLATE
+
     network["iterations"] = 0
-    network["template"] = NETWORK_TEMPLATES[NETWORK_MAIN_TEMPLATE_INDEX]
+    network["batches"] = 0
+    network["batch size"] = MAIN_BATCH_SIZE
+    network["learning speed"] = MAIN_LEARNING_SPEED
+
     network["data"] = create_empty_data()
 
     with open(f"{NETWORKS_DIRECTORY_PATH}/{name}.json", "w") as new_network_file:
@@ -55,7 +60,8 @@ def create_empty_data() -> list:
                 neuron_output = [np.random.randn(1)[0] for _ in
                                  range(NETWORK_MAIN_TEMPLATE[row + 1])]
             if data[row]["layer_type"] != INPUT:
-                data[row]["layer_data"].append({"output_weights": neuron_output, "bias": bias / NETWORK_MAIN_TEMPLATE[row - 1]})
+                data[row]["layer_data"].append(
+                    {"output_weights": neuron_output, "bias": bias / NETWORK_MAIN_TEMPLATE[row - 1]})
             else:
                 data[row]["layer_data"].append({"output_weights": neuron_output})
     return data
@@ -77,8 +83,14 @@ def get_info_by_path(path: str) -> dict:
     name = get_name_from_path(path=path)
     with open(path) as network:
         network = json.load(network)
+    template = network["template"]
+
     iterations = network["iterations"]
-    return {"name": name, "iterations": iterations}
+    batches = network["batches"]
+    batch_size = network["batch size"]
+    learning_speed = network["learning speed"]
+    return {"name": name, "batches": batches, "iterations": iterations, "batch size": batch_size, "learning_speed": learning_speed,
+            "template": template}
 
 
 def get_path_by_name(name: str) -> str:

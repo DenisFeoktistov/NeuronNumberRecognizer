@@ -60,12 +60,11 @@ class AutoModeTemplateResponder:
 
         self.main_app_responder.app.network.process_matrix(info.matrix, info.value)
         answer = self.main_app_responder.app.network.get_output()
-        iterations = self.main_app_responder.app.network.iterations
+        batches = self.main_app_responder.app.network.batches
 
         self.main_app_responder.app.main_app_interface.main_window.responder.set_up_new_info(info)
         self.main_app_responder.app.main_app_interface.main_window.responder.set_up_network_answer(answer)
-        if iterations % 50 == 0:
-            self.main_app_responder.app.main_app_interface.main_window.iterations_label.setText(str(iterations))
+        self.main_app_responder.app.main_app_interface.main_window.set_batches(batches)
 
     def close(self) -> None:
         self.timer.stop()
