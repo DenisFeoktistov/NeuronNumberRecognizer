@@ -28,17 +28,18 @@ class Network:
         self.biases: List[np.ndarray]
         self.delta_biases: List[np.ndarray]
 
-    def process_matrix(self, matrix: np.ndarray, correct_answer: int) -> None:
+    def process_matrix(self, matrix: np.ndarray, correct_answer: int, propagation=True) -> None:
         self.feed_forward(matrix)
 
-        self.back_propagation(correct_answer)
+        if propagation:
+            self.back_propagation(correct_answer)
 
-        self.iterations += 1
-        self.batch_iterations += 1
+            self.iterations += 1
+            self.batch_iterations += 1
 
-        if not self.batch_iterations % self.batch_size:
-            self.batches += 1
-            self.update_parameters()
+            if not self.batch_iterations % self.batch_size:
+                self.batches += 1
+                self.update_parameters()
 
     def update_parameters(self) -> None:
         self.weights = [weight - delta_weight * (MAIN_LEARNING_SPEED / self.batch_size) for
