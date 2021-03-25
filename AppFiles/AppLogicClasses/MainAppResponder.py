@@ -2,6 +2,7 @@ from __future__ import annotations
 import AppFiles.AppLogicClasses.ModeResponders.AutoTrainingModeResponder as AutoTrainingModeResponder
 import AppFiles.AppLogicClasses.ModeResponders.AutoTestingModeResponder as AutoTestingModeResponder
 import AppFiles.AppLogicClasses.ModeResponders.ManualTestingModeResponder as ManualTestingModeResponder
+import AppFiles.AppLogicClasses.ModeResponders.TextInterfaceResponder as TextInterfaceResponder
 import AppFiles.App as App
 
 
@@ -12,6 +13,8 @@ class MainAppResponder:
         self.auto_training_mode_responder = AutoTrainingModeResponder.AutoTrainingModeResponder(self)
         self.auto_testing_mode_responder = AutoTestingModeResponder.AutoTestingModeResponder(self)
         self.manual_testing_mode_responder = ManualTestingModeResponder.ManualTestingModeResponder(self)
+
+        self.text_interface_responder = TextInterfaceResponder.TextInterfaceResponder(self)
 
     def set_up(self) -> None:
         self.auto_training_mode_responder.set_up()
@@ -59,10 +62,24 @@ class MainAppResponder:
 
         self.app.network.set_network(name)
 
+        self.app.main_app_interface.select_interface_window.show()
+
+    def start_gui_interface(self) -> None:
+        self.app.main_app_interface.select_interface_window.close()
+
         self.app.main_app_interface.main_window.show()
-        self.set_auto_training_mode()
+        self.set_auto_testing_mode()
+
+    def start_text_interface(self) -> None:
+        self.text_interface_responder.start()
 
     def close_main_window(self) -> None:
         self.app.main_app_interface.main_window.close()
         self.app.network.save_changes()
         self.app.main_app_interface.select_network_window.show()
+
+    def select_interface_window_closed(self) -> None:
+        self.app.main_app_interface.select_network_window.show()
+
+    def close_text_interface(self) -> None:
+        self.app.main_app_interface.select_interface_window.show()
