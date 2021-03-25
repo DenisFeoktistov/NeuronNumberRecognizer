@@ -38,30 +38,30 @@ def get_network_by_path(path: str) -> dict:
 
 def create_empty_data() -> list:
     data = list()
-    for row in range(len(NETWORK_MAIN_TEMPLATE)):
+    for row in range(len(MAIN_NETWORK_TEMPLATE)):
         data.append(dict())
         data[row]["layer_type"] = -1
 
         if row == 0:
             data[row]["layer_type"] = INPUT
-        elif row == len(NETWORK_MAIN_TEMPLATE) - 1:
+        elif row == len(MAIN_NETWORK_TEMPLATE) - 1:
             data[row]["layer_type"] = OUTPUT
         else:
             data[row]["layer_type"] = HIDDEN
 
         data[row]["layer_data"] = list()
 
-        for j in range(NETWORK_MAIN_TEMPLATE[row]):
+        for j in range(MAIN_NETWORK_TEMPLATE[row]):
             bias = np.random.randn(1)[0]
 
             neuron_output = list()
 
             if data[row]["layer_type"] != OUTPUT:
                 neuron_output = [np.random.randn(1)[0] for _ in
-                                 range(NETWORK_MAIN_TEMPLATE[row + 1])]
+                                 range(MAIN_NETWORK_TEMPLATE[row + 1])]
             if data[row]["layer_type"] != INPUT:
                 data[row]["layer_data"].append(
-                    {"output_weights": neuron_output, "bias": bias / NETWORK_MAIN_TEMPLATE[row - 1]})
+                    {"output_weights": neuron_output, "bias": bias / MAIN_NETWORK_TEMPLATE[row - 1]})
             else:
                 data[row]["layer_data"].append({"output_weights": neuron_output})
     return data
