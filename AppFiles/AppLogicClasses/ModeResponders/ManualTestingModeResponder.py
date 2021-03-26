@@ -44,7 +44,8 @@ class ManualTestingModeResponder:
         self.main_app_responder.app.main_app_interface.main_window.matrix_widget.set_draw_line_coefficient(value / 100)
 
     def update_answer(self) -> None:
-        pass
+        self.main_app_responder.app.network.feed_forward(self.main_app_responder.app.main_app_interface.main_window.matrix_widget.matrix)
+        self.main_app_responder.app.main_app_interface.main_window.responder.set_up_network_answer(self.main_app_responder.app.network.get_output())
 
     def get_line_width_coefficient(self) -> float:
         return (self.main_app_responder.app.main_app_interface.main_window.line_width_slider.value() / (

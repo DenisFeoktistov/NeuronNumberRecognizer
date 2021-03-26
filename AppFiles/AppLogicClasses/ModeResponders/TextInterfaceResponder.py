@@ -27,8 +27,10 @@ class TextInterfaceResponder:
                 print(f"{iteration} branches were processed...")
             if iteration % save_number == 0:
                 self.main_app_responder.app.network.save_changes()
-        self.main_app_responder.app.network.save_changes()
-        print(f"{branch_number} branches were processed...")
+        if branch_number % save_number:
+            self.main_app_responder.app.network.save_changes()
+        if branch_number % info_number:
+            print(f"{branch_number} branches were processed...")
         print("Success!")
         self.close()
 
