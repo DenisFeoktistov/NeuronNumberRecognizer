@@ -1,71 +1,104 @@
+from console_progressbar import ProgressBar
+import sys
+
 from Network.Network import Network
 from Network.SubsidiaryFiles.NetworkFilesAndNames import *
 from SubsidiaryFiles.Modules.MNISTDataReader import get_random_info
+from SubsidiaryFiles.Modules.FunctionsTUI import enumerate_choice, make_indent, get_int_info
 
 
 class AppTUI:
     MODE = "training"
     ERROR_MESSAGE = "Wrong input! Please, try again"
+    ACCURACY_TEST_NUMBER = 300
+    ACCURACY_TEST_SAMPLE_NUMBER = 3
+
+    ADD_NEW = "Add new network"
+    TEACH_NETWORK = "Teach actual network"
+    GET_NETWORK_INFO = "Get network info"
+    SELECT_OTHER_NETWORK = "Select other network"
+    TEST_ACCURACY = "Test network accuracy"
+    BREAK = "Stop program"
+    JOBS = [TEACH_NETWORK, GET_NETWORK_INFO, TEST_ACCURACY, SELECT_OTHER_NETWORK, ADD_NEW, BREAK]
 
     def __init__(self):
         self.network = Network()
 
     def start(self):
-        select_network_flag = True
-        while True:
-            if select_network_flag:
-                self.select_network()
-            self.start_network_cycle()
-            select_network_flag = self.select_other()
+        self.main_cycle()
 
-    def select_other(self):
-        print("Want to select other network or continue?")
-        input_text = "Select other(0) / continue(1): "
-        answer = input(input_text)
-        while answer not in ["0", "1"]:
-            self.show_error()
-            answer = input(input_text)
-        return answer == "0"
+    def main_cycle(self):
+        self.select_network()
+        make_indent()
+        while True:
+            job = enumerate_choice(AppTUI.JOBS, "", "Select next action: ")
+            make_indent()
+            if job == AppTUI.TEACH_NETWORK:
+                self.network_cycle()
+                make_indent()
+            elif job == AppTUI.SELECT_OTHER_NETWORK:
+                self.select_network()
+                make_indent()
+            elif job == AppTUI.ADD_NEW:
+                self.add_new_network()
+            elif job == AppTUI.GET_NETWORK_INFO:
+                self.print_network_info()
+            elif job == AppTUI.TEST_ACCURACY:
+                self.test_accuracy()
+            elif job == AppTUI.BREAK:
+                break
+            else:
+                raise Exception("Something went wrong while selecting action...")
+
+    def test_accuracy(self):
+        correct = 0
+        for _ in range(AppTUI.ACCURACY_TEST_SAMPLE_NUMBER):
+            correct += self.network.test_accuracy(AppTUI.ACCURACY_TEST_NUMBER)[0]
+
+        correct //= self.ACCURACY_TEST_SAMPLE_NUMBER
+        print(f"Average accuracy of {AppTUI.ACCURACY_TEST_SAMPLE_NUMBER} tests ({AppTUI.ACCURACY_TEST_NUMBER} "
+              f"iterations each): {correct * 100 // AppTUI.ACCURACY_TEST_NUMBER}%")
+
+    def add_new_network(self):
+        input_text = "Enter new network name: "
+        name = input(input_text)
+        while not check_name(name):
+            print("Incorrect name! Try again.")
+            name = input(input_text)
+
+        add_new_network(name)
+
+        self.select_network()
+
+    def print_network_info(self):
+        info = self.network.get_info()
+        pairs = list(zip(info.keys(), info.values()))
+        print(f"Actual network info:")
+        for pair in pairs:
+            print(f"\t{pair[0]}: {pair[1]}")
 
     def select_network(self):
         name = self.get_name()
-        self.network.set_network(name)
+        if name != AppTUI.ADD_NEW:
+            self.network.set_network(name)
+        else:
+            self.add_new_network()
 
-    def start_network_cycle(self):
-        branch_number = self.get_int_info("Select number of iterations for branches: ")
-        info_number = self.get_int_info("Print info every ... iterations: ")
-        save_number = self.get_int_info("Save changes every ... iterations: ")
+    def network_cycle(self):
+        branch_number = get_int_info("Select number of iterations for branches: ", AppTUI.ERROR_MESSAGE)
+
+        pb = ProgressBar(total=branch_number, prefix=f'Processing: ', suffix='', decimals=1,
+                         length=30, fill='█', zfill=' ')
         for iteration in range(1, branch_number + 1):
             for _ in range(self.network.batch_size):
                 info = get_random_info(AppTUI.MODE)
                 self.network.process_matrix(matrix=info.matrix, correct_answer=info.value,
                                             propagation=True)
+            pb.print_progress_bar(iteration)
 
-            if iteration % info_number == 0:
-                print(f"{iteration} branches were processed...")
-            if iteration % save_number == 0:
-                self.network.save_changes()
         self.network.save_changes()
-        print(f"{branch_number} branches were processed...")
         print("Success!")
 
-    def get_int_info(self, input_text: str):
-        number = input(input_text)
-        while not number.isdigit():
-            self.show_error()
-            number = input(input_text)
-        return int(number)
-
-    def show_error(self):
-        print(AppTUI.ERROR_MESSAGE)
-
     def get_name(self):
-        input_text = "Enter network name: "
-        print("Networks: ")
-        for info in get_all_primary_info():
-            print("\t----------------")
-            print(f"\tNetwork name: {info['name']}")
-            print(f"\tBatches: {info['batches']}")
-        print("\t----------------")
-        print("Select network")
-        return input(input_text)
+        info = enumerate_choice([AppTUI.ADD_NEW, *get_all_primary_info()], "", "Select network: ")
+        return info["name"] if info != AppTUI.ADD_NEW else AppTUI.ADD_NEW

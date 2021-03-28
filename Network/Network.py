@@ -3,6 +3,7 @@ from typing import List
 
 from Network.SubsidiaryFiles.NetworkFilesAndNames import *
 from Network.SubsidiaryFiles.NetworkMath import *
+from SubsidiaryFiles.Modules.MNISTDataReader import get_random_info
 
 
 class Network:
@@ -27,6 +28,10 @@ class Network:
         self.biases: List[np.ndarray]
         self.delta_biases: List[np.ndarray]
 
+    def get_info(self):
+        return {"name": self.name, "iterations": self.iterations, "batches": self.batches,
+                "batch size": self.batch_size, "learning speed": self.learning_speed}
+
     def process_matrix(self, matrix: np.ndarray, correct_answer: int, propagation=True) -> None:
         self.feed_forward(matrix)
 
@@ -49,6 +54,15 @@ class Network:
                        zip(self.biases, self.delta_biases)]
         self.delta_weights = [np.zeros(layer.shape) for layer in self.weights]
         self.delta_biases = [np.zeros(layer.shape) for layer in self.biases]
+
+    def test_accuracy(self, n):
+        correct = 0
+        for i in range(n):
+            info = get_random_info("testing")
+            self.feed_forward(info.matrix)
+            if self.get_output_value() == info.value:
+                correct += 1
+        return correct, n
 
     def feed_forward(self, matrix: np.ndarray) -> None:
         self.values[0] = self.act_values[0] = process_color_matrix(matrix.ravel()).reshape((matrix.size, 1))
@@ -82,6 +96,15 @@ class Network:
 
     def get_output(self) -> List[float]:
         return list(self.act_values[-1].ravel())
+
+    def get_output_value(self):
+        max_value = -1
+        answer = -1
+        for i, value in enumerate(list(self.act_values[-1].ravel())):
+            if value > max_value:
+                max_value = value
+                answer = i
+        return answer
 
     def set_network(self, name: str) -> None:
         self.path = get_path_by_name(name)

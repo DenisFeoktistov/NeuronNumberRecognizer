@@ -1,11 +1,11 @@
+import os
+import sys
+
+
 from App.AppGUI.AppGUI import AppGUI
 from App.AppTUI.AppTUI import AppTUI
 
-from SubsidiaryFiles.Modules.FunctionsTUI.EnumerateChoice import enumerate_choice
-from SubsidiaryFiles.Modules.FunctionsTUI.MakeIndent import make_indent
-
-
-import os
+from SubsidiaryFiles.Modules.FunctionsTUI import enumerate_choice, make_indent
 
 
 def cls():
@@ -23,11 +23,13 @@ class App:
 
     def start(self):
         ui = self.select_ui()
+        make_indent()
         if ui == App.GUI:
             self.app_gui.start()
+            self.app_gui.exec()
         elif ui == App.TUI:
-            make_indent()
             self.app_tui.start()
+            sys.exit()
         else:
             raise Exception("Something went wrong while selecting User Interface...")
 
@@ -38,9 +40,4 @@ class App:
                        "But if you want to teach fast network - TUI is your option.\n" \
                        "But remember, that it is not possible to swap between GUI and TUI while program is working!\n"
         select_text = "So, please, select interface: "
-        error_text = "\nIncorrect input! Try again!"
-        input_text = "Your choice: "
-        return App.INTERFACES[enumerate_choice(App.INTERFACES, primary_text, select_text, error_text, input_text)]
-
-    def exec(self):
-        self.app_gui.exec()
+        return enumerate_choice(App.INTERFACES, primary_text, select_text)

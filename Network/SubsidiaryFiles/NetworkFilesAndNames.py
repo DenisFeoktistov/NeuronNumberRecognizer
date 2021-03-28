@@ -10,6 +10,10 @@ HIDDEN = 2
 OUTPUT = 3
 
 
+def check_name(name: str):
+    return name != "" and name.find(" ") == -1
+
+
 def get_network_by_name(name: str) -> dict:  # a little bit hard to set real type
     path = get_path_by_name(name)
     return get_network_by_path(path)
