@@ -9,9 +9,11 @@ class MainWindowResponder:
 
     def show(self):
         name = self.window.main_app_interface.app.network.name
-        iterations = self.window.main_app_interface.app.network.iterations
+        batches = self.window.main_app_interface.app.network.batches
+        template = self.window.main_app_interface.app.network.template
         self.window.set_name(name)
-        self.window.set_batches(iterations)
+        self.window.set_batches(batches)
+        self.window.set_template(template)
 
     def set_up(self) -> None:
         pass

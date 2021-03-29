@@ -126,6 +126,7 @@ class MainWindow(QMainWindow):
     def add_neural_network_info(self) -> None:
         self.add_name_label()
         self.add_batches_label()
+        self.add_template_label()
 
     def add_name_label(self):
         self.name_text_label = QLabel(parent=self, text="Network name: ")
@@ -138,12 +139,6 @@ class MainWindow(QMainWindow):
         self.name_label.move(self.name_text_label.x() + self.name_text_label.width(), self.name_text_label.y())
         self.name_label.resize(self.width // 12, self.height // 18)
         self.name_label.setStyleSheet(f"font-size: {font_size}px; color: black; font-weight: 900")
-
-    def set_name(self, name: str) -> None:
-        self.name_label.setText(str(name))
-
-    def set_batches(self, batches: int) -> None:
-        self.batches_label.setText(str(batches))
 
     def add_batches_label(self) -> None:
         self.batches_text_label = QLabel(parent=self, text="Batches: ")
@@ -158,6 +153,30 @@ class MainWindow(QMainWindow):
                                 self.batches_text_label.y())
         self.batches_label.resize(self.batches_text_label.width(), self.batches_text_label.height())
         self.batches_label.setStyleSheet(f"font-size: {font_size}px; font-weight: 900; color: black")
+
+    def add_template_label(self) -> None:
+        self.template_text_label = QLabel(parent=self, text="Template: ")
+        font_size = self.height // 50
+        self.template_text_label.move(self.name_text_label.x(),
+                                      self.name_text_label.y() + self.name_text_label.height() + self.batches_text_label.height())
+        self.template_text_label.resize(self.name_text_label.width(), self.name_text_label.height())
+        self.template_text_label.setStyleSheet(f"font-size: {font_size}px; color: black")
+
+        self.template_label = QLabel(parent=self)
+        font_size = self.height // 50
+        self.template_label.move(self.template_text_label.x() + self.template_text_label.width(),
+                                 self.template_text_label.y())
+        self.template_label.resize(self.template_text_label.width(), self.template_text_label.height())
+        self.template_label.setStyleSheet(f"font-size: {font_size}px; font-weight: 900; color: black")
+
+    def set_name(self, name: str) -> None:
+        self.name_label.setText(str(name))
+
+    def set_batches(self, batches: int) -> None:
+        self.batches_label.setText(str(batches))
+
+    def set_template(self, template: list) -> None:
+        self.template_label.setText(str(template))
 
     def add_switch_speed_slider(self) -> None:
         self.switch_speed_slider = QSlider(orientation=Qt.Vertical, parent=self)
@@ -332,7 +351,8 @@ class MainWindow(QMainWindow):
                     self.height // 2 + self.switch_speed_slider.geometry().y() // 2)
         button.resize(self.switch_speed_slider.geometry().width() + self.width // 40, self.height // 20)
         font_size = self.height // 35
-        button.setStyleSheet(f"font-size: {font_size}px; background: rgb(235, 195, 80); border-radius: 5px; color: rgb(0, 0, 0)")
+        button.setStyleSheet(
+            f"font-size: {font_size}px; background: rgb(235, 195, 80); border-radius: 5px; color: rgb(0, 0, 0)")
 
     def set_up_slider_label(self, label: QLabel) -> None:
         label.setAlignment(Qt.AlignLeft | Qt.AlignCenter)

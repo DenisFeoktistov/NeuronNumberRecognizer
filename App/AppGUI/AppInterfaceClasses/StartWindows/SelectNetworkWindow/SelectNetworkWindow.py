@@ -117,7 +117,7 @@ class Container(QWidget):
 
 
 class NetworkInfoButton(QPushButton):
-    VISIBLE_PARAMETERS = ["name", "batches"]
+    VISIBLE_PARAMETERS = ["name", "batches", "template"]
 
     def __init__(self, info: dict, height: int, width: int) -> None:
         super().__init__()
