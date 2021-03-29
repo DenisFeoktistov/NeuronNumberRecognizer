@@ -38,7 +38,7 @@ class AddNewNetworkWindow(QMainWindow):
         self.name_line.move(self.width // 2 - self.name_line.width() // 2, self.height // 8)
         font_size = self.height // 6
         self.name_line.setStyleSheet(
-            f"border: 3px solid black; font-size: {font_size}px; background: rgb(190, 190, 190);")
+            f"font-color: black; border: 3px solid black; font-size: {font_size}px; background: rgb(190, 190, 190);")
         self.name_line.setAttribute(Qt.WA_MacShowFocusRect, False)
 
     def add_create_button(self) -> None:
