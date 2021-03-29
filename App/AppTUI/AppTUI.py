@@ -67,6 +67,7 @@ class AppTUI:
 
         add_new_network(name)
 
+        make_indent()
         self.select_network()
 
     def print_network_info(self) -> None:
