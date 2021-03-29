@@ -1,5 +1,9 @@
-def enumerate_choice(options, primary_text, select_text, error_text="\nIncorrect input! Try again!",
-                     input_text="Your choice: "):
+from typing import List, Union
+
+
+def enumerate_choice(options: List[str], primary_text: str, select_text: str,
+                     error_text: str = "\nIncorrect input! Try again!",
+                     input_text: str = "Your choice: ") -> Union[str, dict]:
     print(primary_text)
 
     print(select_text)
@@ -20,11 +24,11 @@ def enumerate_choice(options, primary_text, select_text, error_text="\nIncorrect
     return options[int(inp) - 1]
 
 
-def make_indent(n: int = 10):
+def make_indent(n: int = 10) -> None:
     print("\n" * n)
 
 
-def get_int_info(input_text: str, error_text):
+def get_int_info(input_text: str, error_text: str = "Incorrect input! Try again."):
     number = input(input_text)
     while not number.isdigit():
         print(error_text)

@@ -3,8 +3,8 @@ import os
 
 
 import App.AppGUI.AppInterfaceClasses.StartWindows.AddNewNetworkWindow.AddNewNetworkWindow as AddNewNetworkWindow
-from Network.Network import add_new_network
-from Network.SubsidiaryFiles.NetworkFilesAndNames import check_name
+from SubsidiaryFiles.Network.Network import add_new_network
+from SubsidiaryFiles.Network.SubsidiaryFiles.NetworkFilesAndNames import check_name
 
 
 class AddNewNetworkWindowResponder:

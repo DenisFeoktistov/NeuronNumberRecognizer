@@ -10,7 +10,7 @@ HIDDEN = 2
 OUTPUT = 3
 
 
-def check_name(name: str):
+def check_name(name: str) -> bool:
     return name != "" and name.find(" ") == -1
 
 

@@ -1,5 +1,5 @@
-import os
 import sys
+from typing import Any
 
 
 from App.AppGUI.AppGUI import AppGUI
@@ -8,20 +8,16 @@ from App.AppTUI.AppTUI import AppTUI
 from SubsidiaryFiles.Modules.FunctionsTUI import enumerate_choice, make_indent
 
 
-def cls():
-    os.system('cls' if os.name == 'nt' else 'clear')
-
-
 class App:
     GUI = "Graphical User Interface (GUI)"
     TUI = "Text User Interface (TUI)"
     INTERFACES = [GUI, TUI]
 
-    def __init__(self, args):
+    def __init__(self, args: Any) -> None:
         self.app_gui = AppGUI(args)
         self.app_tui = AppTUI()
 
-    def start(self):
+    def start(self) -> None:
         ui = self.select_ui()
         make_indent()
         if ui == App.GUI:
@@ -33,7 +29,7 @@ class App:
         else:
             raise Exception("Something went wrong while selecting User Interface...")
 
-    def select_ui(self):
+    def select_ui(self) -> str:
         primary_text = "Hello! I am glad that you are using my program!\n" \
                        "\n" \
                        "If you want to test network, to see how does it work you'd better to use GUI interface.\n" \
