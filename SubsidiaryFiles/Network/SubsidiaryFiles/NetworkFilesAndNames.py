@@ -11,7 +11,12 @@ OUTPUT = 3
 
 
 def check_name(name: str) -> bool:
-    return name != "" and name.find(" ") == -1
+    exist = False
+    for info in get_all_primary_info():
+        if name == info["name"]:
+            exist = True
+            break
+    return name != "" and name.find(" ") == -1 and not exist
 
 
 def get_network_by_name(name: str) -> dict:  # a little bit hard to set real type
