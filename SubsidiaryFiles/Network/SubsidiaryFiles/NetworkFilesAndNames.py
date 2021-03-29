@@ -24,9 +24,9 @@ def get_network_by_name(name: str) -> dict:  # a little bit hard to set real typ
     return get_network_by_path(path)
 
 
-def add_new_network(name: str) -> None:
+def add_new_network(name: str, template: list = MAIN_NETWORK_TEMPLATE) -> None:
     network = dict()
-    network["template"] = MAIN_NETWORK_TEMPLATE
+    network["template"] = template
 
     network["iterations"] = 0
     network["batches"] = 0

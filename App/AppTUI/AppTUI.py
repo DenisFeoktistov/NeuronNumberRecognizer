@@ -4,6 +4,7 @@ from SubsidiaryFiles.Network.Network import Network
 from SubsidiaryFiles.Network.SubsidiaryFiles.NetworkFilesAndNames import *
 from SubsidiaryFiles.Modules.MNISTDataReader import get_random_info
 from SubsidiaryFiles.Modules.FunctionsTUI import enumerate_choice, make_indent, get_int_info
+from SubsidiaryFiles.Modules.Constants import NETWORK_TEMPLATES
 
 
 class AppTUI:
@@ -59,13 +60,14 @@ class AppTUI:
               f"iterations each): {correct * 100 // AppTUI.ACCURACY_TEST_NUMBER}%")
 
     def add_new_network(self) -> None:
+        template = enumerate_choice(NETWORK_TEMPLATES, "", "Select template: ")
         input_text = "Enter new network name: "
         name = input(input_text)
         while not check_name(name):
             print("Incorrect name! Try again.")
             name = input(input_text)
 
-        add_new_network(name)
+        add_new_network(name, template)
 
         make_indent()
         self.select_network()

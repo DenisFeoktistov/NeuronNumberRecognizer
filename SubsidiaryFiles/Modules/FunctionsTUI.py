@@ -1,7 +1,7 @@
 from typing import List, Union
 
 
-def enumerate_choice(options: List[str], primary_text: str, select_text: str,
+def enumerate_choice(options: Union[List[str], List[dict], List[list]], primary_text: str, select_text: str,
                      error_text: str = "\nIncorrect input! Try again!",
                      input_text: str = "Your choice: ") -> Union[str, dict]:
     print(primary_text)
@@ -16,6 +16,8 @@ def enumerate_choice(options: List[str], primary_text: str, select_text: str,
             for pair in pairs[1:]:
                 indent = ' ' * len(f'Option {i + 1}:')
                 print(f"\t{indent} {pair[0]}: {pair[1]}")
+        if isinstance(option, list):
+            print(f"\tOption {i + 1}: {str(option)}")
     print()
     inp = input(input_text)
     while not (inp.isdigit() and int(inp) in range(1, len(options) + 1)):
